@@ -63,7 +63,11 @@ machine with MPD, Apache & phpMp serving.
 47) Added ability for phpMp to automatically download and add m3u and pls playlists
 48) Search now tells how many results were found
 49) Genre/Year support were added
-
+50) Oddcast/Streamcast Stream browser added
+51) All E_NOTICE warnings were erradicated
+52) Added an 'Outputs' menu for enabling/disabling different outputs in MPD
+53) When MPD is updating it's visible on the main page now, also 	
+54) Prevent updates from colliding
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

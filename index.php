@@ -134,6 +134,7 @@ if( ! isset( $has_password ) )
 	$has_password = 0;
 } 
 
+$status = getStatusInfo($fp); 
 if(isset($command))
 {
 	if(! isset ( $arg ))
@@ -143,8 +144,8 @@ if(isset($command))
 	if(! isset ( $arg2 ))
 	{
 		$arg2 = "";
-	} 
-	doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"]);
+	}
+	doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status);
 }
 
 if(isset($feature))

@@ -78,13 +78,13 @@ function initialConnect($fp)
 	return $MPDversion;
 }
 
-function doCommand($fp, $arg, $arg2, $command, $overwrite)
+function doCommand($fp, $arg, $arg2, $command, $overwrite, $status)
 {
-	if(! isset($command))
+	// Don't let updates collide 
+ 	if( isset ( $status["updating_db"] ) && strcmp( $command,"update" )==0 )
 	{
 		return 0;
 	}
-
 
 	// Lets cleanup the $arg first
 	$arg = rawurldecode($arg);
@@ -97,11 +97,11 @@ function doCommand($fp, $arg, $arg2, $command, $overwrite)
 		fgets($fp,1024);
 	}
 
-	if (strlen($arg2)>0)
+	if (! empty($arg2))
 	{
 		$command.= " \"$arg\" \"$arg2\"";
 	}
-	else if(strlen($arg)>0)
+	else if(! empty($arg))
 	{
 	        $command.= " \"$arg\"";
         }
@@ -242,7 +242,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	        $build_dir.="/";
 	}
 
-	if (strlen($dir)>0)
+	if ( ! empty( $dir ))
 	{
 		$dirs[$i] = stripslashes($dirs[$i]);
 		$build_dir.="$dirs[$i]";
@@ -258,7 +258,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	}
 	else if(strcmp($title,"Current Directory")==0 && $commands["update"])
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";

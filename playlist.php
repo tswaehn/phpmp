@@ -122,11 +122,7 @@ if (isset($status["state"]))
 
 	echo "<b>";
 
- 	if(isset($status["updating_db"]))
-	{
-	        echo "Updating";
-	}
-	else if(strcmp($status["state"],"play")==0)
+	if(strcmp($status["state"],"play")==0)
         {
 	        echo "Playing";
 	}
@@ -137,6 +133,10 @@ if (isset($status["state"]))
 	else if(strcmp($status["state"],"pause")==0)
 	{
 	        echo "Paused";
+	}
+ 	if(isset($status["updating_db"]))
+	{
+	        echo "&nbsp;/&nbsp;Updating";
 	}
 	echo "</b>";
 	echo "<small>";

@@ -178,22 +178,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 {
 	$mic = 0;
 	$mcount = count($lsinfo["music"]);
-        
-        if(strcmp($config["filenames_only"],"yes")==0)
-	{
-		for ($i=0;$i<$mcount;$i++)
-		{
-                    $music["shortname"][$i] = array_pop(split("/",$lsinfo["music"][$i]["file"]));
-		}
-	}       
-	if (isset($lsinfo["music"]["shortname"]))
-	{
-		usort($lsinfo["music"]["shortname"],"msort");
-	}
-	else if ($mcount)
-	{
-	        usort($lsinfo["music"],"msort");
-	}
+        usort($lsinfo["music"],"msort");
 
 	$add_all = "";
 	
