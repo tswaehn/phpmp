@@ -1,7 +1,7 @@
 <?php
 // NEED TO SET THESE!
 $host = "localhost";
-$port = 2100;
+$port = 6600;
 
 // OPTIONAL
 $title = "phpMp";
