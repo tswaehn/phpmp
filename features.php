@@ -372,7 +372,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		list( $sort_array, $sort ) = cleanSort( $sort_array, $config["display_fields"] );
 		$add_all = createAddAll( $lsinfo, $config["song_separator"] );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config["display_fields"], $config["unknown_string"], $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
-		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $color, $server, $addperm, $sort_array, $sort, $url );
+		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $color, $server, $addperm );
 		unset( $tagged, $untagged );
 
 		if( ! empty( $tagged_info ) && ! empty( $untagged_info ))

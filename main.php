@@ -16,7 +16,7 @@ if( empty( $feature ))
 		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], &$config["display_fields"], $config["filenames_only"] );
 		list( $sort_array, $sort ) = cleanSort( $sort_array, $config["display_fields"] );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config["display_fields"], $config["unknown_string"], $colors["music"], $server, $commands["add"], $sort_array, $sort, $ordered, $url );
-		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $colors["music"], $server, $commands["add"], $sort_array, $sort, $url );
+		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $colors["music"], $server, $commands["add"] );
 		unset( $tagged, $untagged );
 		displayDirectory( $dir, $dir_url, $sort, "Current Directory", $file_info["count"], $tagged_info["count"], $pinfo["count"], $dinfo["count"],
 			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );

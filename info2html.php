@@ -104,11 +104,12 @@ function printDirectoryTable( $info, $dir, $sort, $server, $addperm, $color )
 		echo "<tr><td>";
 		echo "<table summary=\"Directory\" cellspacing=1 bgcolor=\"{$color["body"][1]}\">";
 
+		$directories = "";
 		for( $i=0; $i < $count; $i++)
                 {
-                        echo $print[ $i ];
+                        $directories .= $print[ $i ];
                 }
-		echo "</table>";
+		echo $directories ."</table>";
 		echo "</td></tr></table>";
 		echo "<!-- End printDirectoryTable -->";
 	}
@@ -126,8 +127,6 @@ function lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $loadperm )
 	for( $i=0; $i < $count; $i++ )
 	{
 		$dirstr = basename( $lsinfo[$i] );
-
-		// TODO: find out why we have to double-encode here
 		$dirurl = rawurlencode( $dirstr );
 		$dirurl = rawurlencode( $dirurl );
 
@@ -233,12 +232,7 @@ function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 	return( array( $tagged, $untagged ));
 }
 
-function streamxml2musicTable( )
-{
-	
-}
-
-function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server, $addperm, $sort_array, $sort )
+function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server, $addperm )
 {
 	$count = count( $info );
 	$dir_url = rawurlencode( $dir_url );
@@ -400,7 +394,6 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 		}
 		for ( $x = 0; $x < sizeof($display_fields); $x++)
 		{
-			$comment = "";
 			$mprint[$i] .= "<td>";
 
 			/* 
@@ -449,12 +442,6 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 					{
 						$mprint[$i] .= $unknown;
 					}
-					break;
-				}
-
-				case 'Comment':
-				{
-					$comment = "On";
 					break;
 				}
 
@@ -543,14 +530,15 @@ function printIndex( $index, $title, $anc )
 {
 	if( count( $index ))
 	{
-		echo "<!-- Begin printIndex -->";
-		echo $title . " [ ";
+		$title = "<!-- Begin printIndex -->";
+		$title .= " [ ";
 		for ( $i = "0"; $i < count( $index ); $i++ )
 		{
-			echo "<a title=\"Goto the beginning of {$index[$i]}\" href=\"#$anc{$index[$i]}\">{$index[$i]}</a>&nbsp;";
+			$title .= "<a title=\"Goto the beginning of {$index[$i]}\" href=\"#$anc{$index[$i]}\">{$index[$i]}</a>&nbsp;";
 		}
-		echo "]";
-		echo "<!-- End printIndex -->";
+		$title .= "]";
+		$title .="<!-- End printIndex -->";
+		echo $title;
 	}
 }
 
