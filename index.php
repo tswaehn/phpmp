@@ -121,7 +121,11 @@ doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"]);
 
 if(strcmp($feature,"stream-icy")==0)
 {
-	if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )) )
+	if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )))
+	{
+		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+	}
+	if( ! ($fh2 = fopen( "http://oddsock.org/yp.xml" , "r" )))
 	{
 		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 	}
@@ -142,6 +146,14 @@ if(strcmp($feature,"stream-icy")==0)
 	while( $data = fread($fh, 4096) )
 	{
 		if( !xml_parse($xml_parser, $data, feof($fh)) )
+		{
+			break; // get out of while loop if we're done with the file
+		}
+	}
+
+	while( $data = fread($fh2, 4096) )
+	{
+		if( !xml_parse($xml_parser, $data, feof($fh2)) )
 		{
 			break; // get out of while loop if we're done with the file
 		}

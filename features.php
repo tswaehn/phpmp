@@ -61,7 +61,7 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 	echo "<tr><td><b>Password</b></td></tr>";
 	echo "<tr bgcolor=\"" . $color["body"] . "\"><td>";
 	echo "<input type=hidden value=\"$server\" name=server>";
-	echo "<input type=password name=password value=\"" . $arg . "\" size=20>";
+	echo "<input type=password name=passarg value=\"" . $arg . "\" size=20>";
 	echo "<input type=hidden value=\"$dir_url\" name=dir>";
 	echo "<input type=hidden value=\"$default_sort\" name=sort>";
 	echo "<input type=submit value=login name=foo>";
@@ -169,12 +169,12 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 				$k++;
 			}
 		}
-		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast Streams</b>";
-		echo "&nbsp;<small>(<a title=\"Hide the Icecast streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
-		echo "&nbsp;(<a title=\"Refresh Icecast streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td><b>Icecast/Oddcast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
+		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
@@ -199,11 +199,11 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	}
 	else
 	{
-		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast Streams</b>";
-		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td><b>Icecast / Oddcast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
 		echo "</tr></table>";
 	}
 }
