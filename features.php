@@ -1,44 +1,44 @@
 <?php
 
-function outputs($fp, $host, $color, $server, $commands)
+function outputs( $fp, $host, $color, $server, $commands )
 {
-	$i = -1;
-	fputs($fp,"outputs\n");
-	while (!feof($fp))
+	$i = "-1";
+	fputs( $fp, "outputs\n" );
+	while( ! feof( $fp ))
 	{
-		$got = fgets($fp,1024);
+		$got = fgets( $fp, "1024" );
 		if ( strstr ( $got, ":" ))
 		{
-			list($val,$arg) = split(":",$got);
+			list( $val,$arg ) = split( ":", $got );
 		}
-		if (strcmp($val,"outputid")==0)
+		if ( strcmp( $val, "outputid" ) == "0")
 		{
 			$i++;
 		}
-		if (strncmp("OK",$got,strlen("OK"))==0)
+		if ( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
 			break;
 		}
-		if (strncmp("ACK",$got,strlen("ACK"))==0)
+		if ( strncmp( "ACK", $got, strlen("ACK")) == "0")
 		{
 			print "$got<br>";
 			break;
 		}
-		$outputs[$i]["$val"] = preg_replace("/^ /","",$arg);
+		$outputs[$i]["$val"] = preg_replace( "/^ /", "", $arg );
 	}	
 	echo "<br>";
 	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 	echo "<tr><td nowrap><b>Sound outputs for $host</b></td></tr>";
 	echo "<tr><td>";
 	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][$i%2] ."\" width=\"100%\">";
-	for($i=0;$i<sizeOf($outputs);$i++)
+	for( $i = "0"; $i < sizeOf( $outputs ); $i++ )
 	{
 		echo "<tr bgcolor=" . $color["body"][$i%2] . "><td nowrap>";
 		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] == "1" )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
-		else if ( $commands["disableoutput"] == "1")
+		else if( $commands["disableoutput"] == "1")
 		{
 			echo "[<a title=\"Disable this output\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disableoutput&amp;arg=$i>disable</a>]</td>";
 		}
@@ -52,12 +52,8 @@ function outputs($fp, $host, $color, $server, $commands)
 
 function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 {
-	$dir_url = rawurlencode($dir);
+	$dir_url = rawurlencode( $dir );
 
-	if( ! empty ( $arg ))
-	{
-		echo "&nbsp;Incorrect Password";
-	}
 	echo "<br>";
 	echo "<form target=_top action=\"index.php\" method=post>";
 	echo "<table summary=\"Login\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
@@ -74,32 +70,32 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 	echo "</form>";
 }
 
-function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
+function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 {
-	function secondsToDHMS($seconds)
+	function secondsToDHMS( $seconds )
 	{
-		$days = floor($seconds/86400);
-		$date = date("H:i:s", mktime(0,0,$seconds)); 
+		$days = floor( $seconds/86400 );
+		$date = date( "H:i:s", mktime( 0, 0, $seconds )); 
 
 		return "$days days, $date";
 	}
 
-	fputs($fp,"stats\n");
-	while (!feof($fp))
+	fputs( $fp, "stats\n" );
+	while( ! feof( $fp ))
 	{
-		$got = fgets($fp,1024);
-		$el = strtok($got,":");
-		if (strncmp("OK",$got,strlen("OK"))==0)
+		$got = fgets( $fp, "1024" );
+		$el = strtok( $got, ":");
+		if( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
 			break;
 		}
-		if (strncmp("ACK",$got,strlen("ACK"))==0)
+		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
 			print "$got<br>";
 			break;
 		}
-		$got = strtok("\0");
-		$stats["$el"] = preg_replace("/^ /","",$got);
+		$got = strtok( "\0" );
+		$stats[$el] = preg_replace( "/^ /", "", $got );
 	}
 
 	$statistics = array
@@ -107,12 +103,12 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 			"Artists" => $stats["artists"],
 			"Albums" => $stats["albums"],
 			"Songs" => $stats["songs"],
-			"Uptime" => secondsToDHMS($stats["uptime"]),
-			"Play Time" => secondsToDHMS($stats["playtime"]),
+			"Uptime" => secondsToDHMS( $stats["uptime"] ),
+			"Play Time" => secondsToDHMS( $stats["playtime"] ),
 			"MPD Version" => $MPDversion,
 			"phpMp Version" => $phpMpVersion,
-			"Database Updated" => date("F j, Y, g:i a", $stats["db_update"]),
-			"Total Database Play Time" => secondsToDHMS($stats["db_playtime"])
+			"Database Updated" => date( "F j, Y, g:i a", $stats["db_update"] ),
+			"Total Database Play Time" => secondsToDHMS( $stats["db_playtime"] )
 		); 
 
 	/* Begin Stats Form */
@@ -123,9 +119,9 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
 
 	$j=0;
-	foreach($statistics as $key => $value)
+	foreach( $statistics as $key => $value )
 	{
-		for($i=0; $i < sizeof($statistics); $i++)
+		for( $i = "0"; $i < sizeof( $statistics ); $i++ )
 		{
 			echo "<tr bgcolor=\"" . $color["body"][$j%2] . "\"><td><b>$key:</b>&nbsp;$value</td></tr>";
 			break;
@@ -136,7 +132,7 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 	echo "</table></td></tr><table>";
 }
 
-function stream($server, $color, $feature, $server_data, $song_seperator)
+function stream( $server, $color, $feature, $server_data, $song_seperator )
 {
 	echo "<br>";
 
@@ -165,14 +161,14 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 
 	echo "<br>";
 	
-	if(strcmp($feature,"stream"))
+	if( strcmp( $feature,"stream" ))
 	{
 		$k=0;
-		for($i=0;$i<sizeOf($server_data);$i++)
+		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
 			if( isset ( $server_data[($i+1)]["server_name"] ))
 			{
-				if(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"]))
+				if( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ))
 				{
 					$k++;
 				}
@@ -198,19 +194,19 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 
 		$j=2;
 		$k=0;
-		for($i=0;$i<sizeOf($server_data);$i++)
+		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
 			echo "<tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
 			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
-			echo rawurlencode($server_data[$i]["listen_url"]);
+			echo rawurlencode( $server_data[$i]["listen_url"] );
 
-			while(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"])==0)
+			while( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) == "0" )
 			{
 				$i++;
-				echo $song_seperator . rawurlencode($server_data[$i]["listen_url"]);
+				echo $song_seperator . rawurlencode( $server_data[$i]["listen_url"] );
 			}
 
-			echo "\">" . trim($server_data[$i]["server_name"]) . "</a></td></tr>";
+			echo "\">" . trim( $server_data[$i]["server_name"] ) . "</a></td></tr>";
 			$k++;
 		}
 	}
@@ -234,7 +230,7 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	}
 }
 
-function server($servers, $host, $port, $color, $config)
+function server( $servers, $host, $port, $color, $config )
 {
 	echo "<br>";
 	echo "<table summary=\"Server Selection\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
@@ -245,30 +241,30 @@ function server($servers, $host, $port, $color, $config)
  	echo '<form method=post action="index.php" target=_top>';
 	$sel1 = '<select name=server>';
 	$sel2 = "";
-	for ($x = 0; $x < sizeof($servers); $x++)
+	for( $x = "0"; $x < sizeof( $servers ); $x++ )
 	{
 		// add the server to select box, if the 3rd field is not blank use that,
 		// otherwise default to the host name as the displayed server
 		// If the host is the current host, place it at the top, otherwise put it under that
-		if(strcmp($servers[$x][0],$host)==0 && strcmp($servers[$x][1],$port)==0)
+		if( strcmp( $servers[$x][0], $host ) == "0" && strcmp( $servers[$x][1], $port ) == "0" )
 		{
 			$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
 		}
 		else
 		{
-			$sel2 .= '<option value=' . $x . '>' . (($servers[$x][2] != '') ? $servers[$x][2] : $servers[$x][0]) . '</option>';
+			$sel2 .= '<option value=' . $x . '>' . ( ( $servers[$x][2] != '' ) ? $servers[$x][2] : $servers[$x][0] ) . '</option>';
 		}
 	}
 	$sel2.= '</select>&nbsp';
-	echo $sel1 . $sel2 . '<input align=\"right\" type=submit value="Switch Server">';
+	echo $sel1 . $sel2 . '<input align="right" type=submit value="Switch Server">';
 	echo "</form></td></tr></table>";
 }
 
-function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm)
+function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature )
 {
 	$sort = $config["default_sort"];
-	$sort_array = split(",",$sort);
-	$dir_url = rawurlencode($dir);
+	$sort_array = split( ",", $sort );
+	$dir_url = rawurlencode( $dir );
 
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
@@ -277,17 +273,17 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<tr bgcolor=\"" . $color["body"][1] . "\">";
 	echo "<td>";
 	echo "<select name=search>";
-	function localPrintFileNameOption($which_search)
+	function localPrintFileNameOption( $which_search )
 	{
-		if(! empty($search))
+		if( ! empty( $search ))
 		{
 			$which_search=$search;
 		}
-		else if(! empty($find))
+		else if( ! empty( $find ))
 		{
 			$which_search=$find;
 		}
-		if (0==strcmp($which_search,"filename"))
+		if( strcmp( $which_search, "filename" ) == "0" )
 		{
 			echo "<option value=\"filename\" selected>file name</option>";
 		}
@@ -297,12 +293,12 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		}
 	}
 
-	if (strcmp($config["filenames_only"],"yes")==0)
+	if( strcmp( $config["filenames_only"], "yes" ) == "0")
 	{
-	        localPrintFileNameOption($search);
+		localPrintFileNameOption( $search );
 	}
 
-	if (0==strcmp($search,"title") || strcmp($find,"title")==0)
+	if( strcmp( $search, "title" ) == "0" || strcmp( $find, "title" ) == "0")
 	{
 		echo "<option selected>title</option>";
 	}
@@ -311,7 +307,7 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>title</option>";
 	}
 
-	if (0==strcmp($search,"date") || strcmp($find,"date")==0)
+	if( strcmp( $search, "date") =="0" || strcmp($find,"date") == "0" )
 	{
 		echo "<option selected>date</option>";
 	}
@@ -320,7 +316,7 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>date</option>";
 	}
 
-	if (0==strcmp($search,"genre") || strcmp($find,"genre")==0)
+	if( strcmp( $search, "genre" ) == "0" || strcmp( $find, "genre" ) == "0" )
 	{
 		echo "<option selected>genre</option>";
 	}
@@ -329,7 +325,7 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>genre</option>";
 	}
 
-	if (0==strcmp($search,"album") || strcmp($find,"album")==0)
+	if( strcmp( $search, "album" ) == "0" || strcmp( $find, "album" ) == "0" )
 	{
 		echo "<option selected>album</option>";
 	}
@@ -338,7 +334,7 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		echo "<option>album</option>";
 	}
 
-	if (0==strcmp($search,"artist") || strcmp($find,"artist")==0)
+	if ( strcmp( $search, "artist") == "0" || strcmp( $find, "artist" ) == "0" )
 	{
 		echo "<option selected>artist</option>";
 	}
@@ -347,9 +343,9 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>artist</option>";
 	}
 
-	if ($config["filenames_only"]!="yes")
+	if( strcmp( $config["filenames_only"], "yes" ))
 	{
-	        localPrintFileNameOption($search);
+	        localPrintFileNameOption( $search );
 	}
 	echo "</select>";
 	echo "<input type=hidden value=\"main\" name=body>";
@@ -359,27 +355,25 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=hidden value=\"$dir\" name=dir>";
 	echo "<input type=hidden value=\"$sort\" name=sort>";
 	echo "<input type=submit value=Search name=foo>";
-	echo "</td>";
-	echo "</tr>";
-	echo "</table>";
+	echo "</td></tr></table>";
 	echo "</form>";
-	if ($search && $arg)
+	if( isset( $search ) && isset( $arg ))
 	{
-		$lsinfo = getLsInfo($fp,"search $search \"$arg\"\n");
+		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
-	else if ($find && $arg)
+	else if( isset( $find ) && isset( $arg ))
 	{
-		$lsinfo = getLsInfo($fp,"find $find \"$arg\"\n");
+		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
-	if(isset($lsinfo))
+	if( isset( $lsinfo ))
 	{
-		list($mprint, $mindex, $add_all) = lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $color["body"], $server, $addperm);
+		list( $mprint, $mindex, $add_all ) = lsinfo2musicTable( $lsinfo, $sort, $dir_url, $sort_array, $config, $color["body"], $server, $addperm );
 	}
-	$arg_url = rawurlencode($arg);
-	if (isset($mprint))
+	$arg_url = rawurlencode( $arg );
+	if ( isset( $mprint ))
 	{
 		$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
-		printMusicTable($config, $color, $sort_array, $server, $mprint, $local_url, $add_all, $mindex, $dir, $addperm);
+		printMusicTable( $config, $color, $sort_array, $server, $mprint, $local_url, $add_all, $mindex, $dir, $addperm, $feature );
 	}
 
 }

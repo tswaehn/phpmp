@@ -5,53 +5,53 @@ include "sort.php";
  begin lsinfo2directoryTable
 
 */
-function lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $addperm, $color)
+function lsinfo2directoryTable( $lsinfo, $server, $sort, $dir, $addperm, $color )
 {
-	$dcount = count($lsinfo["dir"]);
-	if ($dcount)
+	$dcount = count( $lsinfo["dir"] );
+	if( $dcount != "0" )
 	{
-		usort($lsinfo["dir"],"strcasecmp");
+		usort( $lsinfo["dir"], "strcasecmp" );
 	}
 
 	$dic = 0;
-	for ($i=0;$i<$dcount;$i++)
+	for( $i = "0"; $i < $dcount; $i++ )
 	{
 		// dirstr: The actual directory name
        		$dirstr = $lsinfo["dir"][$i];
-		$dirss = split("/",$dirstr);
-		if (count($dirss)==0) 
+		$dirss = split( "/", $dirstr );
+		if ( count( $dirss ) == "0") 
 		{
  			$dirss[0] = $dirstr;
 		}
-		$dirss[0] = $dirss[count($dirss)-1];
-		$dprint[$i] = "<tr bgcolor=\"" . $color[$i%2]  . "\"><td>";
-		$fc = strtoupper(mbFirstChar($dirss[0]));
-		if ($dic==0 || $dindex[$dic-1]!=$fc)
+		$dirss[0] = $dirss[ (count( $dirss ) - 1) ];
+		$dprint[$i] = "<tr bgcolor=\"" . $color[ ($i%2) ]  . "\"><td>";
+		$fc = strtoupper( mbFirstChar( $dirss[0] ));
+		if ($dic == "0" || $dindex[ ($dic-1) ]!=$fc)
 		{
-			$dindex[$dic] = $fc;
-			$dprint[$i].= "<a name=d" . $dindex[$dic]  . "></a>";
+			$dindex[ $dic ] = $fc;
+			$dprint[ $i ].= "<a name=d" . $dindex[ $dic ]  . "></a>";
 			$dic++;
 		}
 
 		// If updating show the update links, otherwise show add links
 		if( $addperm == "1" )
 		{
-			$dprint[$i].= "[<a title=\"Add the " . $dirss[0]  . " Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dirstr\" target=playlist>add</a>]&nbsp";
+			$dprint[ $i ].= "[<a title=\"Add the " . $dirss[0]  . " Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dirstr\" target=playlist>add</a>]&nbsp";
 		}
 		$dprint[$i].= "<a title=\"Browse the " . $dirss[0] . " Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$dirstr\">$dirss[0]</a></td></tr>";
 	}
-	if(! isset( $dindex ))
+	if( ! isset( $dindex ))
 	{
 		$dindex = array();
 	}
-	if(! isset( $dprint ))
+	if( ! isset( $dprint ))
 	{
 		$dprint = array();
 	}
-	return array($dprint, $dindex, $dcount);
+	return array( $dprint, $dindex, $dcount );
 }
 
-function printSavePlaylistTable($save, $server, $color)
+function printSavePlaylistTable( $save, $server, $color )
 {
 	echo "<!-- Begin printSavePlaylistTable -->";
 	echo "<br>";
@@ -79,9 +79,9 @@ function printSavePlaylistTable($save, $server, $color)
  $printIndex -> function that takes $dinex and prints all the links
                for the indexes
  */
-function printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $addperm, $color)
+function printDirectoryTable( $dcount, $dprint, $dindex, $dir, $sort, $server, $addperm, $color )
 {
-	if($dcount)
+	if( $dcount != "0" )
 	{
 		echo "<!-- Begin printDirectoryTable -->";
 		echo "<br>";
@@ -96,9 +96,9 @@ function printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $a
 		echo "<tr><td>";
 		echo "<table summary=\"Directory\" cellspacing=1 bgcolor=\"" . $color["body"][1] . "\">";
 
-		for($i=0;$i<$dcount;$i++)
+		for( $i=0; $i < $dcount; $i++)
                 {
-                        echo $dprint[$i];
+                        echo $dprint[ $i ];
                 }
 		echo "</table>";
 		echo "</td></tr></table>";
@@ -106,93 +106,93 @@ function printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $a
 	}
 }
 
-function lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $loadperm)
+function lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $loadperm )
 {
 	$pic = 0;
-	$pcount = count($lsinfo["playlist"]);
+	$pcount = count( $lsinfo["playlist"] );
 	if ($pcount)
 	{
-	        usort($lsinfo["playlist"],"strcasecmp");
+	        usort( $lsinfo["playlist"], "strcasecmp" );
 	}
-	for ($i=0;$i<$pcount;$i++)
+	for ( $i=0; $i < $pcount; $i++ )
 	{
-		$dirstr = $lsinfo["playlist"][$i];
-		$dirss = split("/",$dirstr);
-		if (count($dirss)==0)
+		$dirstr = $lsinfo["playlist"][ $i ];
+		$dirss = split( "/", $dirstr );
+		if ( count( $dirss ) == "0" )
 		{
 			$dirss[0] = $dirstr;
 		}
-		$dirss[0] = $dirss[count($dirss)-1];
-		$dirstr = rawurlencode($dirstr);
-		$fc = strtoupper(mbFirstChar($dirss[0]));
-		if ($pic==0 || $pindex[$pic-1]!=$fc)
+		$dirss[0] = $dirss[ (count( $dirss ) - "1") ];
+		$dirstr = rawurlencode( $dirstr );
+		$fc = strtoupper( mbFirstChar( $dirss[0] ));
+		if ($pic == "0" || ($pindex[ $pic-1 ] != $fc) )
 		{
-			$pindex[$pic] = $fc;
-			$foo = $pindex[$pic];
+			$pindex[ $pic ] = $fc;
+			$foo = $pindex[ $pic ];
 			$pic++;
 			$pprint[$i] = "<a name=p$foo></a>";
 		}
 		else
 		{
-			$pprint[$i] = "";
+			$pprint[ $i ] = "";
 		}
-		if(strcmp($delete,"yes")==0)
+		if( strcmp( $delete, "yes" ) == "0" )
 		{
-		        $pprint[$i].="[<a title=\"Remove playlist $dirss[0]\"  href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;command=rm&amp;arg=$dirstr\">del</a>]&nbsp;";
+		        $pprint[ $i ] .= "[<a title=\"Remove playlist $dirss[0]\"  href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;command=rm&amp;arg=$dirstr\">del</a>]&nbsp;";
 		}
 		if( $loadperm == "1" )
 		{
-			$pprint[$i].="<a title=\"Load the playlist $dirss[0]\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=load&amp;arg=$dirstr\">$dirss[0]</a>&nbsp;";
+			$pprint[ $i ] .= "<a title=\"Load the playlist $dirss[0]\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=load&amp;arg=$dirstr\">$dirss[0]</a>&nbsp;";
 		}
 		else
 		{
-			$pprint[$i].="$dirss[0]&nbsp;";
+			$pprint[ $i ] .= "$dirss[0]&nbsp;";
 		}
 	}
-	if (!isset($pprint))
+	if ( ! isset( $pprint ))
 	{
 	        $pprint = array();
 	}
-	if (!isset($pindex))
+	if ( ! isset( $pindex ))
 	{
 	        $pindex = array();
 	}
-	return array($pprint,$pindex);
+	return array( $pprint,$pindex );
 }
 
-function display_time($seconds)
+function display_time( $seconds )
 {
-	if ($seconds > 60)
+	if ($seconds > "60")
 	{
-		$min = floor($seconds / 60);
-		$sec = $seconds - ($min * 60);
-		return sprintf("%d:%02d", $min, $sec);
+		$min = floor( $seconds / 60 );
+		$sec = ($seconds - ( $min * 60 ));
+		return sprintf( "%d:%02d", $min, $sec );
 	}
 	else
 	{
-		return sprintf("0:%02d", $seconds);
+		return sprintf( "0:%02d", $seconds );
 	} 
 }
 
 function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $color, $server, $addperm)
 {
 	$mic = 0;
-	$mcount = count($lsinfo["music"]);
-        usort($lsinfo["music"],"msort");
+	$mcount = count( $lsinfo["music"] );
+        usort( $lsinfo["music"], "msort" );
 
 	$add_all = "";
 	
 	// Loop for every song in the current directory
-	for ($i=0;$i<$mcount;$i++)
+	for ( $i="0"; $i < $mcount; $i++)
 	{
 		$full_filename = $lsinfo["music"][$i]["file"];
-		$split_filename = split("/",$full_filename);
-		if (count($split_filename)==0)
+		$split_filename = split( "/", $full_filename );
+		if( count( $split_filename ) == "0")
 		{
 			$split_filename[0] = $full_filename;
 		}
-		$split_filename[0] = array_pop($split_filename);
-		if ($i<$mcount-1)
+		$split_filename[0] = array_pop( $split_filename );
+		if ( $i < $mcount - "1" )
 		{
 		        $add_all .= addslashes($full_filename) . $config["song_separator"];
 		}
@@ -201,21 +201,21 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 		        $add_all .= $full_filename;
 		}
 		$full_filename = rawurlencode($full_filename);
-		$col = $color[$i%2];
+		$col = $color[ ($i%2) ];
 
 		// If not filenames_only and title is set
-		if (strcmp($config["filenames_only"],"yes") &&
-		    isset($lsinfo["music"][$i]["Title"]) &&
+		if( strcmp( $config["filenames_only"], "yes" ) &&
+		    isset( $lsinfo["music"][$i]["Title"] ) &&
 		    $lsinfo["music"][$i]["Title"])
 		{
-			if (strcmp($sort_array[0],"Track"))
+			if( strcmp( $sort_array[0], "Track" ))
 			{
-				if (isset($lsinfo["music"][$i][$sort_array[0]]) &&
-				    strlen($lsinfo["music"][$i][$sort_array[0]]) &&
-				    ($mic==0 || $mindex[$mic-1]!=strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]))))
+				if( isset( $lsinfo["music"][$i][$sort_array[0]] ) &&
+				    strlen( $lsinfo["music"][$i][$sort_array[0]] ) &&
+				    ( $mic==0 || $mindex[ ($mic-1) ] != strtoupper( mbFirstChar( $lsinfo["music"][$i][ $sort_array[0] ] ))))
 				{
-					$mindex[$mic] = strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]));
-					$foo = $mindex[$mic];
+					$mindex[ $mic ] = strtoupper( mbFirstChar( $lsinfo["music"][$i][ $sort_array[0] ] ));
+					$foo = $mindex[ $mic ];
 					$mic++;
 					$mprint[$i] = "<a name=m$foo></a>";
 				}
@@ -226,11 +226,11 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			}
 			else
 			{
-				if (isset($lsinfo["music"][$i][$sort_array[0]]))
+				if( isset( $lsinfo["music"][$i][$sort_array[0] ] ))
 				{
-					$foo = strtok($lsinfo["music"][$i][$sort_array[0]],"/");
+					$foo = strtok( $lsinfo["music"][$i][ $sort_array[0] ], "/" );
 				}
-				if (isset($foo) && ($mic==0 || strcmp($mindex[$mic-1],$foo)))
+				if( isset( $foo ) && ( $mic == "0" || strcmp( $mindex[ ($mic-1) ], $foo )))
 				{
 					$mindex[$mic] = $foo;
 					$mic++;
@@ -245,17 +245,17 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			if( $addperm == "1" )
 			{
 				$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][";
-				$mprint[$i].= "<a title=\"Add this song to the current playlist\" ";
-				$mprint[$i].= "target=\"playlist\" ";
-				$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=";
-				$mprint[$i].= rawurlencode($full_filename) . "\">add</a>]</td>";
+				$mprint[$i] .= "<a title=\"Add this song to the current playlist\" ";
+				$mprint[$i] .= "target=\"playlist\" ";
+				$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=";
+				$mprint[$i] .= rawurlencode($full_filename) . "\">add</a>]</td>";
 			}
 			else
 			{
 				$mprint[$i] = "<tr bgcolor=$col>";
 			}
 
-			for ($x = 0; $x < sizeof($config["display_fields"]); $x++)
+			for ( $x = 0; $x < sizeof($config["display_fields"]); $x++)
 			{
 				$mprint[$i] .= "<td>";
 
@@ -265,46 +265,46 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				 * Sort the known remaining tags by just echoing the sting, otherwise print config error.
 				 */
 
-				switch ($config["display_fields"][$x])
+				switch( $config["display_fields"][$x] )
 				{
 					case 'Album':
 					case 'Artist':
 					case 'Date':
 					case 'Genre':
-						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						if( isset( $lsinfo["music"][$i][ $config["display_fields"][$x] ] ))
 						{
-							$url = rawurlencode($lsinfo["music"][$i][$config["display_fields"][$x]]);
-							$mprint[$i].= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
-							$mprint[$i].= strtolower($config["display_fields"][$x]);
-							$mprint[$i].= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
-							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]] . "</a>";
+							$url = rawurlencode( $lsinfo["music"][$i][ $config["display_fields"][$x] ] );
+							$mprint[$i] .= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
+							$mprint[$i] .= strtolower($config["display_fields"][$x]);
+							$mprint[$i] .= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
+							$mprint[$i] .= $lsinfo["music"][$i][$config["display_fields"][$x]] . "</a>";
 						}
 						else
 						{
-							$mprint[$i].= $config["unknown_string"];
+							$mprint[$i] .= $config["unknown_string"];
 						}
 						break;
 					case 'Title':
-						$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
+						$mprint[$i] .= $lsinfo["music"][$i][ $config["display_fields"][$x] ];
 						break;
 					case 'Track':
-						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						if ( isset( $lsinfo["music"][$i][ $config["display_fields"][$x] ] ))
 						{
-							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
+							$mprint[$i] .= $lsinfo["music"][$i][ $config["display_fields"][$x] ];
 						}
 						else
 						{
-							$mprint[$i].= $config["unknown_string"];
+							$mprint[$i] .= $config["unknown_string"];
 						}
 						break;
 					case 'Time':
-						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						if ( isset( $lsinfo["music"][$i][ $config["display_fields"][$x] ] ))
 						{
-							$mprint[$i].= display_time($lsinfo["music"][$i][$config["display_fields"][$x]]);
+							$mprint[$i] .= display_time( $lsinfo["music"][$i][ $config["display_fields"][$x] ] );
 						}
 						else
 						{
-							$mprint[$i].= $config["unknown_string"];
+							$mprint[$i] .= $config["unknown_string"];
 						}
 						break;
 					default:
@@ -321,10 +321,10 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 
 		else
 		{
-			if ($mic==0 || $mindex[$mic-1]!=strtoupper($split_filename[0][0]))
+			if ( $mic == "0" || $mindex[ ($mic-1) ] != strtoupper( $split_filename[0][0] ))
 			{
-				$mindex[$mic] = strtoupper($split_filename[0][0]);
-				$foo = $mindex[$mic];
+				$mindex[ $mic ] = strtoupper( $split_filename[0][0] );
+				$foo = $mindex[ $mic ];
 				$mic++;
 				$mprint[$i] = "<a name=m$foo></a>";
 			}
@@ -332,27 +332,27 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				$mprint[$i] = "";
 			}
-			if ($config["display_fields"][sizeof($config["display_fields"]) - 1] == 'Time')
+			if ( $config["display_fields"][ (sizeof($config["display_fields"]) - 1) ] == 'Time')
 			{
 				if( $addperm == "1" )
 				{
 					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
-					$mprint[$i].= "target=\"playlist\" ";
-					$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-					$mprint[$i].= "<td width=\"100%\" colspan=" . (sizeof($config["display_fields"]) - 1) . ">$split_filename[0]</td><td>";
+					$mprint[$i] .= "target=\"playlist\" ";
+					$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
+					$mprint[$i] .= "<td width=\"100%\" colspan=" . (sizeof( $config["display_fields"] ) - 1) . ">$split_filename[0]</td><td>";
 				}
 				else
 				{
-					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . (sizeof($config["display_fields"]) - 1) . ">$split_filename[0]</td><td>";
+					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . (sizeof( $config["display_fields"] ) - 1) . ">$split_filename[0]</td><td>";
 				}
 
-				if (!isset($lsinfo["music"][$i]['Time']))
+				if ( ! isset($lsinfo["music"][$i]['Time'] ))
 				{
-					$mprint[$i].= $config["unknown_string"];
+					$mprint[$i] .= $config["unknown_string"];
 				}
 				else
 				{
-					$mprint[$i].= display_time($lsinfo["music"][$i]['Time']);
+					$mprint[$i] .= display_time($lsinfo["music"][$i]['Time']);
 				}
 
 				$mprint[$i] .= "</td></tr>";
@@ -362,10 +362,10 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				if( $addperm == "1" )
 				{
 					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][";
-					$mprint[$i].= "<a title=\"Add this song to the active playlist\" ";
-					$mprint[$i].= "target=\"playlist\" ";
-					$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-					$mprint[$i].= "<td width=\"100%\" colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
+					$mprint[$i] .= "<a title=\"Add this song to the active playlist\" ";
+					$mprint[$i] .= "target=\"playlist\" ";
+					$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
+					$mprint[$i] .= "<td width=\"100%\" colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
 				}
 				else
 				{
@@ -374,25 +374,25 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			}
 		}
 	}
-	if (!isset($mprint))
+	if ( ! isset( $mprint ))
 	{
 	        $mprint = array();
 	}
-	if (!isset($mindex))
+	if ( ! isset( $mindex ))
 	{
 	        $mindex = array();
 	}
-	return array($mprint, $mindex, $add_all);
+	return array( $mprint, $mindex, $add_all );
 }
 
 /* This function is used to print the index for all tables that need an index */
-function printIndex($index,$title,$anc)
+function printIndex( $index, $title, $anc )
 {
-	if (count($index))
+	if( count( $index ))
 	{
 		echo "<!-- Begin printIndex -->";
 		echo $title . " [ ";
-		for ($i=0;$i<count($index);$i++)
+		for ( $i="0"; $i<count( $index ); $i++ )
 		{
 			$foo = $index[$i];
 			echo "<a title=\"Goto the beginning of $foo\" href=\"#$anc$foo\">$foo</a>&nbsp;";
@@ -402,14 +402,14 @@ function printIndex($index,$title,$anc)
 	}
 }
 
-function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $add_all, $mindex, $dir, $addperm)
+function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $add_all, $mindex, $dir, $addperm, $feature)
 {
-	if (count($mprint)>0)
+	if( count( $mprint ) > "0" )
 	{
 		echo "<!-- Begin printMusicTable  -->";
 		echo "<br>";
-		$add_all = rawurlencode($add_all);
-		if (strcmp($config["use_javascript"],"yes")==0)
+		$add_all = rawurlencode( $add_all );
+		if( strcmp( $config["use_javascript"], "yes" ) == "0" )
 		{
 			echo '<form name="add_all" method="post" action="index.php" target="playlist">';
 			echo "<input type=hidden name=\"add_all\" value=\"$add_all\">";
@@ -420,7 +420,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 			echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
 			echo "<tr><a name=music></a>";
 			echo "<td><b>Music</b>";
-			echo printIndex($mindex,"","m");
+			echo printIndex( $mindex, "", "m" );
 			if( $addperm == "1" )
 			{
 				echo "&nbsp;<small>(<a title=\"Add all songs from this music table to the active playlist\" href=\"javascript:document.add_all.submit()\">add all</a>)</small>";
@@ -434,40 +434,41 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 			{
 				echo "<small>(<a title=\"Add all songs from this music table to the active playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;add_all=$add_all\">add all</a>)</small>";
 			}
-			echo printIndex($mindex,"","m");
+			echo printIndex( $mindex, "", "m" );
 		}
-		echo "</td><td align=right>";
-		if(preg_match("/feature=(search|find)/",$url))
+		echo "</td>";
+		if( strcmp( $feature, "search" ) == "0" || strcmp( $feature, "find" ) == "0" )
 		{
-			echo "<b><small>Found " . count($mprint) . " results</small></b>";
+			echo "<td align=right><b><small>Found " . count($mprint) . " results</small></b></td>";
 		}
-		echo "</td></tr></table>";
+		echo "</tr></table>";
 		echo "<tr><td>";
 		echo "<table summary=\"Music\" cellspacing=1 bgcolor=\"" . $color["body"][1] . "\">";
-		if (strcmp($config["filenames_only"],"yes"))
+		if( strcmp( $config["filenames_only"], "yes" ))
 		{
 			echo "<tr bgcolor=\"" . $color["sort"] . "\">";
 			if( $addperm == "1" )
 			{
 				echo "<td width=0></td>";
 			}
-			for ($i=0;$i<count($config["display_fields"]);$i++)
+			for( $i=0; $i < count( $config["display_fields"] ); $i++ )
 			{
 				// Cut this in pieces so it wouldn't wrap
 				echo "<td>";
-       				echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;server=$server\">" . (($config["display_fields"][$i] == $sort_array[0]) ? '<b>' . $config["display_fields"][$i] . '</b>' : $config["display_fields"][$i]);
+       				echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;server=$server\">";
+				echo (($config["display_fields"][$i] == $sort_array[0]) ? '<b>' . $config["display_fields"][$i] . '</b>' : $config["display_fields"][$i]);
 				echo "</a>";
 				echo "</td>";
 			}
 			echo "</tr>";
 		}
-		for ($i=0;$i<count($mprint);$i++)
+		for( $i = "0"; $i < count( $mprint ); $i++ )
 		{
 		        echo $mprint[$i];
 		}
 		echo "</table>";
 		echo "</td></tr>";
-		if (strcmp($config["use_javascript"],"yes"))
+		if( strcmp( $config["use_javascript"], "yes" ))
 		{
 			echo "</form>";
 		}
@@ -476,9 +477,9 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 	}
 }
 
-function printPlaylistTable($color, $server, $pprint, $pindex, $delete, $rmperm)
+function printPlaylistTable( $color, $server, $pprint, $pindex, $delete, $rmperm )
 {
-	if (count($pprint))
+	if ( count( $pprint ) > "0" )
 	{
 	        // Begin table for Title & Index
 		echo "<!-- Begin printPlaylistTable -->";
@@ -487,8 +488,8 @@ function printPlaylistTable($color, $server, $pprint, $pindex, $delete, $rmperm)
 		echo "<tr><a name=playlists></a>";
 		echo "<td nowrap>";
 		echo "<b>Saved Playlists</b>";
-		printIndex($pindex,"","p");
-		if(strcmp($delete,"yes") && $rmperm == "1" )
+		printIndex( $pindex, "", "p" );
+		if( strcmp( $delete, "yes" ) && $rmperm == "1" )
 		{
 		        echo "&nbsp;<small>(<a title=\"Goto Delete Playlist Menu\" href=\"index.php?body=main&amp;delete=yes&amp;server=$server#playlists\">delete</a>)</small>";
 		}
@@ -498,7 +499,7 @@ function printPlaylistTable($color, $server, $pprint, $pindex, $delete, $rmperm)
 		echo "<table summary=\"Playlist\" cellspacing=1 bgcolor=\"" . $color["body"][0] . "\">";
 
 		// Begin for playlist
-		for ($i=0;$i<count($pprint);$i++)
+		for ( $i=0; $i < count( $pprint ); $i++ )
 		{
 		        echo "<tr bgcolor=\"" . $color["body"][$i%2] . "\">";
 			echo "<td>" . $pprint[$i] . "</td>";
@@ -509,21 +510,20 @@ function printPlaylistTable($color, $server, $pprint, $pindex, $delete, $rmperm)
 	}
 }
 
-function songInfo2Display($song_info)
+function songInfo2Display( $song_info, $config )
 {
-	global $config;
-	if (preg_match("/^[a-z]*:\/\//",$song_info["file"]))
+	if( preg_match( "/^[a-z]*:\/\//", $song_info["file"] ))
 	{
 		$song = $song_info["file"];
 	}
 	else
 	{
-		$song_array = split("/",$song_info["file"]);
-		$song = $song_array[count($song_array)-1];
+		$song_array = split( "/", $song_info["file"] );
+		$song = $song_array[ (count($song_array) - 1) ];
 	}
-	if (strcmp($config["filenames_only"],"yes") && isset($song_info["Title"]) && $song_info["Title"])
+	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && $song_info["Title"] > "0" )
 	{
-		if (isset($song_info["Artist"]))
+		if( isset( $song_info["Artist"] ))
 		{
 		        $artist = $song_info["Artist"];
 		}
@@ -532,7 +532,7 @@ function songInfo2Display($song_info)
 		        $artist = "";
 		}
 
-		if (isset($song_info["Title"]))
+		if( isset( $song_info["Title"] ))
 		{
 		        $title = $song_info["Title"];
 		}
@@ -541,7 +541,7 @@ function songInfo2Display($song_info)
 		        $title = "";
 		}
 
-		if (isset($song_info["Album"]))
+		if( isset( $song_info["Album"] ))
 		{
 		        $album = $song_info["Album"];
 		}
@@ -550,7 +550,7 @@ function songInfo2Display($song_info)
 		        $album = "";
 		}
 
-		if (isset($song_info["Genre"]))
+		if ( isset( $song_info["Genre"] ))
 		{
 			$genre = $song_info["Genre"];
 		}
@@ -559,7 +559,7 @@ function songInfo2Display($song_info)
 			$genre = "";
 		}
 
-		if (isset($song_info["Date"]))
+		if ( isset($song_info["Date"] ))
 		{
 			$date = $song_info["Date"];
 		}
@@ -568,7 +568,7 @@ function songInfo2Display($song_info)
 			$date = "";
 		}
 
-		if (isset($song_info["Track"]))
+		if ( isset( $song_info["Track"] ))
 		{
 		        $track = $song_info["Track"];
 		}
@@ -577,14 +577,14 @@ function songInfo2Display($song_info)
 		        $track = "";
 		}
 
-		$trans = array("artist" => $artist, "title" => $title, "album" => $album, "track" => $track, "genre" => $genre, "date" => $date);
+		$trans = array( "artist" => $artist, "title" => $title, "album" => $album, "track" => $track, "genre" => $genre, "date" => $date );
 		
 		// If it doesn't exist don't print it, stupid
-		if (strlen($artist)==0 && ! strlen($title)==0)
+		if( strlen( $artist ) == "0" && ! strlen( $title ) == "0" )
 		{
 		        $song_display_conf = $config["display_conf"]["title"];
 		}
-		else if (strlen($title)==0 && !strlen($artist)==0)
+		else if( strlen( $title ) == "0" && ! strlen( $artist ) == "0" )
 		{
 		        $song_display_conf = $config["display_conf"]["artist"];
 		}
@@ -594,33 +594,33 @@ function songInfo2Display($song_info)
 		}
 		$song_display = strtr($song_display_conf, $trans);
 	}
-	else if ($config["filenames_only"]!="yes" && isset($song_info["Name"]) && $song_info["Name"])
+	else if( strcmp( $config["filenames_only"], "yes") == "0" && isset( $song_info["Name"] ) && ($song_info["Name"] > "0" ))
 	{
 		$song_display = $song_info["Name"];
 	}
 	else
 	{
 		// Let's not regex urls
-		if (! preg_match("/^(http|ftp|https):\/\/.*/",$song))
+		if( ! preg_match( "/^(http|ftp|https):\/\/.*/", $song ))
 		{
-			for($i=0;$i<sizeOf($config["regex"]["remove"]);$i++)
+			for( $i= "0"; $i < sizeOf( $config["regex"]["remove"] ); $i++ )
 			{
-				$song = str_replace($config["regex"]["remove"][$i],'',$song);
+				$song = str_replace( $config["regex"]["remove"][$i], '', $song );
 			}
-			if(strcmp($config["regex"]["space"],"yes")==0)
+			if( strcmp( $config["regex"]["space"], "yes") == "0" )
 			{
-				$song = str_replace('_',' ',$song);
+				$song = str_replace( '_', ' ', $song );
 			}
-			if(strcmp($config["regex"]["uppercase_first"],"yes")==0)
+			if( strcmp( $config["regex"]["uppercase_first"], "yes" ) == "0" )
 			{
-				$song = ucwords($song);
+				$song = ucwords( $song );
 			}
 		}
 		$song_display = $song;
 	}
-	if($config["wordwrap"]>0)
+	if( $config["wordwrap"] > "0" )
 	{
-		$song_display = wordwrap($song_display, $config["wordwrap"], "<br />",1);
+		$song_display = wordwrap( $song_display, $config["wordwrap"], "<br />", "1" );
 	}
 	return $song_display;
 }

@@ -6,7 +6,7 @@ require "config.php";
 require "utils.php";
 
 // Multiple Server Stuff
-if (isset($_REQUEST['server']))
+if( isset( $_REQUEST['server'] ))
 {
 	$server = $_REQUEST['server'];
 }
@@ -15,9 +15,9 @@ else
 	$server = 0;
 }
 
-if (sizeof($servers) > 1 && strcmp($config["server_in_title"],"yes")==0)
+if ( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
 {
-	if ($servers[$server][2] != '')
+	if ( $servers[$server][2] != '' )
 	{
 		$config["title"] .= " (" . $servers[$server][2] . ")";
 	}
@@ -35,14 +35,15 @@ $port = $servers[$server][1];
 $hostport = $host . ":" . $port;
 
 // Playlist Hiding stuff
-if (strcmp($config["use_cookies"],"yes")==0 && isset($_COOKIE["phpMp_playlist_hide"][$hostport]))
+if ( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
 {
 	$hide = $_COOKIE["phpMp_playlist_hide"][$hostport];
 }
 
 // This will extract the needed GET/POST variables
-extract(setupReceivedVars(array("add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream"),14));
+extract( setupReceivedVars( array( "add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream" ), 14 ));
 
+// This will prevent us from getting E_NOTICE warnings
 if (! isset($server))
 {
 	$server = 0;
@@ -67,7 +68,6 @@ if( ! isset ( $remember ))
 {
 	$remember = "";
 }
-
 
 if ( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
 {
@@ -119,23 +119,23 @@ else if (isset($_COOKIE["phpMp_password"][$hostport]))
 if (isset($passarg))
 {
 	$has_password = 1;
-	fputs($fp,"password \"$passarg\"\n");
-	while (!feof($fp))
+	fputs( $fp, "password \"$passarg\"\n" );
+	while ( ! feof( $fp ))
 	{
-		$got = fgets($fp,1024);
-		if (strncmp("OK",$got,strlen("OK"))==0)
+		$got = fgets( $fp, 1024 );
+		if ( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
-			if (isset($remember) && $remember=="true")
+			if ( isset( $remember ) && strcmp( $remember, "true" ) == "0" )
 			{
-				setcookie("phpMp_password[$hostport]",$passarg,time()+60*60*24*365);
+				setcookie( "phpMp_password[$hostport]", $passarg, time()+60*60*24*365 );
 			}
 			else
 			{
-				setcookie("phpMp_password[$hostport]",$passarg);
+				setcookie( "phpMp_password[$hostport]", $passarg );
 			}
 			break;
 		}
-		if (strncmp("ACK",$got,strlen("ACK"))==0)
+		if ( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
 			echo "Password Incorrect, press back button";
 			break;
@@ -148,19 +148,19 @@ if( ! isset( $has_password ))
 	$has_password = 0;
 } 
 
-$commands = getCommandInfo($fp);
+$commands = getCommandInfo( $fp );
 if( $commands["status"] == "1" )
 {
 	$status = getStatusInfo($fp); 
 }
-if(isset($command))
+if( isset( $command ))
 {
-	doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status);
+	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
 }
 
-if(isset($feature))
+if( isset( $feature ))
 {
-	if(strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" )
+	if( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" )
 	{
 		if( strcmp( $feature, "stream-icy" ) == "0" )
 		{
@@ -194,9 +194,9 @@ if(isset($feature))
 		xml_set_element_handler($xml_parser, "startElementHandler", "endElementHandler");
 		xml_set_character_data_handler($xml_parser, "characterDataHandler");
 
-		while( $data = fread($fh, 4096) )
+		while( $data = fread( $fh, 4096 ))
 		{
-			if( !xml_parse($xml_parser, $data, feof($fh)) )
+			if( ! xml_parse( $xml_parser, $data, feof( $fh )))
 			{
 				break; // get out of while loop if we're done with the file
 			}
@@ -204,42 +204,42 @@ if(isset($feature))
 
 		if( isset( $fh2 ))
 		{
-			while( $data = fread($fh2, 4096) )
+			while( $data = fread( $fh2, 4096 ))
 			{
-				if( !xml_parse($xml_parser, $data, feof($fh2)) )
+				if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
 				{
 					break; // get out of while loop if we're done with the file
 				}
 			}
 		}
 
-		xml_parser_free($xml_parser);
+		xml_parser_free( $xml_parser );
 	}
 }
 
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
 
-if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==0 || $commands["playlistinfo"]==0 || $commands["stats"]==0 )
+if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["playlist"] == "0" || $commands["playlistinfo"] == "0" || $commands["stats"] == "0" )
 {
 	include "features.php";
-	setcookie("phpMp_password[$hostport]","");
-	unset($has_password);
+	setcookie( "phpMp_password[$hostport]", "" );
+	unset( $has_password );
 
 	echo "<b>Error:</b> Can't load phpMp due to not having permission to the following commands: ";
-	if( $commands["listall"]==0 )
+	if( $commands["listall"] == "0" )
 	{
 		echo "listall ";
 	}
-	if( $commands["lsinfo"]==0 )
+	if( $commands["lsinfo"] == "0" )
 	{
 		echo "lsinfo ";
 	}
-	if( $commands["playlist"]==0 )
+	if( $commands["playlist"] == "0" )
 	{
 		echo "playlist ";
 	}
-	if( $commands["playlistinfo"]==0 )
+	if( $commands["playlistinfo"] == "0" )
 	{
 		echo "playlistinfo";
 	}
@@ -250,9 +250,9 @@ if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==
 	server( $servers, $host, $port, $colors["server"], $config, $commands );
 }
 // This will serve as our front page if called w/o $body
-else if(! isset($body) && ! isset($feature))
+else if( ! isset( $body ) && ! isset( $feature ))
 {
-	unset($hostport);
+	unset( $hostport );
 	echo "<title>" . $config["title"] ."</title>";
 	echo "</head>";
 
@@ -264,8 +264,8 @@ else if(! isset($body) && ! isset($feature))
 }
 else
 {
-	unset($hostport);
-	if(strcmp($body,"playlist")==0)
+	unset( $hostport );
+	if( strcmp( $body, "playlist" ) == "0" )
 	{
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";
 	}
@@ -293,6 +293,6 @@ else
 	echo "</body>";
 }
 echo "</html>";
-fclose($fp);
+fclose( $fp );
 ob_end_flush();
 ?>
