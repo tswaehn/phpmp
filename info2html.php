@@ -434,8 +434,10 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 			echo "<input type=hidden name=\"body\" value=\"playlist\">";
 			echo "<input type=hidden name=\"server\" value=\"$server\">";
 			echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
+			echo "<tr><td>";
+			echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
 			echo "<tr><a name=music></a>";
-			echo "<td colspan=4 nowrap><b>Music</b>";
+			echo "<td><b>Music</b>";
 			echo printIndex($mindex,"","m");
 			if($addperm)
 			{
@@ -452,7 +454,12 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 			}
 			echo printIndex($mindex,"","m");
 		}
-		echo "</td></tr>";
+		echo "</td><td align=right>";
+		if(preg_match("/feature=(search|find)/",$url))
+		{
+			echo "<b><small>Found " . count($mprint) . " items</small></b>";
+		}
+		echo "</td></tr></table>";
 		echo "<tr><td>";
 		echo "<table summary=\"Music\" cellspacing=1 bgcolor=\"" . $color["body"][1] . "\">";
 		if (strcmp($config["filenames_only"],"yes"))
