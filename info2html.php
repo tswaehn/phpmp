@@ -124,7 +124,7 @@ function lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $loadperm)
 		}
 		$dirss[0] = $dirss[count($dirss)-1];
 		$dirstr = rawurlencode($dirstr);
-		$fc = strtoupper(mbFirstChar($dirss[0]));
+		$fc = mbFirstChar($dirss[0]);
 		if ($pic==0 || $pindex[$pic-1]!=$fc)
 		{
 			$pindex[$pic] = $fc;
@@ -212,9 +212,9 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				if (isset($lsinfo["music"][$i][$sort_array[0]]) &&
 				    strlen($lsinfo["music"][$i][$sort_array[0]]) &&
-				    ($mic==0 || $mindex[$mic-1]!=strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]))))
+				    ($mic==0 || $mindex[$mic-1]!=mbFirstChar($lsinfo["music"][$i][$sort_array[0]])))
 				{
-					$mindex[$mic] = strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]));
+					$mindex[$mic] = mbFirstChar($lsinfo["music"][$i][$sort_array[0]]);
 					$foo = $mindex[$mic];
 					$mic++;
 					$mprint[$i] = "<a name=m$foo></a>";
