@@ -109,6 +109,7 @@ else {
 		$vol = $status["volume"];
 		$repeat = $status["repeat"];
 		$random = $status["random"];
+		$xfade = $status["xfade"];
 		if(strcmp($status["state"],"play")==0 || 0==strcmp($status["state"],"pause")) {
 			$num = $status["song"];
 			$time = split(":",$status["time"]);
@@ -121,7 +122,7 @@ else {
 			if($time_sec<10) $time_sec = "0$time_sec";
 			$song_info = getPlaylistInfo($fp,$num);
 			print "<table border=0 cellpadding=0 cellspacing=0>";
-			print "<tr><td colspan=4>";
+			print "<tr><td colspan=6>";
 			print "<a href=#$num>";
 			print songInfo2Display($song_info[0]);
 			print "</a><br>\n";
@@ -166,6 +167,15 @@ else {
 			else print "<td>";
 			print "<small>[<a href=\"playlist.php?hide=$hide&command=random%20";
 			print (int)(!$random) . "\">random</a>]</small>";
+			print "</td><td>&nbsp</td>";
+			if($xfade) {
+				print "<td bgcolor=\"";
+				print $colors["playing"]["on"];
+				print "\">";
+			}
+			else print "<td>";
+			print "<small>[<a href=\"playlist.php?hide=$hide&command=crossfade%20";
+			print 10*(int)(!$xfade) . "\">xfade</a>]</small>";
 			print "</td><td width=\"100%\"></td></tr></table>\n";
 			print "</td></tr>\n";
 			print "<tr><td nowrap>\n";
@@ -186,7 +196,7 @@ else {
 		}
 		else {
 			print "<table border=0 cellpadding=0 cellspacing=0>";
-			print "<tr><td colspan=4>";
+			print "<tr><td colspan=6>";
 			print "<br><br>\n";
 			$col = $colors["time"]["background"];
 			print "<table border=0 cellspacing=0 cellpadding=0 height=\"8\" width=200 bgcolor=\"$col\"><tr><td></td></tr></table>";
@@ -208,6 +218,15 @@ else {
 			else print "<td>";
 			print "<small>[<a href=\"playlist.php?hide=$hide&command=random%20";
 			print (int)(!$random) . "\">random</a>]</small>";
+			print "</td><td>&nbsp</td>";
+			if($xfade) {
+				print "<td bgcolor=\"";
+				print $colors["playing"]["on"];
+				print "\">";
+			}
+			else print "<td>";
+			print "<small>[<a href=\"playlist.php?hide=$hide&command=crossfade%20";
+			print 10*(int)(!$xfade) . "\">xfade</a>]</small>";
 			print "</td><td width=\"100%\"></td></tr></table>\n";
 			print "</td></tr>\n";
 			print "<tr><td nowrap>\n";
@@ -234,13 +253,6 @@ else {
 		print "<table width=\"100%\" border=0 cellspacing=0 bgcolor=\"";
 		print $colors["volume"]["body"];
 		print "\"><tr><td>\n";
-		print "<small>[Volume]</small></td><td bgcolor=\"";
-		print $colors["volume"]["unselected"];
-		print "\"><small>[Crossfade]</small></td>";
-		print "<td width=\"100%\" bgcolor=\"";
-		print $colors["background"];
-		print "\"></td>";
-		print "</tr><tr><td colspan=3>\n";
 		print "<table border=0 cellspacing=0><tr><td nowrap><b>Volume</b> ";
 		$vol_div = 5;
 		$do = round($vol/$vol_div);
