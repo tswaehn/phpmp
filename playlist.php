@@ -120,7 +120,7 @@ if (isset($status["state"]))
 	echo "<tr><td width=\"100%\">";
 
 	echo "<b>";
-	if($status["updating_db"])
+ 	if($status["updating_db"])
 	{
 	        echo "Updating";
 	}
@@ -315,18 +315,18 @@ if($commands["repeat"])
 {
 	if($repeat)
 	{
-		echo "<a title=\"Turn Random Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
 	}
 	else
 	{
-		echo "<a title=\"Turn Random On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
 	}
 }
 else
 {
 	if($repeat)
 	{
-		echo "<a title=\"Turn Random Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">repeat</a>";
+		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">repeat</a>";
 	}
 	else
 	{

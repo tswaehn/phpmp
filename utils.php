@@ -131,7 +131,7 @@ function doCommand($fp,$arg,$command, $overwrite)
 	}
 }
 
-function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers)
+function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers, $status)
 {
 	$dir_url = stripslashes($dir);
 	$dir_url = rawurlencode($dir_url);
@@ -229,7 +229,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		$build_dir.="$dirs[$i]";
 		$build_dir = rawurldecode($build_dir);
 		echo " / ";
-		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	if ($i>0)
@@ -243,8 +243,9 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		$build_dir.="$dirs[$i]";
 		$build_dir = rawurldecode($build_dir);
 		echo " / ";
-		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
+
 	if($status["updating_db"])
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
