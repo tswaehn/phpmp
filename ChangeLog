@@ -1,3 +1,9 @@
+Fri Dec 10 14:00:27 PST 2004  avuton@gmail.com
+  * Fix problems with special chars and 'find'ing
+
+Fri Dec 10 20:26:44 PST 2004  avuton@gmail.com
+  * Scrap ChangeLog in favor of long ChangeLog
+
 Fri Dec 10 17:58:31 PST 2004  avuton@gmail.com
   * TODO update
 
@@ -101,3 +107,4 @@ Thu Nov 25 10:19:05 PST 2004  avuton@gmail.com
 
 Wed Nov 24 23:27:41 PST 2004  avuton@gmail.com
   * Inital revision.
+

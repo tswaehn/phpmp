@@ -179,6 +179,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 {
 	$mic = 0;
 	$mcount = count( $lsinfo["music"] );
+	$dir_url = rawurlencode( $dir_url );
         usort( $lsinfo["music"], "msort" );
 
 	$add_all = "";
