@@ -322,78 +322,78 @@ function postStream($fp,$filetype)
 	return $add;
 }
 
-	function startElementHandler( $parser, $element_name, $element_attribs )
+function startElementHandler( $parser, $element_name, $element_attribs )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+	if( $element_name == "ENTRY" )
 	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-		if( $element_name == "ENTRY" )
-		{
-			$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
-		}
-		else
-		{
-			$xml_current_tag_state = $element_name;
-		}
+		$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
+	}
+	else
+	{
+		$xml_current_tag_state = $element_name;
+	}
+}
+
+function endElementHandler( $parser, $element_name )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+
+	$xml_current_tag_state = '';
+	if( $element_name == "ENTRY" )
+	{
+		$server_count++;
+	}
+}
+
+function characterDataHandler( $parser , $data )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+
+	if( $xml_current_tag_state == '' )
+	{
+		return;
 	}
 
-	function endElementHandler( $parser, $element_name )
+
+	if( $xml_current_tag_state == "SERVER_NAME" )
 	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-
-		$xml_current_tag_state = '';
-		if( $element_name == "ENTRY" )
-		{
-			$server_count++;
-		}
+		$server_data[$server_count]["server_name"] = $data;
 	}
-
-	function characterDataHandler( $parser , $data )
+	else if( $xml_current_tag_state == "LISTEN_URL" )
 	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-	
-		if( $xml_current_tag_state == '' )
-		{
-			return;
-		}
-
-
-		if( $xml_current_tag_state == "SERVER_NAME" )
-		{
-			$server_data[$server_count]["server_name"] = $data;
-		}
-		else if( $xml_current_tag_state == "LISTEN_URL" )
-		{
-			$server_data[$server_count]["listen_url"] = $data;
-		}
-		else if( $xml_current_tag_state == "SERVER_TYPE" )
-		{
-			$server_data[$server_count]["server_type"] = $data;
-		}
-		else if	( $xml_current_tag_state == "BITRATE" )
-		{
-			$server_data[$server_count]["bitrate"] = $data;
-		}
-		else if( $xml_current_tag_state == "CHANNELS" )
-		{
-			$server_data[$server_count]["channels"] = $data;
-		}
-		else if( $xml_current_tag_state == "SAMPLERATE" )
-		{
-			$server_data[$server_count]["samplerate"] = $data;
-		}
-		else if( $xml_current_tag_state == "GENRE" )
-		{
-			$server_data[$server_count]["genre"] = $data;
-		}
-		else if( $xml_current_tag_state == "CURRENT_SONG" )
-		{
-			$server_data[$server_count]["current_song"] = $data;
-		}
+		$server_data[$server_count]["listen_url"] = $data;
 	}
+	else if( $xml_current_tag_state == "SERVER_TYPE" )
+	{
+		$server_data[$server_count]["server_type"] = $data;
+	}
+	else if	( $xml_current_tag_state == "BITRATE" )
+	{
+		$server_data[$server_count]["bitrate"] = $data;
+	}
+	else if( $xml_current_tag_state == "CHANNELS" )
+	{
+		$server_data[$server_count]["channels"] = $data;
+	}
+	else if( $xml_current_tag_state == "SAMPLERATE" )
+	{
+		$server_data[$server_count]["samplerate"] = $data;
+	}
+	else if( $xml_current_tag_state == "GENRE" )
+	{
+		$server_data[$server_count]["genre"] = $data;
+	}
+	else if( $xml_current_tag_state == "CURRENT_SONG" )
+	{
+		$server_data[$server_count]["current_song"] = $data;
+	}
+}
 
 ?>
