@@ -164,45 +164,44 @@ if (isset($status["state"]))
 		echo songInfo2Display($song_info[0]);
 		echo "</a><br>";
 
-		// $time[1] equals 0 if it's a stream.
-		if ($time[1] > 0)
+	        // Begin The Time Remaining/Time Elapsed
+	        if (strcmp($config["time_left"],"yes")==0)
 		{
-
-		        // Begin The Time Remaining/Time Elapsed
-		        if (strcmp($config["time_left"],"yes")==0)
-			{
-			        $time_min = (int)(($time[1]-$time[0])/60);
-				$time_sec = (int)(($time[1]-$time[0])%60);
-			}
-			else
-			{
-			        $time_min = (int)($time[0]/60);
-				$time_sec = (int)($time[0]%60);
-			}
-
-			if ($time_sec<0)
-			{
-			        $time_sec*=-1;
-				$time_min = "-$time_min";
-			}
-			else if ($time_sec<10)
-			{
-			        $time_sec = "0$time_sec";
-			}
-
-		        echo "($time_min:$time_sec/";
-
-			// Begin the Total Time
-			$time_min = (int)($time[1]/60);
-			$time_sec = (int)($time[1]-$time_min*60);
-			if ($time_sec<10)
-		        {
-			        $time_sec = "0$time_sec";
-			}
-			
-			echo "$time_min:$time_sec)";
-			echo "&nbsp;";
+		        $time_min = (int)(($time[1]-$time[0])/60);
+			$time_sec = (int)(($time[1]-$time[0])%60);
 		}
+		else
+		{
+		        $time_min = (int)($time[0]/60);
+			$time_sec = (int)($time[0]%60);
+		}
+
+		if ($time_sec<0)
+		{
+		        $time_sec*=-1;
+			$time_min = "-$time_min";
+		}
+		else if ($time_sec<10)
+		{
+	        $time_sec = "0$time_sec";
+		}
+
+	        echo "($time_min:$time_sec";
+
+		// Begin the Total Time
+		$time_min = (int)($time[1]/60);
+		$time_sec = (int)($time[1]-$time_min*60);
+		if ($time_sec<10)
+	        {
+		        $time_sec = "0$time_sec";
+		}
+
+		if($time_min != 0 && $time_sec != 00)
+		{
+			echo "/$time_min:$time_sec";
+		}
+		echo ")&nbsp;";
+
 		// We don't wanna hear if a bitrate is at 0 kbps
 		if ( $status["bitrate"] > 0 )
 		{
