@@ -89,7 +89,7 @@ function displayStats($dir,$sort) {
 function mbFirstChar($str) {
 	$i = 1;
 	$ret = "$str[0]";
-	while($i < strlen($str) && $str[$i] >=128 && $str[$i] < 192) {
+	while($i < strlen($str) && ord($str[$i]) >= 128  && ord($str[$i]) < 192) {
 		$ret.=$str[$i];
 		$i++;
 	}
