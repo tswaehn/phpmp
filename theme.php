@@ -32,10 +32,10 @@ $colors["directories"]["body"][0] = "#eeeeff";
 $colors["directories"]["body"][1] = "#ddddff";
 
 // Colors for Music
-$colors["music"]["title"] = "#aaffaa";
+$colors["music"]["title"] = "#88ff88";
 $colors["music"]["body"][0] = "#eeffee";
 $colors["music"]["body"][1] = "#ccffcc";
-$colors["music"]["sort"] = "#88ff88";
+$colors["music"]["sort"] = "#99ff99";
 
 // Colors for Playlist Table
 $colors["playlist"]["title"] = "#ffaaaa";

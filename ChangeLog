@@ -1,3 +1,12 @@
+Fri Dec 10 16:04:57 PST 2004  avuton@gmail.com
+  * Make printMusicTable colors look a bit more natural
+
+Fri Dec 10 16:02:05 PST 2004  avuton@gmail.com
+  * Fix issue with 'find'ing then changeing sort order
+
+Fri Dec 10 15:50:01 PST 2004  avuton@gmail.com
+  * Fix for konqueror specific warnings
+
 Fri Dec 10 15:04:31 PST 2004  avuton@gmail.com
   * Fix issue with double encoding url
 

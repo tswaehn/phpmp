@@ -113,11 +113,11 @@ if( isset( $status["state"] ))
 
 	// STATUSBAR Begin: Top playlist_body
 	echo "<!-- Begin the Top of the first table, Should only display the status and refresh -->";
-        echo "<table summary=\"Status & Refresh\" cellspacing=2 bgcolor=\"" . $colors["playing"]["title"] . "\">";
+        echo "<table summary=\"Status &amp; Refresh\" cellspacing=2 bgcolor=\"" . $colors["playing"]["title"] . "\">";
 	echo "<tr valign=\"middle\"><td>";
 
-	// The global table tags begin here. This is code to make the border, this really is a hack but improves looks quite a bit
-	echo "<table summary=\"Border Table Hack\" align=\"center\" bgcolor=\"" . $colors["playing"]["title"] . ">";
+ 	// The global table tags begin here. This is code to make the border, this really is a hack but improves looks quite a bit
+	echo "<table summary=\"Border Table Hack\" align=\"center\" bgcolor=\"" . $colors["playing"]["title"] . "\">";
 	echo "<tr><td width=\"100%\">";
 
 	echo "<b>";
