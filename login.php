@@ -2,7 +2,8 @@
 ob_start();
 global $has_password;
 $has_password = 0;
-if(isset($_COOKIE["phpMp_password"])) {
+if (isset($_COOKIE["phpMp_password"]))
+{
 	$password = $_COOKIE["phpMp_password"];
 	$has_password = 1;
 }
@@ -27,10 +28,10 @@ print "}\n";
 print "</style>\n";
 ?>
 </head>
-<body 	link="<?php print $colors["links"]["link"]; ?>" 
-	vlink="<?php print $colors["links"]["visual"]; ?>" 
-	alink="<?php print $colors["links"]["active"]; ?>" 
-	bgcolor="<?php print $colors["background"]; ?>">
+<body   link="<?php print $colors["links"]["link"]; ?>" 
+vlink="<?php print $colors["links"]["visual"]; ?>" 
+alink="<?php print $colors["links"]["active"]; ?>" 
+bgcolor="<?php print $colors["background"]; ?>">
 <?php
 include "login_body.php";
 ?>

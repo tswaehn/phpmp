@@ -1,7 +1,8 @@
 <?php
 global $has_password;
 $has_password = 0;
-if(isset($_COOKIE["phpMp_password"])) {
+if (isset($_COOKIE["phpMp_password"]))
+{
 	$password = $_COOKIE["phpMp_password"];
 	$has_password = 1;
 }
@@ -9,11 +10,11 @@ include "config.php";
 
 if (!isset($_REQUEST['server']))
 {
-        $server = 0;
+	$server = 0;
 }
 else
 {
-        $server = $_REQUEST['server'];
+	$server = $_REQUEST['server'];
 }
 $host = $servers[$server][0];
 $port = $servers[$server][1];
@@ -40,10 +41,10 @@ print "}\n";
 print "</style>\n";
 ?>
 </head>
-<body 	link="<?php print $colors["links"]["link"]; ?>" 
-	vlink="<?php print $colors["links"]["visual"]; ?>" 
-	alink="<?php print $colors["links"]["active"]; ?>" 
-	bgcolor="<?php print $colors["background"]; ?>">
+<body   link="<?php print $colors["links"]["link"]; ?>" 
+vlink="<?php print $colors["links"]["visual"]; ?>" 
+alink="<?php print $colors["links"]["active"]; ?>" 
+bgcolor="<?php print $colors["background"]; ?>">
 <?php
 include "main_body.php";
 ?>

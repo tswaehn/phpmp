@@ -12,19 +12,23 @@ EXTRACT($HTTP_POST_VARS);
 $dir = decodeHTML($dir);
 $sort_array = split(",",$sort);
 $fp = fsockopen($host,$port,$errno,$errstr,10);
-if(!$fp) {
+if (!$fp)
+{
 	echo "$errstr ($errno)<br>\n";
 }
-else {
-	while(!feof($fp)) {
+else
+{
+	while (!feof($fp))
+	{
 		$got =  fgets($fp,1024);
-		if(strncmp("OK",$got,strlen("OK"))==0) 
+		if (strncmp("OK",$got,strlen("OK"))==0)
 			break;
 		print "$got<br>";
-		if(strncmp("ACK",$got,strlen("ACK"))==0) 
+		if (strncmp("ACK",$got,strlen("ACK"))==0)
 			break;
 	}
-	if(isset($logout) && $logout=="logout") {
+	if (isset($logout) && $logout=="logout")
+	{
 		setcookie("phpMp_password","");
 		$has_password = 0;
 	}

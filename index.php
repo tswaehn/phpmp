@@ -33,14 +33,16 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.
 </head>
 ';
 
-if(0==strcmp($frames,"yes")) {
+if (0==strcmp($frames,"yes"))
+{
 	print "<frameset $frames_layout>\n";
 	print "<frame name=\"main\" src=\"main.php?server=$server\">\n";
 	print "<frame name=\"playlist\" src=\"playlist.php?server=$server\">\n";
 	print "<noframes>NO FRAMES :-(</noframes>\n";
 	print "</frameset>\n";
 }
-else {
+else
+{
 	print "<body bgcolor=\"" . $colors["background"] . "\">\n";
 	print "<table border=0 cellspacing=0 width=\"100%\">\n";
 	print "<tr valign=top><td>\n";

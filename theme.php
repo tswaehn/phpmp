@@ -48,9 +48,10 @@ $colors["volume"]["foreground"] = "#000000";
 $colors["time"]["background"] = "#aaaaaa";
 $colors["time"]["foreground"] = "#000000";
 
-if(!isset($hide)) $hide = 1;
+if (!isset($hide)) $hide = 1;
 // URL Displays
-if($use_images=="yes") {
+if ($use_images=="yes")
+{
 	$display["playing"]["prev"]["active"] = "<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=previous\"><img src=\"images/previous.gif\" border=0></a>";
 	$display["playing"]["prev"]["inactive"] = "<img src=\"images/previous_inactive.gif\" border=0>";
 	$display["playing"]["play"]["active"] = "<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=play\"><img src=\"images/play.gif\" border=0></a>";
@@ -63,7 +64,8 @@ if($use_images=="yes") {
 	$display["playing"]["stop"]["active"] = "<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=stop\"><img src=\"images/stop.gif\" border=0></a>";
 	$display["playing"]["stop"]["inactive"] = "<img src=\"images/stop_inactive.gif\" border=0>";
 }
-else {
+else
+{
 	$display["playing"]["prev"]["active"] = "[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=previous\">&lt;&lt;</a>]";
 	$display["playing"]["prev"]["inactive"] = "[&lt;&lt;]";
 	$display["playing"]["play"]["active"] = "[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=play\">Play</a>]";

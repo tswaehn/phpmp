@@ -2,7 +2,8 @@
 include "config.php";
 include "utils.php";
 
-function secondsToDHMS($seconds) {
+function secondsToDHMS($seconds)
+{
 	$days=floor($seconds/86400);
 	$remaining_seconds=$seconds-$days*86400;
 	$date = date("H:i:s", mktime(0,0,$seconds)); 
@@ -15,37 +16,43 @@ $sort = $default_sort;
 EXTRACT($HTTP_GET_VARS);
 $sort_array = split(",",$sort);
 $fp = fsockopen($host,$port,$errno,$errstr,10);
-if(!$fp) {
+if (!$fp)
+{
 	echo "$errstr ($errno)<br>\n";
 }
-else {
-	while(!feof($fp)) {
+else
+{
+	while (!feof($fp))
+	{
 		$got =  fgets($fp,1024);
-		if(strncmp("OK",$got,strlen("OK"))==0) 
+		if (strncmp("OK",$got,strlen("OK"))==0)
 			break;
 		print "$got<br>";
-		if(strncmp("ACK",$got,strlen("ACK"))==0) 
+		if (strncmp("ACK",$got,strlen("ACK"))==0)
 			break;
 	}
-	if(isset($password)) {
+	if (isset($password))
+	{
 		fputs($fp,"password \"$password\"\n");
-		while(!feof($fp)) {
+		while (!feof($fp))
+		{
 			$got =  fgets($fp,1024);
-			if(strncmp("OK",$got,strlen("OK"))==0)
+			if (strncmp("OK",$got,strlen("OK"))==0)
 				break;
 			print "$got<br>";
-			if(strncmp("ACK",$got,strlen("ACK"))==0) 
+			if (strncmp("ACK",$got,strlen("ACK"))==0)
 				break;
 		}
 	}
 	$dir_url = sanitizeForURL($dir);
 	displayDirectory($dir,$sort,"Back to Directory",0,0);
 	fputs($fp,"stats\n");
-	while(!feof($fp)) {
+	while (!feof($fp))
+	{
 		$got =  fgets($fp,1024);
-		if(strncmp("OK",$got,strlen("OK"))==0)
+		if (strncmp("OK",$got,strlen("OK"))==0)
 			break;
-		if(strncmp("ACK",$got,strlen("ACK"))==0) 
+		if (strncmp("ACK",$got,strlen("ACK"))==0)
 			break;
 		$el = strtok($got,":");
 		$got = strtok("\0");

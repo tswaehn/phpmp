@@ -12,44 +12,52 @@ EXTRACT($HTTP_POST_VARS);
 $dir = decodeHTML($dir);
 $sort_array = split(",",$sort);
 $fp = fsockopen($host,$port,$errno,$errstr,10);
-if(!$fp) {
+if (!$fp)
+{
 	echo "$errstr ($errno)<br>\n";
 }
-else {
-	while(!feof($fp)) {
+else
+{
+	while (!feof($fp))
+	{
 		$got =  fgets($fp,1024);
-		if(strncmp("OK",$got,strlen("OK"))==0) 
+		if (strncmp("OK",$got,strlen("OK"))==0)
 			break;
 		print "$got<br>";
-		if(strncmp("ACK",$got,strlen("ACK"))==0) 
+		if (strncmp("ACK",$got,strlen("ACK"))==0)
 			break;
 	}
-	if(isset($logout) && $logout=="logout") {
+	if (isset($logout) && $logout=="logout")
+	{
 		setcookie("phpMp_password","");
 		$has_password = 0;
 	}
 	$dir_url = sanitizeForURL($dir);
 	displayDirectory($dir,$sort,"Back to Directory",0,0);
 	print "<br>\n";
-	if(isset($arg) && $arg) {
+	if (isset($arg) && $arg)
+	{
 		$arg = decodeHTML($arg);
 		fputs($fp,"password \"$arg\"\n");
-		while(!feof($fp)) {
+		while (!feof($fp))
+		{
 			$got =  fgets($fp,1024);
-			if(strncmp("OK",$got,strlen("OK"))==0) {
+			if (strncmp("OK",$got,strlen("OK"))==0)
+			{
 				print "Login Successful<br>\n";
-				if(isset($remember) && $remember=="true")
+				if (isset($remember) && $remember=="true")
 					setcookie("phpMp_password",$arg,time()+60*60*24*365);
-				else 
+				else
 					setcookie("phpMp_password",$arg);
 				break;
 			}
 			print "$got<br>";
-			if(strncmp("ACK",$got,strlen("ACK"))==0) 
+			if (strncmp("ACK",$got,strlen("ACK"))==0)
 				break;
 		}
 	}
-	else if(!isset($logout) && isset($_COOKIE["phpMp_password"])) {
+	else if (!isset($logout) && isset($_COOKIE["phpMp_password"]))
+	{
 		print "<form style=\"padding:0;margin:0;\" action=login.php? method=get>\n";
 		print "<table border=0 cellspacing=1 bgcolor=\"";
 		print $colors["password"]["title"];
@@ -66,7 +74,8 @@ else {
 		print "\n";
 		print "</td></tr></table></form>\n";
 	}
-	else {
+	else
+	{
 		print "<form style=\"padding:0;margin:0;\" action=login.php? method=post>\n";
 		print "<table border=0 cellspacing=1 bgcolor=\"";
 		print $colors["password"]["title"];
