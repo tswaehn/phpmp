@@ -158,16 +158,19 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	echo "</td>";
 	echo "<td align=right><small>";
-	if($has_password==1)
+	if ( $commands["all"] == "0" )
 	{
-		$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
-	}
-	else
-	{
-		$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
+		if($has_password==1)
+		{
+			$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
+		}
+		else
+		{
+			$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
+		}
 	}
 
-	if(isset($commands["enableoutput"]) && isset($commands["disableoutput"]) && isset($commands["outputs"]))
+	if( $commands["outputs"] == "1" )
 	{
 		if(isset($feature_bar))
 		{
@@ -176,7 +179,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"View the Sound Outputs\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=outputs&amp;dir=$dir_url\">Outputs</a>";
 	}
 
-	if(isset($commands["search"]))
+	if( $commands["search"] == "1" )
 	{
 		if(isset($feature_bar))
 		{
@@ -195,7 +198,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	}
 
 	// Please rewrite me, this is extemely ugly, and there's probably a better way to do this
-	if(isset($commands["stats"]))
+	if( $commands["stats"] == "1" )
 	{
 		if(isset($feature_bar))
 		{
@@ -204,7 +207,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"View MPD/phpMp Statistics\" target=main href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stats\">Stats</a>";
 	}
 
-	if(isset($commands["load"]))
+	if( $commands["load"] == "1")
 	{
 		if(isset($feature_bar))
 		{
@@ -256,7 +259,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
 	}
-	else if(strcmp($title,"Current Directory")==0 && isset($commands["update"]))
+	else if(strcmp($title,"Current Directory")==0 && $commands["update"] == "1" )
 	{
 		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}

@@ -201,34 +201,32 @@ include "theme.php";
 
 unset($hostport);
 $commands = getCommandInfo($fp);
-#print_r($commands);
-if(! ($commands["listall"] || $commands["lsinfo"] || $commands["playlist"] || $commands["playlistinfo"] || $commands["stats"]))
+
+if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==0 || $commands["playlistinfo"]==0 || $commands["stats"]==0 )
 {
 	include "features.php";
 	setcookie("phpMp_password[$hostport]","");
 	unset($has_password);
 
-	print_r($commands);
 	echo "<b>Error:</b> Can't load phpMp due to not having permission to the following commands: ";
-	if(! $commands["listall"])
+	if( $commands["listall"]==0 )
 	{
 		echo "listall ";
 	}
-	if(! $commands["lsinfo"])
+	if( $commands["lsinfo"]==0 )
 	{
 		echo "lsinfo ";
 	}
-	if(! $commands["playlist"])
+	if( $commands["playlist"]==0 )
 	{
 		echo "playlist ";
 	}
-	if(! $commands["playlistinfo"])
+	if( $commands["playlistinfo"]==0 )
 	{
 		echo "playlistinfo";
 	}
 	login($fp, $config, $colors["login"], $server, $arg, $dir, $remember);
 	server($servers, $host, $colors["server"], $config);
-#	exit;
 }
 // This will serve as our front page if called w/o $body
 else if(! isset($body) && ! isset($feature))

@@ -1,12 +1,5 @@
-0.12.0 Release
+0.12.0 Release - A good 0.12.0 release could be done today if needed.
 --------------
-
-*) [Features Menu]
-	*) When the ability comes about to be able to tell if all commands are available remove the 'login', if all commands are available
-
-*) [Commands]
-	*) When a command negating 'commands' is available all $commands[] need to be set to 1 and all unavailable commands need to be set to 0. This way we don't need issets everywhere to test what's available.
-
 
 Future (doesn't have to be before release)
 ------------------------------------------
@@ -21,7 +14,7 @@ Future (doesn't have to be before release)
 *) [Streams functions]
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
 
-*) [Streams Menu] 
+*) [Streams Menu]
 	*) Need to sort and put a index in this menu, it would be best if printMusicTable gets rewritten first
 
 *) [XML Parser]

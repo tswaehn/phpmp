@@ -239,12 +239,12 @@ if (isset($status["state"]))
 				}
 
 				echo "<td border=0 width=8 height=8 bgcolor=\"" . $col . "\">";
-				if ($commands["seekid"])
+				if ( $commands["seekid"] == "1" )
 				{
 					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
 				}
 				echo "<img alt='Seek to $min:$sec' border=0 width=8 height=8 src=transparent.gif>";
-				if ($commands["add"])
+				if ( $commands["add"] == "1" )
 				{
 					echo "</a>";
 				}
@@ -267,7 +267,7 @@ if (isset($status["state"]))
 echo "<table summary=\"Crosfade | random | repeat\"  align=\"" . $config["playlist_align"] . "\" cellspacing=0 bgcolor=\"" . $colors["playing"]["body"] . "\" cellpadding=0>";
 echo "<tr><td align=\"" . $config["playlist_align"]  . "\"><small>";
 
-if($commands["crossfade"])
+if( $commands["crossfade"] == "1" )
 {
 	if($xfade)
 	{
@@ -292,7 +292,7 @@ else
 
 echo "&nbsp;|&nbsp;";
 
-if($commands["random"])
+if( $commands["random"] == "1" )
 {
 	if ($random)
 	{
@@ -317,7 +317,7 @@ else
 
 echo "&nbsp;|&nbsp;";
 
-if($commands["repeat"])
+if( $commands["repeat"] == "1" )
 {
 	if($repeat)
 	{
@@ -351,7 +351,7 @@ echo "<tr>";
 echo "<!-- Cannot correctly space 'nowrap' td's -->";
 echo "<td align=\"" . $config["playlist_align"]  ."\" nowrap>";
 
-if((strcmp($status["state"],"play")==0 && $commands["play"]) || strcmp($status["state"],"pause")==0 && $commands["pause"])
+if( ( strcmp( $status["state"], "play" ) == "0" && $commands["play"] == "1" ) || strcmp( $status["state"], "pause" ) == "0" && $commands["pause"] == "1" )
 {
 	echo $display["playing"]["prev"]["active"];
 }
@@ -364,7 +364,7 @@ if (strcmp($config["play_pause"],"yes")==0)
 {
 	if(strcmp($status["state"],"play")==0)
 	{
-		if($commands["pause"])
+		if( $commands["pause"] == "1" )
 		{
 			echo $display["playing"]["pause"]["active"];			
 		}
@@ -375,7 +375,7 @@ if (strcmp($config["play_pause"],"yes")==0)
 	}
 	else
 	{
-		if($commands["play"] && $status["playlistlength"]>0)
+		if( $commands["play"] == "1" && $status["playlistlength"]>0)
 		{
 			echo $display["playing"]["play"]["active"];
 		}
@@ -387,12 +387,12 @@ if (strcmp($config["play_pause"],"yes")==0)
 }
 else
 {
-	if($commands["pause"] && strcmp($status["state"],"play")==0)
+	if( $commands["pause"] == "1" && strcmp($status["state"],"play")==0)
 	{
 		echo $display["playing"]["play"]["inactive"];
 		echo $display["playing"]["pause"]["active"];
 	}
-	else if($commands["play"] && (strcmp($status["state"],"pause")==0 || (strcmp($status["state"],"stop")==0 && $status["playlistlength"]>0)))
+	else if( $commands["play"] == "1" && (strcmp($status["state"],"pause")==0 || (strcmp($status["state"],"stop")==0 && $status["playlistlength"]>0)))
 	{
 		echo $display["playing"]["play"]["active"];
 		echo $display["playing"]["pause"]["inactive"];
@@ -404,7 +404,7 @@ else
 	}
 }
 
-if((strcmp($status["state"],"play")==0 || strcmp($status["state"],"pause")==0) && $commands["next"])
+if( ( strcmp( $status["state"], "play") == "0" || strcmp( $status["state"], "pause") == "0" ) && $commands["next"] == "1" )
 {
 	echo $display["playing"]["next"]["active"];
 }
@@ -413,7 +413,7 @@ else
 	echo $display["playing"]["next"]["inactive"];
 }
 
-if((strcmp($status["state"],"play")==0 || strcmp($status["state"],"pause")==0) && $commands["stop"] && $status["playlistlength"]>0)
+if( ( strcmp( $status["state"],"play") == "0" || strcmp( $status["state"], "pause" ) == "0" ) && $commands["stop"] == "1" && $status["playlistlength"]>0)
 {
 	echo $display["playing"]["stop"]["active"];
 }
@@ -450,7 +450,7 @@ if ($status["volume"]>=0 && $config["display_volume"]=="yes")
 	{
 		echo "<";
 	}
-	else if ($commands["setvol"])
+	else if ($commands["setvol"] == "1")
 	{
 		echo "<a title=\"Decrease Volume by ".$config["volume_incr"]."%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=setvol&amp;arg=" . ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
 	}
@@ -472,7 +472,7 @@ if ($status["volume"]>=0 && $config["display_volume"]=="yes")
 	echo "<!-- End Seek Bar -->";
 	echo "</table></td>";
 	echo "<td valign=\"middle\" align=\"center\">";
-	if($status["volume"]!="100" && $commands["setvol"])
+	if($status["volume"]!="100" && $commands["setvol"] == "1")
 	{
 		echo "<a  title=\"Increase Volume by " . $config["volume_incr"] . "%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
 	}
@@ -498,7 +498,7 @@ if (! $status["playlistlength"] == 0)
 	echo "<td nowrap align=\"" . $config["playlist_align"] . "\">";
 	echo "<small>";
 	/* clear | crop | shuffle | save */
-	if($commands["clear"])
+	if( $commands["clear"] == "1" )
 	{
 		echo "<a title=\"Clear the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=clear\">clear</a>";
 	}
@@ -507,7 +507,7 @@ if (! $status["playlistlength"] == 0)
 		echo "clear";
 	}
 	echo "&nbsp;|&nbsp;";
-	if($status["playlistlength"] >= 2 && strcmp($status["state"],"stop") && $commands["delete"])
+	if($status["playlistlength"] >= 2 && strcmp($status["state"],"stop") && $commands["delete"] == "1" )
 	{
 		echo "<a title=\"Remove All Songs Except The Currently Playing Song\"href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;crop=yes\">crop</a>";
 	}
@@ -516,7 +516,7 @@ if (! $status["playlistlength"] == 0)
 		echo "crop";
 	}
 	echo "&nbsp;|&nbsp;";
-	if($commands["save"])
+	if( $commands["save"] == "1" )
 	{
 		echo "<a title=\"Save the Active Playlist to the Saved Playlists\" target=main href=\"index.php?body=main&amp;server=$server&amp;save=yes\">save</a>";
 	}
@@ -525,7 +525,7 @@ if (! $status["playlistlength"] == 0)
 		echo "save";
 	}
 	echo "&nbsp;|&nbsp;";
-	if($status["playlistlength"] >= 2 && $commands["shuffle"])
+	if( $status["playlistlength"] >= 2 && $commands["shuffle"] == "1" )
 	{
 		echo "<a title=\"Shuffle the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=shuffle\">shuffle</a>";
 	}

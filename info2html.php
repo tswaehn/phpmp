@@ -34,7 +34,7 @@ function lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $addperm, $color)
 		}
 
 		// If updating show the update links, otherwise show add links
-		if($addperm)
+		if( $addperm == "1" )
 		{
 			$dprint[$i].= "[<a title=\"Add the " . $dirss[0]  . " Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dirstr\" target=playlist>add</a>]&nbsp";
 		}
@@ -88,7 +88,7 @@ function printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $a
 	        echo "<table summary=\"Directory Border\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
 		echo "<tr><td nowrap><b>Directories</b>";
 	        printIndex($dindex,"","d");
-		if($addperm)
+		if( $addperm == "1" )
 		{
 			echo "&nbsp;<small>(<a title=\"Add All Directories and Music\" target=playlist href=index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dir>add all</a>)</small>";
 		}
@@ -140,7 +140,7 @@ function lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $loadperm)
 		{
 		        $pprint[$i].="[<a title=\"Remove playlist $dirss[0]\"  href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;command=rm&amp;arg=$dirstr\">del</a>]&nbsp;";
 		}
-		if($loadperm)
+		if( $loadperm == "1" )
 		{
 			$pprint[$i].="<a title=\"Load the playlist $dirss[0]\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=load&amp;arg=$dirstr\">$dirss[0]</a>&nbsp;";
 		}
@@ -242,7 +242,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				}
 			}
 
-			if($addperm)
+			if( $addperm == "1" )
 			{
 				$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][";
 				$mprint[$i].= "<a title=\"Add this song to the current playlist\" ";
@@ -334,7 +334,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			}
 			if ($config["display_fields"][sizeof($config["display_fields"]) - 1] == 'Time')
 			{
-				if($addperm)
+				if( $addperm == "1" )
 				{
 					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
 					$mprint[$i].= "target=\"playlist\" ";
@@ -359,7 +359,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			}
 			else
 			{
-				if($addperm)
+				if( $addperm == "1" )
 				{
 					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][";
 					$mprint[$i].= "<a title=\"Add this song to the active playlist\" ";
@@ -421,7 +421,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 			echo "<tr><a name=music></a>";
 			echo "<td><b>Music</b>";
 			echo printIndex($mindex,"","m");
-			if($addperm)
+			if( $addperm == "1" )
 			{
 				echo "&nbsp;<small>(<a title=\"Add all songs from this music table to the active playlist\" href=\"javascript:document.add_all.submit()\">add all</a>)</small>";
 			}
@@ -430,7 +430,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 		{
 			echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
 			echo "<tr><td colspan=4><b>Music</b>";
-			if($addperm)
+			if( $addperm == "1" )
 			{
 				echo "<small>(<a title=\"Add all songs from this music table to the active playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;add_all=$add_all\">add all</a>)</small>";
 			}
@@ -447,7 +447,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 		if (strcmp($config["filenames_only"],"yes"))
 		{
 			echo "<tr bgcolor=\"" . $color["sort"] . "\">";
-			if($addperm)
+			if( $addperm == "1" )
 			{
 				echo "<td width=0></td>";
 			}
@@ -488,7 +488,7 @@ function printPlaylistTable($color, $server, $pprint, $pindex, $delete, $rmperm)
 		echo "<td nowrap>";
 		echo "<b>Saved Playlists</b>";
 		printIndex($pindex,"","p");
-		if(strcmp($delete,"yes") && $rmperm)
+		if(strcmp($delete,"yes") && $rmperm == "1" )
 		{
 		        echo "&nbsp;<small>(<a title=\"Goto Delete Playlist Menu\" href=\"index.php?body=main&amp;delete=yes&amp;server=$server#playlists\">delete</a>)</small>";
 		}

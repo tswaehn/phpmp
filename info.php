@@ -64,8 +64,15 @@ function getCommandInfo($conn)
 			break;
 		}
 
-		$el = str_replace( "command: ", "", $got);
-		$ret[$el] = "0";
+		if ( $el = str_replace( "command: ", "", $got ))
+		{
+			$ret["all"] = "0";
+			$ret[$el] = "0";
+		}
+		else
+		{
+			$ret["all"] = "1";
+		}
 	}
 	return $ret;
 }
@@ -167,7 +174,7 @@ function printPlaylistInfo($conn, $num, $hide, $spread, $length, $filenames_only
 		        echo "<tr bgcolor=\"" . $color["body"][($count%2)] . "\">";
 		}
 		echo "<td valign=top><a name=$count></a><small>";
-		if($commands["delete"])
+		if( $commands["delete"]==1 )
 		{
 			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">d</a></small></td>";
 		}
@@ -176,7 +183,7 @@ function printPlaylistInfo($conn, $num, $hide, $spread, $length, $filenames_only
 			echo "d</small></td>";
 		}
 
-		if($commands["play"])
+		if( $commands["play"]==1 )
 		{
 			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=playid&amp;arg=$id\">$display</a>";
 		}

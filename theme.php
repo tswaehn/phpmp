@@ -1,5 +1,5 @@
 <?php
-// Initialize these variables to avoid notice warnings
+// Initialize these variables to avoid E_NOTICE warnings
 $server = 0;
 $hide = 0;
 

@@ -32,13 +32,13 @@ function outputs($fp, $host, $color, $server)
 	echo "<tr><td>";
 	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][$i%2] ."\" width=\"100%\">";
 	for($i=0;$i<sizeOf($outputs);$i++)
-	{
+	{ $commands["enableoutput"] == "1" && $commands["disableoutput"] == "1" && 
 		echo "<tr bgcolor=" . $color["body"][$i%2] . "><td nowrap>";
-		if(($outputs[$i]["outputenabled"]%2)-1)
+		if( ( ($outputs[$i]["outputenabled"]%2)-1) && $commands["enableoutput"] == "1" )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
-		else
+		else if ( $commands["disableoutput"] == "1")
 		{
 			echo "[<a title=\"Disable this output\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disableoutput&amp;arg=$i>disable</a>]</td>";
 		}
