@@ -209,18 +209,16 @@ function songInfo2Display($song_info) {
 	$song_array = split("/",$song_info["file"]);
 	$song = $song_array[count($song_array)-1];
 	if($filenames_only!="yes" && isset($song_info["Title"]) && $song_info["Title"]) {
-		if(isset($song_info["Artist"])) $rep = $song_info["Artist"];
-		else $rep = "";
-		$song_display = preg_replace("/artist/",$rep,$song_display_conf);
-		if(isset($song_info["Title"])) $rep = $song_info["Title"];
-		else $rep = "";
-		$song_display = preg_replace("/title/",$rep,$song_display);
-		if(isset($song_info["Album"])) $rep = $song_info["Album"];
-		else $rep = "";
-		$song_display = preg_replace("/album/",$rep,$song_display);
-		if(isset($song_info["Track"])) $rep = $song_info["Track"];
-		else $rep = "";
-		$song_display = preg_replace("/track/",$rep,$song_display);
+		if(isset($song_info["Artist"])) $artist = $song_info["Artist"];
+		else $artist = "";
+		if(isset($song_info["Title"])) $title = $song_info["Title"];
+		else $title = "";
+		if(isset($song_info["Album"])) $album = $song_info["Album"];
+		else $album = "";
+		if(isset($song_info["Track"])) $track = $song_info["Track"];
+		else $track = "";
+		$trans = array("artist" => $artist, "title" => $title, "album" => $album, "track" => $track);
+		$song_display = strtr($song_display_conf, $trans);
 	}
 	else {
 		$song_display = $song;

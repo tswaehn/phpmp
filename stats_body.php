@@ -1,6 +1,15 @@
 <?php
 include "config.php";
 include "utils.php";
+
+function secondsToDHMS($seconds) {
+	$days=floor($seconds/86400);
+	$remaining_seconds=$seconds-$days*86400;
+	$date = date("H:i:s", mktime(0,0,$seconds)); 
+
+	return "$days days, $date";
+}
+
 $dir = "";
 $sort = $default_sort;
 EXTRACT($HTTP_GET_VARS);
@@ -47,32 +56,13 @@ else {
 	print "<b>Albums</b>: " . $stats["albums"] . "<br>";
 	print "<b>Songs</b>: " . $stats["songs"] . "<br>";
 	//print "<b>Songs Played</b>: " . $stats["songs_played"] . "<br>";
-	$minute = 60;
-	$hour = $minute*60;
-	$day = 24*$hour;
-	$days = (int)($stats["playtime"]/$day);
-	$stats["playtime"] -= $days*$day;
-	$hours = (int)($stats["playtime"]/$hour);
-	$stats["playtime"] -= $hours*$hour;
-	$minutes = (int)($stats["playtime"]/$minute);
-	$stats["playtime"] -= $minutes*$minute;
-	$seconds = $stats["playtime"];
-	if($seconds<10) $seconds = "0$seconds";
-	if($minutes<10) $minutes = "0$minutes";
-	if($hours<10) $hours = "0$hours";
-	print "<b>Play Time</b>: $days days, $hours:$minutes:$seconds<br>";
-	$days = (int)($stats["uptime"]/$day);
-	$stats["uptime"] -= $days*$day;
-	$hours = (int)($stats["uptime"]/$hour);
-	$stats["uptime"] -= $hours*$hour;
-	$minutes = (int)($stats["uptime"]/$minute);
-	$stats["uptime"] -= $minutes*$minute;
-	$seconds = $stats["uptime"];
-	if($seconds<10) $seconds = "0$seconds";
-	if($minutes<10) $minutes = "0$minutes";
-	if($hours<10) $hours = "0$hours";
-	print "<b>Uptime</b>: $days days, $hours:$minutes:$seconds<br>";
+	$DHMS = secondsToDHMS($stats["playtime"]);
+	print "<b>Play Time</b>: $DHMS<br>";
+	$DHMS = secondsToDHMS($stats["uptime"]);
+	print "<b>Uptime</b>: $DHMS<br>";
 	print "<b>DB Updated</b>: " . date("F j, Y, g:i a",$stats["db_update"]);
 	print "<br>";
+	$DHMS = secondsToDHMS($stats["db_playtime"]);
+	print "<b>Total DB playtime</b>: $DHMS<br>";
 }
 ?>
