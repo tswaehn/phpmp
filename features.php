@@ -306,6 +306,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        $filename = "<option value=\"filename\">Filename</option>";
 	}
 
+
 	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
 	{
 		echo $filename;
@@ -326,6 +327,16 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 			}
 		}
 	}
+
+	if( strcmp( $search, "any" ) == "0" || strcmp( $find, "any" ) == "0")
+	{
+		echo "<option value=\"any\" selected>Any</option>";
+	}
+	else
+	{
+		echo "<option value=\"any\">Any</option>";
+	}
+
 
 	if( strcmp( $config["filenames_only"], "yes" ))
 	{

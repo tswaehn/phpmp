@@ -76,6 +76,7 @@ machine with MPD, Apache & phpMp serving.
 60) Turn on autocomplete when saving the playlist
 61) Enable moving on the playlist
 62) Split up the metadata/non-metadata tables, this will fix searching and sorting.
+63) Added new search option 'Any'
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams
