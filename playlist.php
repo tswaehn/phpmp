@@ -240,7 +240,7 @@ if (isset($status["state"]))
 				echo "<td border=0 width=8 height=8 bgcolor=\"" . $col . "\">";
 				if ($commands["seekid"])
 				{
-					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=seekid $songid $seek\" title=\"$min:$sec\">";
+					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
 				}
 				echo "<img alt='Seek to $min:$sec' border=0 width=8 height=8 src=transparent.gif>";
 				if ($commands["add"])

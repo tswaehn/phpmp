@@ -61,6 +61,9 @@ machine with MPD, Apache & phpMp serving.
 45) Build command lists then send, that way we max out the block rather than sending partial TCP packets. May see speed difference in playlist due to constant loading.
 46) Change from decodeHTML() sanitizeForPost() sanitizeForURL() to rawurlencode() and rawurldecode() integrated php functions
 47) Added ability for phpMp to automatically download and add m3u and pls playlists
+48) Search now tells how many results were found
+49) Genre/Year support were added
+
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

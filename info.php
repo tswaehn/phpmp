@@ -151,7 +151,7 @@ function printPlaylistInfo($conn, $num, $hide, $spread, $length, $filenames_only
 		echo "<td valign=top><a name=$count></a><small>";
 		if($commands["delete"])
 		{
-			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=delete&amp;arg=$count&amp;time=$tm#$goto\">d</a></small></td>";
+			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">d</a></small></td>";
 		}
 		else
 		{
@@ -160,7 +160,7 @@ function printPlaylistInfo($conn, $num, $hide, $spread, $length, $filenames_only
 
 		if($commands["play"])
 		{
-			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=play&amp;arg=$count\">$display</a>";
+			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=playid&amp;arg=$id\">$display</a>";
 		}
 		else
 		{

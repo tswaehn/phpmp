@@ -78,7 +78,7 @@ function initialConnect($fp)
 	return $MPDversion;
 }
 
-function doCommand($fp,$arg,$command, $overwrite)
+function doCommand($fp, $arg, $arg2, $command, $overwrite)
 {
 	if(! isset($command))
 	{
@@ -97,10 +97,15 @@ function doCommand($fp,$arg,$command, $overwrite)
 		fgets($fp,1024);
 	}
 
-	if(strlen($arg)>0)
+	if (strlen($arg2)>0)
 	{
-	        $command.=" \"$arg\"";
+		$command.= " \"$arg\" \"$arg2\"";
+	}
+	else if(strlen($arg)>0)
+	{
+	        $command.= " \"$arg\"";
         }
+
 
         // By the time you read this the 'kill' command will hopefully be a non-default compile time 
 	// option. $arg is also used here, so to make sure someone doesn't kill your MPD leave it.

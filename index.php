@@ -41,7 +41,7 @@ if (strcmp($config["use_cookies"],"yes")==0 && isset($_COOKIE["phpMp_playlist_hi
 }
 
 // This will extract the needed GET/POST variables
-extract(setupReceivedVars(array("add_all", "arg", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream"),13));
+extract(setupReceivedVars(array("add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream"),14));
 
 if (isset($hide) && strcmp($config["use_cookies"],"yes")==0)
 {
@@ -117,7 +117,7 @@ if (isset($passarg))
 	}
 }
 
-doCommand($fp, $arg, $command, $config["overwrite_playlists"]);
+doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"]);
 
 if(strcmp($feature,"stream-icy")==0)
 {

@@ -24,7 +24,6 @@ function lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $addperm, $color)
  			$dirss[0] = $dirstr;
 		}
 		$dirss[0] = $dirss[count($dirss)-1];
-		$dirstr = rawurlencode($dirstr);
 		$dprint[$i] = "<tr bgcolor=\"" . $color[$i%2]  . "\"><td>";
 		$fc = strtoupper(mbFirstChar($dirss[0]));
 		if ($dic==0 || $dindex[$dic-1]!=$fc)
