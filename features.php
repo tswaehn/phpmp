@@ -172,8 +172,9 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td>";
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast Streams - $k unique results</b></td>";
-		echo "<td align=\"right\"><small>(<a <a title=\"Refresh Icecast Streams Table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td></tr>";
+		echo "<tr><td><b>Icecast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Refresh Icecast Streams Table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
+		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";

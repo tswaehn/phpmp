@@ -457,7 +457,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 		echo "</td><td align=right>";
 		if(preg_match("/feature=(search|find)/",$url))
 		{
-			echo "<b><small>Found " . count($mprint) . " items</small></b>";
+			echo "<b><small>Found " . count($mprint) . " results</small></b>";
 		}
 		echo "</td></tr></table>";
 		echo "<tr><td>";
