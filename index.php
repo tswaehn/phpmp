@@ -234,8 +234,8 @@ if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==
 
 	echo "<br>";
 
-	login($fp, $config, $colors["login"], $server, $arg, $dir, $remember);
-	server($servers, $host, $port, $colors["server"], $config);
+	login( $fp, $config, $colors["login"], $server, $arg, $dir, $remember );
+	server( $servers, $host, $port, $colors["server"], $config, $commands );
 }
 // This will serve as our front page if called w/o $body
 else if(! isset($body) && ! isset($feature))

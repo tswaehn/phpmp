@@ -39,7 +39,7 @@ if(isset($feature))
 			login($fp, $config["default_sort"], $colors["login"], $server, $arg, $dir, $remember);
 			break;
 		case 'outputs':
-			outputs($fp, $host, $colors["outputs"], $server);
+			outputs($fp, $host, $colors["outputs"], $server, $commands);
 			break;
 		case 'search':
 			if( ! isset ( $search ))

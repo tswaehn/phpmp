@@ -1,6 +1,6 @@
 <?php
 
-function outputs($fp, $host, $color, $server)
+function outputs($fp, $host, $color, $server, $commands)
 {
 	$i = -1;
 	fputs($fp,"outputs\n");
