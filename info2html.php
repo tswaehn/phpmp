@@ -345,7 +345,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 			$fc_filename = strtoupper( mbFirstChar( $info[$i][ $sort_array[0] ] ));
 		}
 
-		$full_filename = rawurlencode( $full_filename );
+		$full_filename = rawurlencode( addslashes( $full_filename ));
 
 		// This is where the index for the particular table is made
 		// If the sort item exists in the music item, this is not the first letter that's going to be
@@ -524,7 +524,7 @@ function createAddAll( $music, $song_separator )
 	// If this function gets called without any actual files this will save from getting notices
 	if( isset( $music[$i]["file"] ))
 	{
-		return $add_all . $music[$i]["file"];
+		return $add_all . addslashes( $music[$i]["file"] );
 	}
 }
 

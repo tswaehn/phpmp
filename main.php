@@ -1,6 +1,4 @@
 <?php
-// This will extract the needed GET/POST variables
-$dir = stripslashes( $dir );
 $dir = rawurldecode( $dir );
 $dir_url = rawurlencode( $dir );
 $sort = isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
