@@ -59,7 +59,7 @@ else {
 		$status = getStatusInfo($fp);
 	}
 	print "<br>\n";
-	print "Update Succesful<br>\n";
+	print "Update Successful<br>\n";
 	fclose($fp);
 }
 ?>
