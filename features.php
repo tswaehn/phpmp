@@ -133,7 +133,7 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 	echo "</table></td></tr><table>";
 }
 
-function stream($server, $color, $feature)
+function stream($server, $color, $feature, $server_data)
 {
 	echo "<br>";
 	echo "<form action=index.php? target=playlist method=get>";
@@ -157,32 +157,23 @@ function stream($server, $color, $feature)
 	echo "&nbsp;";
 	echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
 	echo "</td></tr></table></form>";
-/*
 	echo "<br>";
 	
 	if(strcmp($feature,"stream"))
 	{
-		echo curl_version();
-		$blah[]="blah";
-		$blah[]="blah2";
-
-		$ch = curl_init("http://www.example.com/");
-		$fp = fopen("example_homepage.txt", "w");
-
-		curl_setopt($ch, CURLOPT_FILE, $fp);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-
-		curl_exec($ch);
-		curl_close($ch);
-		fclose($fp);
-
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast Streams</b></td></tr>";
 		echo "<tr><td>";
+		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td><b>Icecast Streams</b></td>";
+		echo "<td align=\"right\"><small>(<a <a title=\"Refresh Icecast Streams Table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td></tr>";
+		echo "<tr><td>";
+		echo "</table>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
-		for($i=0;$i<sizeOf($blah);$i++)
+		for($i=0;$i<sizeOf($server_data);$i++)
 		{
-			echo "<tr bgcolor=\"" . $color["body"][$i%2]  . "\"><td>$blah[$i]</td></tr>";
+			echo "<tr bgcolor=\"" . $color["body"][$i%2]  . "\"><td>";
+			echo "<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
+			echo $server_data[$i]["server_name"] . "</td></tr>";
 		}
 		echo "</tr></table></form>";
 	}
@@ -190,7 +181,6 @@ function stream($server, $color, $feature)
 	{
 		echo "<a title=\"Open the table of Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>Load a table of icecast streams</a>";
 	}
-*/
 }
 
 function server($servers, $host, $color, $config)

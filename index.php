@@ -110,6 +110,111 @@ if (isset($password))
 	unset($password);
 }
 
+if(strcmp($feature,"stream-icy"))
+{
+if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )) )
+{
+	die("Couldn't open xml file, or you don't have allow_url_fopen = On in your php.ini");
+}
+
+$server_count = 0;
+$server_data = array();
+$xml_current_tag_state = '';
+
+function startElementHandler( $parser, $element_name, $element_attribs )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+	if( $element_name == "ENTRY" )
+	{
+		$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
+	}
+	else
+	{
+		$xml_current_tag_state = $element_name;
+	}
+}
+
+function endElementHandler( $parser, $element_name )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+
+	$xml_current_tag_state = '';
+	if( $element_name == "ENTRY" )
+	{
+		$server_count++;
+	}
+}
+
+function characterDataHandler( $parser , $data )
+{
+	global $server_count;
+	global $server_data;
+	global $xml_current_tag_state;
+
+	if( $xml_current_tag_state == '' )
+	{
+		return;
+	}
+
+
+	if( $xml_current_tag_state == "SERVER_NAME" )
+	{
+		$server_data[$server_count]["server_name"] = $data;
+	}
+	else if( $xml_current_tag_state == "LISTEN_URL" )
+	{
+		$server_data[$server_count]["listen_url"] = $data;
+	}
+	else if( $xml_current_tag_state == "SERVER_TYPE" )
+	{
+		$server_data[$server_count]["server_type"] = $data;
+	}
+	else if( $xml_current_tag_state == "BITRATE" )
+	{
+		$server_data[$server_count]["bitrate"] = $data;
+	}
+	else if( $xml_current_tag_state == "CHANNELS" )
+	{
+		$server_data[$server_count]["channels"] = $data;
+	}
+	else if( $xml_current_tag_state == "SAMPLERATE" )
+	{
+		$server_data[$server_count]["samplerate"] = $data;
+	}
+	else if( $xml_current_tag_state == "GENRE" )
+	{
+		$server_data[$server_count]["genre"] = $data;
+	}
+	else if( $xml_current_tag_state == "CURRENT_SONG" )
+	{
+		$server_data[$server_count]["current_song"] = $data;
+	}
+}
+
+if( !($xml_parser = xml_parser_create()) )
+{
+	die("Couldn't create XML parser!");
+}
+
+xml_set_element_handler($xml_parser, "startElementHandler", "endElementHandler");
+xml_set_character_data_handler($xml_parser, "characterDataHandler");
+
+while( $data = fread($fh, 4096) )
+{
+	if( !xml_parse($xml_parser, $data, feof($fh)) )
+	{
+		break; // get out of while loop if we're done with the file
+	}
+}
+
+xml_parser_free($xml_parser);
+#print_r($server_data);
+}
+
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
 
