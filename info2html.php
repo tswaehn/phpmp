@@ -24,17 +24,10 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 	$dic = 0;
 	for( $i = "0"; $i < $count; $i++ )
 	{
-		// dirstr: The actual directory name
-       		$dirstr = $lsinfo["dir"][$i];
-		$dirss = split( "/", $dirstr );
-		if ( count( $dirss ) == "0") 
-		{
- 			$dirss[0] = $dirstr;
-		}
-		$dirstr = rawurlencode( $dirstr );
-		$dirss[0] = $dirss[ (count( $dirss ) - 1) ];
+       		$dirstr = basename( $lsinfo["dir"][$i] );
+		$full_dir = rawurlencode( $lsinfo["dir"][$i] );
 		$print[$i] = "<tr bgcolor=\"{$color[ ($i%2) ]}\"><td>";
-		$fc = strtoupper( mbFirstChar( $dirss[0] ));
+		$fc = strtoupper( mbFirstChar( $dirstr ));
 		if ($dic == "0" || $index[ ($dic-1) ]!=$fc)
 		{
 			$index[ $dic ] = $fc;
@@ -45,9 +38,9 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 		// If updating show the update links, otherwise show add links
 		if( $addperm == "1" )
 		{
-			$print[$i].= "[<a title=\"Add the {$dirss[0]} Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dirstr\" target=playlist>add</a>]&nbsp";
+			$print[$i].= "[<a title=\"Add the $dirstr Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_dir\" target=playlist>add</a>]&nbsp";
 		}
-		$print[$i].= "<a title=\"Browse the {$dirss[0]} Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$dirstr\">$dirss[0]</a></td></tr>";
+		$print[$i].= "<a title=\"Browse the $dirstr Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$full_dir\">$dirstr</a></td></tr>";
 	}
 	if( ! isset( $index ))
 	{
@@ -444,7 +437,14 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 
 				default:
 				{
-					$mprint[$i] .= $info[$i][ $config["display_fields"][$x] ];
+					if( isset( $info[$i][ $config["display_fields"][$x] ]))
+					{
+						$mprint[$i] .= $info[$i][ $config["display_fields"][$x] ];
+					}
+					else
+					{
+						$mprint[$i] .= "";
+					}
 					break;
 				}
 			}

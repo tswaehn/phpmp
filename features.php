@@ -258,7 +258,7 @@ function server( $servers, $host, $port, $color, $config )
 	echo "</form></td></tr></table>";
 }
 
-function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered )
+function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered, $tagged, $untagged, $lsinfo )
 {
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
@@ -312,20 +312,11 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "</td></tr></table>";
 	echo "</form>";
 
-	if( ! empty( $search ) && ! empty( $arg ))
-	{
-		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n", $config["display_fields"] );
-	}
-	else if( ! empty( $find ) &&  ! empty( $arg ))
-	{
-		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n", $config["display_fields"] );
-	}
-
 	$arg_url = rawurlencode( $arg );
 	$dir_url = rawurlencode( $dir );
 	$sort_array = split( ",", $sort );
 
-	if( ! empty( $lsinfo["music"] ))
+	if( is_array( $untagged ) || is_array( $tagged ))
 	{
 		if( empty( $search ))
 		{
@@ -336,21 +327,22 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 			$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		}
 
-		$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
-		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
+		$add_all = createAddAll( $lsinfo, $config["song_separator"] );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
 		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $url );
 		unset( $tagged, $untagged );
 
-		if( empty( $tagged_info["print"] ))
+		if( ! empty( $tagged_info ) && ! empty( $untagged_info ))
 		{
-			$file_info["title"] = "Music";
+			if( empty( $tagged_info["print"] ))
+			{
+				$file_info["title"] = "Music";
+			}
+			if( empty( $file_info["print"] ))
+			{
+				$tagged_info["title"] = "Music";
+			}
 		}
-		if( empty( $file_info["print"] ))
-		{
-			$tagged_info["title"] = "Music";
-		}
-
 		printMusicTable( $add_all, $config, $color["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $addperm, $feature, $ordered );
 		printMusicTable( $add_all, $config, $color["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $addperm, $feature, 0 );
 	}

@@ -1,3 +1,20 @@
+Fri Dec 24 09:41:58 PST 2004  avuton@gmail.com
+  * Reorganize main.php to fix issues
+  
+  Reorganize main.php to fix a few issues with one stone. First of all I noticed that I'm pulling lsinfo twice when searching, doubling the time to display a search window. Bad news there. I moved the lsinfo out of search() to compensate for the count of displayDirectory. The fixes are pretty ugly atm but the focus is to get things working better.
+
+Fri Dec 24 08:46:00 PST 2004  avuton@gmail.com
+  * Change lsinfo2directoryTable to use basename() as it's just as reliable and doesn't require an array.
+
+Fri Dec 24 08:40:28 PST 2004  avuton@gmail.com
+  * Replaced yet another preg_replace with str_replace()/strpos()
+
+Fri Dec 24 08:39:40 PST 2004  avuton@gmail.com
+  * Fix for warnings
+
+Fri Dec 24 08:17:20 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
 Fri Dec 24 00:44:02 PST 2004  avuton@gmail.com
   * Change some obvious if() else()s to tenerary operators
 
@@ -16,9 +33,6 @@ Thu Dec 23 14:52:07 PST 2004  avuton@gmail.com
 
 Thu Dec 23 07:36:12 PST 2004  avuton@gmail.com
   * Replace preg_replace() with ltrim() where applicable in info.php
-
-Thu Dec 23 07:20:41 PST 2004  avuton@gmail.com
-  * ChangeLog update
 
 Thu Dec 23 07:01:54 PST 2004  avuton@gmail.com
   * Split song_display_conf into song_display_conf / playlist_display_conf

@@ -86,7 +86,7 @@ function setNotSetSongFields( $song, $display_fields )
 		{
 			if( ! isset( $song[ $display_fields[$i] ] ))
 			{
-				$song[ $config["display_fields"][$i] ] = "";
+				$song[ $display_fields[$i] ] = "";
 			}
 		}
 	}
@@ -321,10 +321,11 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 
 function getLsInfo( $conn, $command, $display_fields )
 {
-	fputs( $conn, $command );
 	$mcount = -1;
 	$dcount = 0;
 	$pcount = 0;
+
+	fputs( $conn, $command );
 	while( ! feof( $conn ))
 	{
 		$got = fgets( $conn, "1024" );
@@ -341,13 +342,13 @@ function getLsInfo( $conn, $command, $display_fields )
 		$el = strtok($got,":");
 		if( strcmp( $el, "directory" ) == "0" )
 		{
-			$dir[$dcount] = preg_replace( "/^$el: /", "", $got );
+			$dir[$dcount] = str_replace( "$el: " , "", $got );
 			$dcount++;
 			continue;
 		}
 		if( strcmp( $el, "playlist" ) == "0" )
 		{
-			$playlist[$pcount] = preg_replace( "/^$el: /", "", $got );
+			$playlist[$pcount] = str_replace( "$el: " , "", $got );
 			$pcount++;
 			continue;
 		}
@@ -358,9 +359,8 @@ function getLsInfo( $conn, $command, $display_fields )
 			        $music[$mcount] = setNotSetSongFields( $music[$mcount], $display_fields );
 			}
 			$mcount++;
-			$music[$mcount] = array( 'file' => '', 'Title' => '', 'Time' => '', 'Track' => '', 'Track' => '', 'Album' => '', 'Artist' => '', 'Genre' => '', 'Date' => '' );
 		}
-		$music[$mcount]["$el"] = preg_replace( "/^$el: /", "", $got);
+		$music[$mcount]["$el"] = str_replace( "$el: ", "", $got);
 	}
 	if ( ! isset( $dir ))
 	{
