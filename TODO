@@ -3,28 +3,12 @@
 
 *) Need to make table element to take up a whole column, made specifically for metadata comments
 
-*) Stream browser configurable
-
-*) Fix add/rm slashes problem
-	*) Translate slashes to a string
-	*) Add Slashes
-	*) Rm Slashes
-	*) Untranslate from string
+*) Readd javascript disabled behaviour
 
 *) Fix shoutcast streaming
 
-*) Restricted tags array
-
-Future (doesn't have to be before release)
+Future - (doesn't have to be before release)
 ------------------------------------------
-
-*) [* Browser]
-	*) Probably should make the XML files user configurable.
-
-*) [Error handling]
-	*) There's very few errors that will be hit now (hopefully) but when it's possible we need to setup a better system 
-	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
-	   have the zlib dependency, for example (even though I couldn't imagine a php system that doesn't have it).
 
 *) [Index]
 	*) Need to make an effort to cut more fat from the index

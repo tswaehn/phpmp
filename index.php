@@ -4,7 +4,6 @@ require "info.php";
 require "info2html.php";
 require "config.php";
 require "utils.php";
-
 $server = isset( $_REQUEST["server"] ) ? $_REQUEST["server"] : "0";
 
 if( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )

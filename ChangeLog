@@ -1,4 +1,4 @@
-ver 0.12.0 (200?/x/x)
+ver 0.12.0 (2005/x/x)
 
 This was near a rewrite, tons of code changed, only the changes that were less significant or that I totally forgot
 are not here. Due to changes in this version the way it loads has completely changed.

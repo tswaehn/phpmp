@@ -190,18 +190,16 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 	echo "</td></tr></table></form>";
 
 	echo "<br>";
-	
-	if( strcmp( $feature,"stream" ) && strcmp( $stream_browser, "no" ))
+
+	if( strcmp( $feature,"stream" ) && strcmp( $stream_browser, "yes" ) == 0)
 	{
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
-			if( isset ( $server_data[($i+1)]["server_name"] ))
+			if( isset ( $server_data[($i+1)]["server_name"] ) &&
+				strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ))
 			{
-				if( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ))
-				{
-					$k++;
-				}
+				$k++;
 			}
 		}
 		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -240,7 +238,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			$k++;
 		}
 	}
-	else
+	else if( strcmp( $stream_browser, "yes" ) == 0)
 	{
 		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td>";

@@ -40,7 +40,7 @@ $config = array(
 		/***********************************************
 		/ The order your music files will be sorted in /
 		/**********************************************/
-		"default_sort" => "Artist,Album,Track,Title,Time,Date,Genre",
+		"default_sort" => "Artist,Composer,Performer,Album,Track,Title,Time,Date,Genre",
 
 		/******************************************************************
 		/ Use this to change the width of either the main/playlist window /
@@ -76,8 +76,8 @@ $config = array(
 		/************************************************************************
 		/ Yes to this to enable the icecast/streamcast stream browser.		/ 
 		/ If you enable this 'allow_url_fopen = On' in your php.ini.		/
-		/************************************************************************
-		"enable_stream_browser" => "no",
+		/***********************************************************************/
+		"stream_browser" => "no",
 
 		/************************************************************************
 		/ Playlist Align (this is useful for making the frame bigger)           /
@@ -110,7 +110,7 @@ $config = array(
 		/ capitolize the first letter.										/
 		/ Title is absolutely required for this phpMp to function						/
 		/*******************************************************************************************************/
-		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
+		"display_fields" => array('Artist', 'Composer', 'Performer', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
 		/*************************************************************************************
 		/ These change the way your song is displayed in the song field and in the playlist. /

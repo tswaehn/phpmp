@@ -4,7 +4,6 @@ $dir_url = rawurlencode( $dir );
 $sort = isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
 $sort_array = split( ",", $sort );
 $url = "index.php?body=main&amp;dir=$dir_url";
-
 if( empty( $feature ))
 {
 	$lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n", $config["display_fields"] );
@@ -88,7 +87,7 @@ else
 			$server_data = 0;
 		case 'stream-icy':
 		case 'stream-shout':
-			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["enable_stream_browser"] );
+			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["stream_browser"] );
 			break;
 	}
 	echo "<!-- End $feature -->";
