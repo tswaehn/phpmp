@@ -38,7 +38,7 @@ else {
 	$lsinfo = getLsInfo($fp,"find $find \"$arg\"\n");
 	list($mprint,$mindex,$add_all) = lsinfo2musicTable($lsinfo,$sort,$dir_url);
 	$arg_url = sanitizeForURL($arg);
-	printMusicTable($mprint,"find.php?find=$find&arg=$arg_url&dir=$dir_url",$add_all,$mindex);
+	printMusicTable($mprint,"find.php?find=$find&amp;arg=$arg_url&amp;dir=$dir_url",$add_all,$mindex);
 	fclose($fp);
 	displayStats($dir,$sort);
 	displayUpdate($dir,$sort);

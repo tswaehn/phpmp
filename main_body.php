@@ -68,10 +68,10 @@ else {
 			$dindex[$dic] = $fc;
 			$foo = $dindex[$dic];
 			$dic++;
-			$dprint[$i].="<a name=d$foo>";
+			$dprint[$i].="<a name=d$foo></a>";
 		}
-		$dprint[$i].="[<a href=\"playlist.php?server=$server&add_dir=$dirstr\" target=playlist>add</a>] <a href=\"main.php?server=$server&sort=$sort&dir=$dirstr\">$dirss[0]</a></td></tr>\n";
-		# $dprint[$i].="[<a href=\"main.php?server=$server&sort=$sort&dir=$dirstr\">dir</a>] [<a href=\"playlist.php?server=$server&add_dir=$dirstr\" target=playlist>add</a>] $dirss[0]</td></tr>\n";
+		$dprint[$i].="[<a href=\"playlist.php?server=$server&amp;add_dir=$dirstr\" target=playlist>add</a>] <a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$dirstr\">$dirss[0]</a></td></tr>\n";
+		# $dprint[$i].="[<a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$dirstr\">dir</a>] [<a href=\"playlist.php?server=$server&amp;add_dir=$dirstr\" target=playlist>add</a>] $dirss[0]</td></tr>\n";
 	}
 	if(!isset($dindex)) $dindex = array();
 

@@ -30,6 +30,7 @@ header("Content-Type: text/html; charset=UTF-8");
 <META HTTP-EQUIV="Expires" CONTENT="Thu, 01 Dec 1994 16:00:00 GMT">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<title></title>
 <?php
 // php won't interpret inside of the style block
 print "<style type=\"text/css\">\n";

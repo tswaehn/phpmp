@@ -76,7 +76,7 @@ else {
 	}
 	$arg_url = sanitizeForURL($arg);
 	if(isset($mprint)) {
-		printMusicTable($mprint,"search.php?search=$search&arg=$arg_url&dir=$dir_url",$add_all,$mindex);
+		printMusicTable($mprint,"search.php?search=$search&amp;arg=$arg_url&amp;dir=$dir_url",$add_all,$mindex);
 	}
 	fclose($fp);
 	displayStats($dir,$sort);

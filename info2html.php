@@ -19,12 +19,12 @@ function lsinfo2playlistTable($lsinfo,$sort) {
 			$pindex[$pic] = $fc;
 			$foo = $pindex[$pic];
 			$pic++;
-			$pprint[$i] = "<a name=p$foo>";
+			$pprint[$i] = "<a name=p$foo></a>";
 		}
 		else {
 			$pprint[$i] = "";
 		}
-		$pprint[$i].="[<a target=\"playlist\" href=\"playlist.php?server=$server&command=load&arg=$dirstr\">load</a>] $dirss[0] (<small><a href=\"main.php?server=$server&sort=$sort&command=rm&arg=$dirstr\">d</a>elete</small>)<br>\n";
+		$pprint[$i].="[<a target=\"playlist\" href=\"playlist.php?server=$server&amp;command=load&amp;arg=$dirstr\">load</a>] $dirss[0] (<small><a href=\"main.php?server=$server&amp;sort=$sort&amp;command=rm&amp;arg=$dirstr\">d</a>elete</small>)<br>\n";
 	}
 	if(!isset($pprint)) $pprint = array();
 	if(!isset($pindex)) $pindex = array();
@@ -70,7 +70,7 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 					$mindex[$mic] = strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]));
 					$foo = $mindex[$mic];
 					$mic++;
-					$mprint[$i] = "<a name=m$foo>";
+					$mprint[$i] = "<a name=m$foo></a>";
 				}
 				else {
 					$mprint[$i] = "";
@@ -84,13 +84,13 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 				if(isset($foo) && ($mic==0 || 0!=strcmp($mindex[$mic-1],$foo))) {
 					$mindex[$mic] = $foo;
 					$mic++;
-					$mprint[$i] = "<a name=m$foo>";
+					$mprint[$i] = "<a name=m$foo></a>";
 				}
 				else {
 					$mprint[$i] = "";
 				}
 			}
-			$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&command=add&arg=$dirstr\">add</a>]</td>";
+			$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&amp;command=add&amp;arg=$dirstr\">add</a>]</td>";
 			for ($x = 0; $x < sizeof($display_fields); $x++)
 			{
 				$mprint[$i] .= "<td>";
@@ -104,7 +104,7 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 						else
 						{
 							$url = sanitizeForURL($lsinfo["music"][$i][$display_fields[$x]]);
-							$mprint[$i].= "<a href=\"find.php?server=$server&find=" . strtolower($display_fields[$x]) . "&arg=$url&sort=$sort&dir=$dir_url\">";
+							$mprint[$i].= "<a href=\"find.php?server=$server&amp;find=" . strtolower($display_fields[$x]) . "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
 							$mprint[$i].= $lsinfo["music"][$i][$display_fields[$x]] . "</a>";
 						}
 						break;
@@ -141,12 +141,12 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 				$mindex[$mic] = strtoupper($dirss[0][0]);
 				$foo = $mindex[$mic];
 				$mic++;
-				$mprint[$i] = "<a name=m$foo>";
+				$mprint[$i] = "<a name=m$foo></a>";
 			}
 			else {
 				$mprint[$i] = "";
 			}
-			$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&command=add&arg=$dirstr\">add</a>]</td><td colspan=4>$dirss[0]</td></tr>\n";
+			$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&amp;command=add&amp;arg=$dirstr\">add</a>]</td><td colspan=4>$dirss[0]</td></tr>\n";
 		}
 	}
 	if(!isset($mprint)) $mprint = array();
@@ -178,7 +178,7 @@ function printMusicTable($mprint,$url,$add_all,$mindex) {
 			print "<table border=0 cellspacing=1 bgcolor=\"";
 			print $colors["music"]["title"];
 			print "\" width=\"100%\">\n";
-			print "<tr><a name=music><td colspan=4 nowrap><b>Music</b>\n";
+			print "<tr><a name=music></a><td colspan=4 nowrap><b>Music</b>\n";
 			print "(<a href=\"javascript:document.add_all.submit()\">";
 			print "add all</a>)\n";
 			printIndex($mindex,"","m");
@@ -190,7 +190,7 @@ function printMusicTable($mprint,$url,$add_all,$mindex) {
 			print $colors["music"]["title"];
 			print "\" width=\"100%\">\n";
 			print "<tr><td colspan=4><b>Music</b>\n";
-			print "(<a target=\"playlist\" href=\"playlist.php?server=$server&add_all=$add_all\">";
+			print "(<a target=\"playlist\" href=\"playlist.php?server=$server&amp;add_all=$add_all\">";
 			print "add all</a>)\n";
 			printIndex($mindex,"","m");
 			print "</td></tr>\n";
@@ -206,7 +206,7 @@ function printMusicTable($mprint,$url,$add_all,$mindex) {
 			for($i=0;$i<count($display_fields);$i++)
 			{
 				$new_sort = pickSort("$display_fields[$i]");
-				print "<td><a href=\"$url&sort=$new_sort&server=$server\">" . (($display_fields[$i] == $sort_array[0]) ? '<b>' . $display_fields[$i] . '</b>' : $display_fields[$i]) . '</a></td>';
+				print "<td><a href=\"$url&amp;sort=$new_sort&amp;server=$server\">" . (($display_fields[$i] == $sort_array[0]) ? '<b>' . $display_fields[$i] . '</b>' : $display_fields[$i]) . '</a></td>';
 			}
 			print "</tr>\n";
 		}
@@ -226,7 +226,7 @@ function printPlaylistTable($pprint,$pindex) {
 		print $colors["playlist"]["title"];
 		print "\" width=\"100%\">\n";
 
-		print "<tr><a name=playlists><td nowrap><b>Playlists</b>";
+		print "<tr><a name=playlists></a><td nowrap><b>Playlists</b>";
 		printIndex($pindex,"","p");
 		print "</td></tr>\n";
 		print "<tr bgcolor=\"";

@@ -35,7 +35,7 @@ else {
 	print "\" width=\"100%\">\n";
 	print "<tr valign=middle><td>\n";
 	print "<b>Playing</b>\n";
-	print "<small>(<a href=playlist.php?server=$server&hide=$hide>refresh</a>)</small>\n";
+	print "<small>(<a href=\"playlist.php?server=$server&amp;hide=$hide\">refresh</a>)</small>\n";
 	print "</td></tr>\n";
 	print "<tr bgcolor=\"";
 	print $colors["playing"]["body"];
@@ -205,7 +205,7 @@ else {
 				$min = (int)($seek/60);
 				$sec= $seek-$min*60;
 				if($sec<10) $sec = "0$sec";
-				print "<td width=8 bgcolor=\"$col\"><a href=\"playlist.php?server=$server&hide=$hide&command=seekid $songid $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
+				print "<td width=8 bgcolor=\"$col\"><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=seekid $songid $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
 				$col = $colors["time"]["background"];
 			}
 			print "</tr></table>\n";
@@ -216,7 +216,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=repeat%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=repeat%20";
 			print (int)(!$repeat) . "\">repeat</a>]</small>";
 			print "</td><td>&nbsp</td>";
 			if($random) {
@@ -225,7 +225,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=random%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=random%20";
 			print (int)(!$random) . "\">random</a>]</small>";
 			print "</td><td>&nbsp</td>";
 			if($xfade) {
@@ -234,7 +234,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=crossfade%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=crossfade%20";
 			print 10*(int)(!$xfade) . "\">xfade</a>]</small>";
 			print "</td><td width=\"100%\"></td></tr></table>\n";
 			print "</td></tr>\n";
@@ -259,7 +259,7 @@ else {
 			print "<tr><td colspan=6>";
 			print "<br><br>\n";
 			$col = $colors["time"]["background"];
-			print "<table border=0 cellspacing=0 cellpadding=0 height=\"8\" width=200 bgcolor=\"$col\"><tr><td></td></tr></table>";
+			print "<table border=0 cellspacing=0 cellpadding=0 width=200 bgcolor=\"$col\"><tr><td></td></tr></table>";
 			print "</td></tr><tr>";
 			if($repeat) {
 				print "<td bgcolor=\"";
@@ -267,7 +267,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=repeat%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=repeat%20";
 			print (int)(!$repeat) . "\">repeat</a>]</small>";
 			print "</td><td>&nbsp</td>";
 			if($random) {
@@ -276,7 +276,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=random%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=random%20";
 			print (int)(!$random) . "\">random</a>]</small>";
 			print "</td><td>&nbsp</td>";
 			if($xfade) {
@@ -285,7 +285,7 @@ else {
 				print "\">";
 			}
 			else print "<td>";
-			print "<small>[<a href=\"playlist.php?server=$server&hide=$hide&command=crossfade%20";
+			print "<small>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=crossfade%20";
 			print 10*(int)(!$xfade) . "\">xfade</a>]</small>";
 			print "</td><td width=\"100%\"></td></tr></table>\n";
 			print "</td></tr>\n";
@@ -316,17 +316,17 @@ else {
 		print "<table border=0 cellspacing=0><tr><td nowrap><b>Volume</b> ";
 		$vol_div = 5;
 		$do = round($vol/$vol_div);
-		print "[<a href=\"playlist.php?server=$server&hide=$hide&command=volume%20-$volume_incr\">-</a>]</td>";
-		print "<td valign=middle><table border=0 cellspacing=0 cellpadding=0 height=\"8\"><tr>";
+		print "[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=volume%20-$volume_incr\">-</a>]</td>";
+		print "<td valign=middle><table border=0 cellspacing=0 cellpadding=0 ><tr>";
 		$col = $colors["volume"]["foreground"];
-		for($i=0; $i<$do; $i++) print "<td width=5 bgcolor=\"$col\"></td>";
+		for($i=0; $i<$do; $i++) print "<td width=5 bgcolor=\"$col\" height=8></td>";
 		$col = $colors["volume"]["background"];
 		for(; $i<round(100/$vol_div); $i++) {
 			print "<td width=5 bgcolor=\"$col\"></td>";
 		}
 		print "</tr></table></td>\n";
-		print "<td>[<a href=\"playlist.php?server=$server&hide=$hide&command=volume%20$volume_incr\">+</a>]</td>\n";
-		print "</td></tr></table>\n";
+		print "<td>[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=volume%20$volume_incr\">+</a>]</td>\n";
+		print "</tr></table>\n";
 		print "</td></tr></table><br>\n";
 	}
 	# end of volume display
@@ -336,9 +336,9 @@ else {
 	print "\" width=\"100%\">\n";
 	print "<tr valign=middle><td width=\"0\"><b>Playlist</b>\n";
 	print "<small>";
-	print "[<a href=\"playlist.php?server=$server&hide=$hide&command=shuffle\">shuffle</a>]";
-	print "[<a target=main href=main.php?server=$server&save=yes>save</a>]";
-	print "[<a href=\"playlist.php?server=$server&hide=$hide&command=clear\">clear</a>]";
+	print "[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=shuffle\">shuffle</a>]";
+	print "[<a target=main href=\"main.php?server=$server&amp;save=yes\">save</a>]";
+	print "[<a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=clear\">clear</a>]";
 	print "</small>";
 	print "</td></tr>\n";
 	print "<tr><td>\n";
@@ -348,7 +348,7 @@ else {
 		printPlaylistInfo($fp,$num,$hide,$hide_threshold,$status["playlistlength"]);
 	}
 	print "</table>\n";
-	print "</tr></td>\n";
+	print "</td></tr>\n";
 	print "</table>\n";
 	fclose($fp);
 }

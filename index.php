@@ -4,7 +4,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" http://www.w3.org/TR/html4/frameset.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
 <title><?php print $title?></title>
@@ -23,7 +23,7 @@ $host = $servers[$server][0];
 $port = $servers[$server][1];
 
 if(0==strcmp($frames,"yes")) {
-	print "<frameset border=3 $frames_layout>\n";
+	print "<frameset $frames_layout>\n";
 	print "<frame name=\"main\" src=\"main.php?server=$server\">\n";
 	print "<frame name=\"playlist\" src=\"playlist.php?server=$server\">\n";
 	print "<noframes>NO FRAMES :-(</noframes>\n";

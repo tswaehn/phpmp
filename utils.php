@@ -45,33 +45,33 @@ function displayDirectory($dir,$sort,$title,$music,$playlists) {
 	if($music) print "(<a href=\"#music\">Music</a>) ";
 	if($playlists) print "(<a href=\"#playlists\">Playlists</a>) ";
 	print "</td><td align=right>";
-	print "[<a href=\"login.php?dir=$dir_url&sort=$sort\">";
+	print "[<a href=\"login.php?dir=$dir_url&amp;sort=$sort\">";
 	if($has_password) 
 		print "Logout</a>]\n";
 	else
 		print "Login</a>]\n";
-	print "[<a href=\"stream.php?server=$server&dir=$dir_url&sort=$sort\">Stream</a>]\n";
-	print "[<a href=\"search.php?server=$server&dir=$dir_url&sort=$sort\">";
+	print "[<a href=\"stream.php?server=$server&amp;dir=$dir_url&amp;sort=$sort\">Stream</a>]\n";
+	print "[<a href=\"search.php?server=$server&amp;dir=$dir_url&amp;sort=$sort\">";
 	print "Search</a>]</td></tr>\n";
 	print "<tr bgcolor=\"";
 	print $colors["directories"]["body"][0];
 	print "\"><td colspan=2>";
 	$dirs = split("/",$dir);
-	print "<a href=main.php?server=$server&sort=$sort>Music</a>";
+	print "<a href=\"main.php?server=$server&amp;sort=$sort\">Music</a>";
 	$build_dir = "";
 	for($i=0;$i<count($dirs)-1;$i++) {
 		if($i>0 && $i<(count($dirs)-1)) $build_dir.="/";
 		$dirs[$i] = stripslashes($dirs[$i]);
 		$build_dir.="$dirs[$i]";
 		$build_dir = sanitizeForURL($build_dir);
-		print " / <a href=\"main.php?server=$server&sort=$sort&dir=$build_dir\">$dirs[$i]</a>";
+		print " / <a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 	if($i>0) $build_dir.="/";
 	if(strlen($dir)>0) {
 		$dirs[$i] = stripslashes($dirs[$i]);
 		$build_dir.="$dirs[$i]";
 		$build_dir = sanitizeForURL($build_dir);
-		print " / <a href=\"main.php?server=$server&sort=$sort&dir=$build_dir\">$dirs[$i]</a>";
+		print " / <a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 	print "</td></tr></table>\n";
 }
@@ -80,7 +80,7 @@ function displayUpdate($dir,$sort) {
 	global $server;
 	$dir_url = sanitizeForURL($dir);
 	print "<table width=\"100%\"><tr><td><small>[";
-	print "<a href=\"update.php?server=$server&dir=$dir_url&sort=$sort\">";
+	print "<a href=\"update.php?server=$server&amp;dir=$dir_url&amp;sort=$sort\">";
 	print "Update</a>] - Update Music Database (scans music directory for changes)";
 	print "</small></td></tr></table>\n";
 }
@@ -89,7 +89,7 @@ function displayStats($dir,$sort) {
 	global $server;
 	$dir_url = sanitizeForURL($dir);
 	print "<br><table width=\"100%\"><tr><td><small>[";
-	print "<a href=\"stats.php?server=$server&dir=$dir_url&sort=$sort\">";
+	print "<a href=\"stats.php?server=$server&amp;dir=$dir_url&amp;sort=$sort\">";
 	print "Stats</a>] - Display MPD Stats";
 	print "</small></td></tr></table>\n";
 }

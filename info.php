@@ -71,7 +71,7 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 		if($start>0) {
 			print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
 			print "<td colspan=2 align=center><small>";
-			print "<a href=\"playlist.php?server=$server&hide=0\">...</a>";
+			print "<a href=\"playlist.php?server=$server&amp;hide=0\">...</a>";
 			print "</small></td></tr>";
 		}
 		fputs($conn,"command_list_begin\n");
@@ -82,7 +82,7 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 		if($length>$spread+1) {
 			print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
 			print "<td colspan=2 align=center><small>";
-			print "(<a href=\"playlist.php?server=$server&hide=1\">condense</a>)";
+			print "(<a href=\"playlist.php?server=$server&amp;hide=1\">condense</a>)";
 			print "</small></td></tr>";
 		}
 		fputs($conn,"playlistinfo -1\n");
@@ -110,8 +110,8 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 					print "<tr bgcolor=\"". $colors["playlist"]["current"] . "\">";
 				else 
 					print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
-				print "<td valign=top><a name=$count><small><a href=\"playlist.php?server=$server&hide=$hide&command=deleteid $id&time=$tm#$goto\">d</a></small></td>\n";
-				print "<td width=\"100%\"><a href=\"playlist.php?server=$server&hide=$hide&command=playid%20$id\">$display</a></td></tr>\n";
+				print "<td valign=top><a name=$count></a><small><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=deleteid $id&amp;time=$tm#$goto\">d</a></small></td>\n";
+				print "<td width=\"100%\"><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=playid%20$id\">$display</a></td></tr>\n";
 			}
 			$count++;
 		}
@@ -130,14 +130,14 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 			print "<tr bgcolor=\"". $colors["playlist"]["current"] . "\">";
 		else 
 			print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
-		print "<td valign=top><a name=$count><small><a href=\"playlist.php?server=$server&hide=$hide&command=delete $count&time=$tm#$goto\">d</a></small></td>\n";
-		print "<td width=\"100%\"><a href=\"playlist.php?server=$server&hide=$hide&command=play%20$count\">$display</a></td></tr>\n";
+		print "<td valign=top><a name=$count></a><small><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=delete $count&amp;time=$tm#$goto\">d</a></small></td>\n";
+		print "<td width=\"100%\"><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=play%20$count\">$display</a></td></tr>\n";
 	}
 	if($hide) {
 		if($end<$length-1) {
 			print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
 			print "<td colspan=2 align=center><small>";
-			print "<a href=\"playlist.php?server=$server&hide=0\">...</a>";
+			print "<a href=\"playlist.php?server=$server&amp;hide=0\">...</a>";
 			print "</small></td></tr>";
 		}
 	}
