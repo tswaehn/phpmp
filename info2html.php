@@ -705,16 +705,17 @@ function songInfo2Display( $song_info, $display, $filenames_only, $regex, $wordw
 			$song_display_conf .= " " . $display[$i];
 		}
 
+		$s_display_conf = $song_display_conf;
 		// This will replace all song_display_conf stuff with the actual value
 		foreach( $song_info as $key => $value )
 		{
-			// Otherwise the Id or Pos could get translated into the metadata
-			if( $key != "Id" && $key != "Pos" )
+			// Prevent the metadata from getting translated
+			if( strstr( $song_display_conf, $key ))
 			{
-				$song_display_conf = str_replace( $key, $value, $song_display_conf );
+				$s_display_conf = str_replace( $key, $value, $s_display_conf );
 			}
 		}
-		$song_display = $song_display_conf;
+		$song_display = $s_display_conf;
 	}
 	else if( strcmp( $filenames_only, "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{
