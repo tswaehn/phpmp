@@ -35,7 +35,7 @@ $colors["directories"]["body"][1] = "#ddddff";
 $colors["music"]["title"] = "#88ff88";
 $colors["music"]["body"][0] = "#eeffee";
 $colors["music"]["body"][1] = "#ccffcc";
-$colors["music"]["sort"] = "#99ff99";
+$colors["music"]["sort"] = "#aaffaa";
 
 // Colors for Playlist Table
 $colors["playlist"]["title"] = "#ffaaaa";
@@ -58,11 +58,16 @@ $colors["outputs"]["body"][0] = "#ccffcc";
 $colors["outputs"]["body"][1] = "#eeffee";
 
 // Colors for Search
-$colors["search"]["title"] = "#aaffaa";
+$colors["search"]["title"] = "#88ff88";
 $colors["search"]["body"][0] = "#ccffcc";
 $colors["search"]["body"][1] = "#eeffee";
-$colors["search"]["sort"] = "#88ff88";
+$colors["search"]["sort"] = "#aaffaa";
 
+// Colors for Music
+$colors["music"]["title"] = "#88ff88";
+$colors["music"]["body"][0] = "#eeffee";
+$colors["music"]["body"][1] = "#ccffcc";
+$colors["music"]["sort"] = "#aaffaa";
 // Colors for Server Table
 $colors["server"]["title"] = "#cccccc";
 $colors["server"]["body"] = "#eeeeee";

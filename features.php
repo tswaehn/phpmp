@@ -272,13 +272,13 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<tr bgcolor=\"" . $color["body"][1] . "\">";
 	echo "<td>";
 	echo "<select name=search>";
-	function localPrintFileNameOption( $which_search )
+	function localPrintFileNameOption( $search, $find )
 	{
-		if( ! isset( $search ) ||  empty( $search ))
+		if( ! empty( $search ))
 		{
 			$which_search = $search;
 		}
-		else if( ! isset( $find ) || empty( $find ))
+		else if( ! empty( $find ))
 		{
 			$which_search = $find;
 		}
@@ -294,7 +294,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 
 	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
 	{
-		localPrintFileNameOption( $search );
+		localPrintFileNameOption( $search, $find );
 	}
 
 	if( strcmp( $search, "title" ) == "0" || strcmp( $find, "title" ) == "0" )
@@ -344,7 +344,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 
 	if( strcmp( $config["filenames_only"], "yes" ))
 	{
-	        localPrintFileNameOption( $search );
+	        localPrintFileNameOption( $search, $find );
 	}
 	echo "</select>";
 	echo "<input type=hidden value=\"main\" name=body>";
@@ -364,23 +364,35 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	{
 		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
-	if( isset( $lsinfo ))
-	{
-		list( $mprint, $mindex, $add_all ) = lsinfo2musicTable( $lsinfo, $sort, $dir_url, $sort_array, $config, $color["body"], $server, $addperm );
-	}
+
 	$arg_url = rawurlencode( $arg );
-	if ( isset( $mprint ))
+	if( isset( $lsinfo ))
 	{
 		if( empty( $search ))
 		{
-			$local_url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
+			$url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
 		}
 		else
 		{
-			$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
+			$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		}
-		printMusicTable( $config, $color, $sort_array, $server, $mprint, $local_url, $add_all, $mindex, $dir, $addperm, $feature, $ordered );
-	}
+		$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
+		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
+		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
+		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $url );
+		unset( $tagged, $untagged );
 
+		if( empty( $tagged_info["print"] ))
+		{
+			$file_info["title"] = "Music";
+		}
+		if( empty( $file_info["print"] ))
+		{
+			$tagged_info["title"] = "Music";
+		}
+
+		printMusicTable( $add_all, $config, $color, $tagged_info, $sort_array, $server, $dir, $addperm, $feature, $ordered );
+		printMusicTable( $add_all, $config, $color, $file_info, $sort_array, $server, $dir, $addperm, $feature, 0 );
+	}
 }
 ?>

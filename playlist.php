@@ -2,7 +2,6 @@
 if( isset( $add_all ))
 {
 	$add_all = rawurldecode( $add_all );
-	$add_all = stripslashes( $add_all );
 }
 if( isset( $_FILES['playlist_file']['name'] ))
 {
@@ -118,7 +117,7 @@ if( isset( $status["state"] ))
 
  	// The global table tags begin here. This is code to make the border, this really is a hack but improves looks quite a bit
 	echo "<table summary=\"Border Table Hack\" align=\"center\" bgcolor=\"" . $colors["playing"]["title"] . "\">";
-	echo "<tr><td width=\"100%\">";
+	echo "<tr>";#<td width=\"100%\">";
 
 	echo "<b>";
 
@@ -145,10 +144,7 @@ if( isset( $status["state"] ))
 	echo "</b>";
 	echo "<small>";
 	echo "&nbsp;(<a title=\"Refresh the Playlist Window\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options\">refresh</a>)";
-	echo "</small>";
-	echo "</td></tr>";
-	echo "<tr></tr>"; // Make some space under the title
-	echo "</table>";
+	echo "</small></td></tr></table>";
 	// STATUSBAR Begin: End playlist_body
 
 	if( strcmp( $status["state"], "play" ) == "0" || "0" == strcmp( $status["state"], "pause" ))
@@ -234,7 +230,7 @@ if( isset( $status["state"] ))
 				}
 
 				$seek = round( $i*$time_div*$time[1]/100 );
-				$min = (int)($seek/60);
+				$min = (int)( $seek/60 );
 				$sec = $seek-$min*60;
 
 				if( $sec < "10")

@@ -1,29 +1,43 @@
 <?php
 // This will extract the needed GET/POST variables
-$dir_url = stripslashes( $dir );
+$dir = stripslashes( $dir );
 $dir = rawurldecode( $dir );
 $dir_url = rawurlencode( $dir );
-
+$url = "index.php?body=main&amp;dir=$dir_url";
 if( ! isset( $sort ))
 {
 	$sort = $config["default_sort"];
 }
-
 
 $sort_array = split( ",", $sort );
 $lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );
 
 list( $dprint, $dindex, $dcount ) = lsinfo2directoryTable( $lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"] );
 list( $pprint, $pindex ) = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );
-list( $mprint, $mindex, $add_all ) = lsinfo2musicTable( $lsinfo, $sort, $dir, $sort_array, $config, $colors["music"]["body"], $server, $commands["add"] );
 
-/* This is the features section, just throw a new feature in features.php, make a link in
-utils and edit below and you have a new feature */
+if( ! empty( $lsinfo["music"] ))
+{
+	$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
+	list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
+	$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $ordered, $url );
+	$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $url );
+	unset( $tagged, $untagged );
+}
 
+/* This is the features section, just throw a new feature in features.php, make a link in utils and edit below and you have a new feature */
 if( isset( $feature ))
 {
 	require "features.php";
-	displayDirectory( $dir, $dir_url, $sort, "Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+
+	// This is probably an ugly (quick) solution to an easy problem, but this makes sure that if 'search' is clicked (Tagged) & (Untagged) don't show in the displayDirectory. 
+	if( strcmp( $feature, "search" ) == "0" && ! empty( $arg ))
+	{
+		displayDirectory( $dir, $dir_url, $sort, "Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+	}
+	else
+	{
+		displayDirectory( $dir, $dir_url, $sort, "Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+	}
 
 	if( ! isset ( $arg ))
 	{
@@ -71,7 +85,7 @@ if( isset( $feature ))
 else
 {
 	$feature = "";
-	displayDirectory( $dir, $dir_url, $sort, "Current Directory", count( $mprint ), count( $pprint ), $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+	displayDirectory( $dir, $dir_url, $sort, "Current Directory", 0, count( $pprint ), $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 
 	// The next few are targeted from URLs
 	if( isset( $save ) && strcmp( $save, "yes" ) == "0" )
@@ -79,7 +93,21 @@ else
 		printSavePlaylistTable( $save, $server, $colors["playlist"] );
 	}
 	printDirectoryTable( $dcount, $dprint, $dindex, $dir, $sort, $server, $commands["add"], $colors["directories"] );
-	printMusicTable( $config, $colors["music"], $sort_array, $server, $mprint, "index.php?body=main&amp;dir=$dir_url", $add_all, $mindex, $dir, $commands["add"], $feature, $ordered);
+
+	if( ! empty( $lsinfo["music"] ))
+	{
+		if( empty( $tagged_info["print"] ))
+		{
+			$file_info["title"] = "Music";
+		}
+		if( empty( $file_info["print"] ))
+		{
+			$tagged_info["title"] = "Music";
+		}
+		printMusicTable( $add_all, $config, $colors["music"], $tagged_info, $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
+		printMusicTable( $add_all, $config, $colors["music"], $file_info, $sort_array, $server, $dir, $commands["add"], $feature, 0 );
+	}
+
 	printPlaylistTable( $colors["playlist"], $server, $pprint, $pindex, $delete, $commands["rm"] );
 }
 ?>

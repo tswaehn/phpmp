@@ -1,3 +1,74 @@
+Fri Dec 17 12:30:25 PST 2004  avuton@gmail.com
+  * tag/file separation & printMusicTable() rewrite completion
+  
+  This concludes about 2 weeks of work to get printMusicTable whipped into a shape that I can deal with, that should be able to be better used with the stream() feature and future features. This also simplifies some things that were being done in one function are being done in two now, with minimal code duplication, but it really is necessary for both simplifications purpose and for completely correct sorting.
+  
+  There are for sure a few bugs here, I know, for example, that there are no anchors in the displayDirectory. This should be rectified very soon, I need to get this out due mostly to major issues with the old trunk.
+
+Mon Nov 19 09:18:46 PST 2007  avuton@gmail.com
+  * Breaking down lsinfo2musicTable: Snapshot 2
+  
+  This prints most of the information we split up before, it's not perfect at the moment, but it's getting better. I expect maybe one more snapshot and we'll be ready to commit.
+
+Thu Dec 16 03:00:20 PST 2004  avuton@gmail.com
+  * Breaking down lsinfo2musicTable: Snapshot 1
+  The idea right now is to break down lsinfo2musicTable() to different smaller functions, to better handle separations so that sort works as it should. This will also include a need to re(re)write printMusicTable.
+
+Wed Dec 15 07:09:45 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() tag/file separation snapshot 11
+
+Wed Dec 15 06:53:12 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() snapshot 10
+  This pretty much prepares things for the big time svn commit. Lots of cleanups and things seem to be working fairly well, although much testing is needed. Probably still a couple of records away from commit.
+
+Tue Dec 14 05:53:52 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() tag/file separation: snapshot 9
+  
+  This is small, just a sync
+
+Tue Dec 14 05:42:11 PST 2004  avuton@gmail.com
+  * Fix problem with infinite loop when can't connect.
+  
+  Simply just had to add 'die;'
+
+Tue Dec 14 05:39:07 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable & printMusicTable() tag/file separation snapshot 8
+
+Mon Dec 13 16:52:28 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() tag/file separation snapshot 7
+  
+  This fixes a few issues and does some cosmetic stuff to make people realize that adding all will add all that are on the printMusicTable()s. This fixes the anchors on the displayDirectory. This (re)fixes the sorting issues.
+
+Thu Sep 25 03:06:59 PDT 2003  avuton@gmail.com
+  * TODO update
+
+Thu Sep 25 03:02:50 PDT 2003  avuton@gmail.com
+  * This fixes the 'file name' being selected after search in the Search or Find feature
+
+Sun Dec 12 17:46:20 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() tag/file separation snapshot 6: fixing the stripslashes problem
+
+Sat Dec 11 18:38:46 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() tag/file separation snapshot 5
+
+Sat Dec 11 16:43:45 PST 2004  avuton@gmail.com
+  * lsinfo2musicTable() & printMusicTable() file/tag separation snapshot 4: this fixes the filename sorting when mixing with tagged stuff
+
+Sat Dec 11 19:03:50 PST 2004  avuton@gmail.com
+  * printMusicTable and lsinfo2musicTable file/tag separation snapeshot 3
+
+Sat Dec 11 18:53:25 PST 2004  avuton@gmail.com
+  * printMusicTable() & lsinfo2musicTable() file/tag separation snapshot 2
+
+Thu Jan  8 05:51:55 PST 2004  avuton@gmail.com
+  * printMusicTable() lsinfo2musicTable() tag/file separation snapshot 1
+
+Sat Dec 11 15:13:41 PST 2004  avuton@gmail.com
+  * Commenting and setup the frame for implementing the split printMusicTable()
+
+Fri Dec 10 22:24:48 PST 2004  avuton@gmail.com
+  * Small sync, nothing but text movement
+
 Fri Dec 10 18:57:49 PST 2004  avuton@gmail.com
   * Fix issue for when files are mixed with metadata in printMusicTable, this is related to an earlier patch dealing with fixing the 'Time' sort field
 
@@ -122,4 +193,3 @@ Thu Nov 25 10:19:05 PST 2004  avuton@gmail.com
 
 Wed Nov 24 23:27:41 PST 2004  avuton@gmail.com
   * Inital revision.
-

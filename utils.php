@@ -143,9 +143,28 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"" . $color["title"] . "\">";
 	echo "<tr><td><b>$title</b>";
 	echo "&nbsp;";
-	if ( $music && ( $dcount > "0" ))
+
+	if( $dcount > "0" )
 	{
-	        echo "<small>(<a href=\"#music\">Music</a>)</small>&nbsp;";
+		if( count( $music["file"] ) > "0" && count( $music["tag"] ) > "0" )
+		{
+ 		        echo "<small>(<a href=\"#tagged\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
+		}
+		else if( count( $music["file"] ) > "0" || count( $music["tag"] ) > "0" )
+		{
+			if( count( $music["file"] ) == "0" || count( $music["tag"] ) == "0" )
+			{
+		 	        echo "<small>(<a href=\"#music\">Music</a>)</small>&nbsp;";
+			}
+			else
+			{
+		 	        echo "<small>(<a href=\"#tagged\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
+			}
+		}
+	}
+	else if( count( $music["file"] ) > "0" && count( $music["tag"] ) > "0" )
+	{
+		echo "<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
 	}
 
 	if ( isset( $playlists ) && $playlists > "0" )

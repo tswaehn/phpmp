@@ -1,4 +1,9 @@
 <?php
+function fsort( $a, $b )
+{
+		return strcasecmp( basename( $a["file"] ), basename( $b["file"] ) );
+}
+
 function msort( $a, $b )
 {
 	global $sort_array, $config, $ordered;
@@ -42,8 +47,8 @@ function msort( $a, $b )
 		$i++;
 	}
 	if ( $ret == "0" )
-	{ 
-		$ret = strcasecmp( $a["file"], $b["file"] );
+	{
+		$ret = strcasecmp( basename( $a["file"] ), basename( $b["file"] ) );
 	}
 	return $ret;
 }

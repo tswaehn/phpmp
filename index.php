@@ -137,6 +137,7 @@ if (!$fp)
 		server($servers, $host, $colors);
 	}
 	echo "$errstr ($errno)<br>\n";
+	die;
 }
 
 // Lets go ahead and get the MPD version while we can
