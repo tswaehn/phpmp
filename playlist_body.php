@@ -64,6 +64,25 @@ else {
 			print "NOT a m3u or pls file!<br>";
 		}
 	}
+	if(isset($stream)) {
+		if(preg_match("/^[a-z]*:\/\//",$stream)) {
+			if(preg_match("/\.m3u/",$stream)) {
+				$pls_fp = fopen($stream,"r");
+				$add = readM3uFile($pls_fp);
+			}
+			else if(preg_match("/\.pls/",$stream)) {
+				$pls_fp = fopen($stream,"r");
+				$add = readPlsFile($pls_fp);
+                	}
+			else {
+				$command = "add";
+				$arg = $stream;
+			}
+		}
+		else {
+			print "Doesn't appear to be a url<br>";
+		}
+	}
 	if(isset($command)) {
 		$arg = preg_replace("/\"/","\\\"",$arg);
 		if(strlen($arg)>0)

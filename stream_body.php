@@ -40,8 +40,7 @@ else {
 	print $colors["music"]["body"][0];
 	print "\"><td>\n";
 	$dir_url = sanitizeForURL($dir);
-	print "<input type=input name=arg size=40>\n";
-	print "<input type=hidden name=command value=\"add\">\n";
+	print "<input type=input name=stream size=40>\n";
 	print "<input type=submit value=add name=foo><br>";
 	print "</td></tr></table></form>\n";
 	print "<br>\n";
