@@ -10,6 +10,7 @@ if(!isset($sort))
 $dir_url = rawurlencode($dir);
 $lsinfo = getLsInfo($fp,"lsinfo \"$dir\"\n");
 $sort_array = split(",",$sort);
+$status = getStatusInfo($fp);
 
 list($dprint, $dindex, $dcount) = lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"]);
 list($pprint, $pindex) = lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $commands["load"]);

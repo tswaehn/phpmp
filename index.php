@@ -89,17 +89,16 @@ if (isset($logout))
 else if (isset($_COOKIE["phpMp_password"][$hostport]))
 {
 	$passarg = $_COOKIE["phpMp_password"][$hostport];
-	$has_password = 1;
 }
 if (isset($passarg))
 {
+	$has_password = 1;
 	fputs($fp,"password \"$passarg\"\n");
 	while (!feof($fp))
 	{
 		$got = fgets($fp,1024);
 		if (strncmp("OK",$got,strlen("OK"))==0)
 		{
-			$has_password=1;
 			if (isset($remember) && $remember=="true")
 			{
 				setcookie("phpMp_password[$hostport]",$passarg,time()+60*60*24*365);
@@ -198,11 +197,6 @@ else
 	{
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";
 	}
-	if(strcmp($body,"playlist")==0 || strcmp($body,"main")==0)
-	{
-		$status = getStatusInfo($fp);
-	}
-
 	echo "<title>" . $config["title"] . " - " . $body . "</title>";
 
 	// I would _much_ rather have a php generated stylesheet

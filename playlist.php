@@ -92,6 +92,7 @@ if (isset($add) && count($add)>0)
 
 // This will extract the needed GET/POST variables
 extract(setupReceivedVars(array("crop", "time"),2));
+$status = getStatusInfo($fp);
 
 if (isset($status["error"]))
 {

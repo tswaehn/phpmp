@@ -61,7 +61,7 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 	echo "<tr><td><b>Password</b></td></tr>";
 	echo "<tr bgcolor=\"" . $color["body"] . "\"><td>";
 	echo "<input type=hidden value=\"$server\" name=server>";
-	echo "<input type=password name=passarg value=\"" . $arg . "\" size=20>";
+	echo "<input type=password name=password value=\"" . $arg . "\" size=20>";
 	echo "<input type=hidden value=\"$dir_url\" name=dir>";
 	echo "<input type=hidden value=\"$default_sort\" name=sort>";
 	echo "<input type=submit value=login name=foo>";
