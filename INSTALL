@@ -33,6 +33,8 @@ using your favorite text editor, edit config.php
 5) it maybe required that you change permissions of the directory and the files,
 if using apache use something like: chown apache:apache; chmod 550
 
+6) It is optional but *highly recommended* to make sure allow_url_fopen = On; in your php.ini
+
 example:
 $ vi phpMp-x.x.x/config.php
 

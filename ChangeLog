@@ -46,7 +46,7 @@ machine with MPD, Apache & phpMp serving.
 30) Removed $_GET & $_POST from extract() due to known security problems.
 31) Moved connection, connection detection, command execution, includes, login stuff, cookies to the index, so we don't duplicate over frames.
 32) Added option to the config to add the current server to the browser display.
-33) Moved volume display options to theme.php
+33) Added a icecast browser to the streams feature (thanks goto QballCow for the idea!)
 34) Made cookies per-server so when servers are changed the cookies for one server don't conflict with another servers'
 35) Status is now shown, rather than just printing 'Playing'
 36) Changed use_javascript_add_all to use_javascript
@@ -60,6 +60,7 @@ machine with MPD, Apache & phpMp serving.
 44) Got rid of most globals, most were unneeded due to structural changes
 45) Build command lists then send, that way we max out the block rather than sending partial TCP packets. May see speed difference in playlist due to constant loading.
 46) Change from decodeHTML() sanitizeForPost() sanitizeForURL() to rawurlencode() and rawurldecode() integrated php functions
+47) Added ability for phpMp to automatically download and add m3u and pls playlists
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams
