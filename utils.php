@@ -263,7 +263,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	}
 	else if(strcmp($title,"Current Directory")==0 && $commands["update"] == "1" )
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir/\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";
@@ -373,7 +373,14 @@ function characterDataHandler( $parser , $data )
 	}
 	else if( $xml_current_tag_state == "LISTEN_URL" )
 	{
-		$server_data[$server_count]["listen_url"] = $data;
+		if( isset( $server_data[$server_count]["listen_url"] ))
+		{
+			$server_data[$server_count]["listen_url"] .= $data;
+		}
+		else
+		{
+			$server_data[$server_count]["listen_url"] = $data;
+		}
 	}
 	else if( $xml_current_tag_state == "SERVER_TYPE" )
 	{
@@ -398,6 +405,26 @@ function characterDataHandler( $parser , $data )
 	else if( $xml_current_tag_state == "CURRENT_SONG" )
 	{
 		$server_data[$server_count]["current_song"] = $data;
+	}
+	else if( $xml_current_tag_state == "RANK" )
+	{
+		$server_data[$server_count]["rank"] = $data;
+	}
+	else if( $xml_current_tag_state == "STREAM_HOMEPAGE" )
+	{
+		$server_data[$server_count]["stream_homepage"] = $data;
+	}
+	else if( $xml_current_tag_state == "LISTENING" )
+	{
+		$server_data[$server_count]["listening"] = $data;
+	}
+	else if( $xml_current_tag_state == "MAX_LISTENERS" )
+	{
+		$server_data[$server_count]["max_listeners"] = $data;
+	}
+	else if( $xml_current_tag_state == "BITRATE" )
+	{
+		$server_data[$server_count]["max_listeners"] = $data;
 	}
 }
 

@@ -37,40 +37,44 @@ if (isset($_FILES['playlist_file']['name']))
 			echo "NOT a m3u or pls file!<br>";
 		}
 	}   
-}
-if (isset($stream))
+} 
+if( isset( $stream ))
 {
-	if (preg_match("/^(ftp|http):\/\/.*?\.(m3u|pls)/i",$stream))
+	$stream = split( $config["song_separator"], $stream );
+	for( $i = 0; $i < sizeOf($stream); $i++ )
 	{
-		$add = readFileOverHTTP($fp,$stream);
-	}
-        // This requires the cURL hooks, probably not that hard to implement, though it is
-        // another dependency, and more problem where 0 people will probably use.
-        else if (preg_match("/^https:\/\/.*?\.(m3u|pls)/",$stream))
-        {
-		echo "HTTPS protocol downloads are not yet implemented.";
-	}
-	else if (preg_match("/^[a-z]*:\/\//",$stream) && !preg_match("/^file:/",$stream))
-	{
-		if (strcmp(".m3u",$stream)==0)
+		if( preg_match( "/^(ftp|http):\/\/.*?\.(m3u|pls)/i", $stream[$i] ))
 		{
-			$pls_fp = fopen($stream,"r");
-			$add = postStream($pls_fp,"m3u");
+			$add = readFileOverHTTP( $fp, $stream[$i] );
 		}
-		else if (strcmp(".pls",$stream)==0)
+		// This requires the cURL hooks, probably not that hard to implement, though it is
+		// another dependency, and more problem where 0 people will probably use.
+		else if( preg_match( "/^https:\/\/.*?\.(m3u|pls)/", $stream[$i] ))
 		{
-			$pls_fp = fopen($stream,"r");
-			$add = postStream($pls_fp,"pls");
+			echo "HTTPS protocol downloads are not yet implemented.";
+		}
+		else if( preg_match( "/^[a-z]*:\/\//", $stream[$i]) && !preg_match( "/^file:/", $stream[0] ))
+		{
+			if( strcmp( ".m3u", $stream[$i]) == "0" )
+			{
+				$pls_fp = fopen( $stream[$i], "r" );
+				$add = postStream( $pls_fp, "m3u" );
+			}
+			else if( strcmp( ".pls", $stream[$i]) == "0" )
+			{
+				$pls_fp = fopen( $stream[$i], "r" );
+				$add = postStream( $pls_fp, "pls" );
+			}
+			else
+			{
+				$command = "add";
+				$add[$i]=$stream[$i];
+			}
 		}
 		else
 		{
-			$command = "add";
-			$add[0]=$stream;
+			echo "Doesn't appear to be a url<br>";
 		}
-	}
-        else
-	{
-		echo "Doesn't appear to be a url<br>";
 	}
 }
 else if (isset($add_all) && $add_all)

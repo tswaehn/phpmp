@@ -161,15 +161,25 @@ if(isset($command))
 
 if(isset($feature))
 {
-	if(strcmp($feature,"stream-icy")==0)
+	if(strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" )
 	{
-		if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )))
+		if( strcmp( $feature, "stream-icy" ) == "0" )
 		{
-			die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+			if( ! ( $fh = fopen( "http://dir.xiph.org/yp.xml", "r" )))
+			{
+				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+			}
+			if( ! ( $fh2 = fopen( "http://oddsock.org/yp.xml", "r" )))
+			{
+				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+			}
 		}
-		if( ! ($fh2 = fopen( "http://oddsock.org/yp.xml" , "r" )))
+		else if( strcmp( $feature, "stream-shout" ) == "0" )
 		{
-			die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+			if( ! ( $fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" )))
+			{
+				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+			}
 		}
 
 		$server_count = 0;
@@ -193,11 +203,14 @@ if(isset($feature))
 			}
 		}
 
-		while( $data = fread($fh2, 4096) )
+		if( isset( $fh2 ))
 		{
-			if( !xml_parse($xml_parser, $data, feof($fh2)) )
+			while( $data = fread($fh2, 4096) )
 			{
-				break; // get out of while loop if we're done with the file
+				if( !xml_parse($xml_parser, $data, feof($fh2)) )
+				{
+					break; // get out of while loop if we're done with the file
+				}
 			}
 		}
 

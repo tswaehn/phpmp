@@ -64,6 +64,9 @@ if(isset($feature))
 		case 'stream-icy':
 			stream($server, $colors["stream"], $feature, $server_data, $config["song_separator"]);
 			break;
+		case 'stream-shout':
+			stream($server, $colors["stream"], $feature, $server_data, $config["song_separator"]);
+			break;
 	}
 	echo "<!-- End $feature -->";
 }

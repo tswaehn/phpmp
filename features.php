@@ -139,6 +139,7 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 function stream($server, $color, $feature, $server_data, $song_seperator)
 {
 	echo "<br>";
+
 	echo "<form action=index.php? target=playlist method=get>";
 	echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 	echo "<tr><td><b>Add Stream</b></td></tr>";
@@ -150,6 +151,7 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	echo "</td></tr></table></form>";
 
 	echo "<br>";
+
 	echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
 	echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 	echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
@@ -160,6 +162,7 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	echo "&nbsp;";
 	echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
 	echo "</td></tr></table></form>";
+
 	echo "<br>";
 	
 	if(strcmp($feature,"stream"))
@@ -175,28 +178,36 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 				}
 			}
 		}
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast/Oddcast Streams</b>";
+		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		if( strcmp( $feature, "stream-icy" ) == "0" )
+		{ 
+			echo "<tr><td><b>Icecast/Oddcast Streams</b>";
+		}
+		else if( strcmp( $feature, "stream-shout" ) == "0" )
+		{
+			echo "<tr><td><b>Shoutcast Streams</b>";
+		}
 		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
-		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
+		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=$feature\" target=main>refresh</a>)</small></td>";
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
+
 		$j=2;
 		$k=0;
 		for($i=0;$i<sizeOf($server_data);$i++)
 		{
-
 			echo "<tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
-			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;add_all=" . $server_data[$i]["listen_url"];
+			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
+			echo rawurlencode($server_data[$i]["listen_url"]);
 
 			while(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"])==0)
 			{
 				$i++;
-				echo $song_seperator . $server_data[$i]["listen_url"];
+				echo $song_seperator . rawurlencode($server_data[$i]["listen_url"]);
 			}
 
 			echo "\">" . trim($server_data[$i]["server_name"]) . "</a></td></tr>";
@@ -210,7 +221,16 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td><b>Icecast / Oddcast Streams</b>";
 		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
-		echo "</tr></table>";
+		echo "</tr></table></td></tr></table>";
+
+		echo "<br>";
+
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td>";
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td><b>Shoutcast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
+		echo "</tr></table></td></tr></table>";
 	}
 }
 
