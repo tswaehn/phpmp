@@ -229,7 +229,8 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		{
 		        $build_dir.="/";
 		}
-		$build_dir.= rawurlencode(stripslashes($dirs[$i]));
+		$dirs[$i] = stripslashes($dirs[$i]);
+		$build_dir.= rawurlencode($dirs[$i]);
 		echo " / ";
 		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
@@ -241,7 +242,8 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 
 	if (strlen($dir)>0)
 	{
-		$build_dir.= rawurlencode(stripslashes($dirs[$i]));
+		$dirs[$i] = stripslashes($dirs[$i]);
+		$build_dir.= rawurlencode($dirs[$i]);
 		echo " / ";
 		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
