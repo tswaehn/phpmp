@@ -169,11 +169,24 @@ function stream($server, $color, $feature, $server_data)
 		echo "<tr><td>";
 		echo "</table>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
+		$j=2;
+		$k=0;
 		for($i=0;$i<sizeOf($server_data);$i++)
 		{
-			echo "<tr bgcolor=\"" . $color["body"][$i%2]  . "\"><td>";
-			echo "<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
-			echo $server_data[$i]["server_name"] . "</td></tr>";
+			if(strcmp($server_data[$i]["server_name"],$server_data[($i-1)]["server_name"])==0)
+			{
+				echo "&nbsp;[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
+				echo "$j</a>]";
+				$j++;
+			}
+			else
+			{
+				echo "</td></tr><tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
+				echo "<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
+				echo $server_data[$i]["server_name"] . "</a>";
+				$j=2;
+				$k++;
+			}
 		}
 		echo "</tr></table></form>";
 	}
