@@ -167,7 +167,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
 	}
 
-	if($commands["enableoutput"] && $commands["disableoutput"] && $commands["outputs"])
+	if(isset($commands["enableoutput"]) && isset($commands["disableoutput"]) && isset($commands["outputs"]))
 	{
 		if(isset($feature_bar))
 		{
@@ -176,7 +176,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"View the Sound Outputs\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=outputs&amp;dir=$dir_url\">Outputs</a>";
 	}
 
-	if($commands["search"])
+	if(isset($commands["search"]))
 	{
 		if(isset($feature_bar))
 		{
@@ -195,7 +195,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	}
 
 	// Please rewrite me, this is extemely ugly, and there's probably a better way to do this
-	if($commands["stats"])
+	if(isset($commands["stats"]))
 	{
 		if(isset($feature_bar))
 		{
@@ -204,7 +204,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"View MPD/phpMp Statistics\" target=main href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stats\">Stats</a>";
 	}
 
-	if($commands["load"])
+	if(isset($commands["load"]))
 	{
 		if(isset($feature_bar))
 		{
@@ -256,7 +256,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
 	}
-	else if(strcmp($title,"Current Directory")==0 && $commands["update"])
+	else if(strcmp($title,"Current Directory")==0 && isset($commands["update"]))
 	{
 		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
