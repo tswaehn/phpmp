@@ -3,7 +3,7 @@
 Requirements
 ------------
 
-1) Music Player Daemon (MPD) (0.11.0 or greater) - http://www.musicpd.org
+1) Music Player Daemon (MPD) (0.12.0 or greater) - http://www.musicpd.org
 2) Web server such as Apache (included with many distributions)
 3) PHP >= 4 (works fine with PHP 5.x also) for your webserver (included with many distributions)
   - gzip compiled into PHP to browse shoutcast streams.

@@ -83,9 +83,6 @@ header("Content-Type: text/html; charset=UTF-8");
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
 echo "<html><head>";
-#echo "<META HTTP-EQUIV=\"Expires\" CONTENT=\"Thu, 01 Dec 1994 16:00:00 GMT\">";
-#echo "<META HTTP-EQUIV=\"Pragma\" CONTENT=\"no-cache\">";
-#echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">";
 
 // Open thee connection
 $fp = fsockopen( $host, $port, $errno, $errstr, 10 );
@@ -159,63 +156,52 @@ if( ! empty( $command ))
 	$status = getStatusInfo( $fp ); 
 }
 
-if( ! empty( $feature ))
+if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" ))
 {
-	if( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" )
+	require "xml-parse.php";
+	if( strcmp( $feature, "stream-icy" ) == "0" )
 	{
-		if( strcmp( $feature, "stream-icy" ) == "0" )
-		{
-			$fh = fopen( "http://dir.xiph.org/yp.xml", "r" );
-			$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
-
-			if( ! is_resource( $fh ) && ! is_resource( $fh2 ))
-			{
-				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-			}
-		}
-		else if( strcmp( $feature, "stream-shout" ) == "0" )
-		{
-			$fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" );
-
-			if( ! is_resource( $fh ))
-			{
-				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-			}
-		}
-
-		$server_count = 0;
-		$server_data = array();
-		$xml_current_tag_state = '';
-
-
-		if( ! ( $xml_parser = xml_parser_create() ))
-		{
-			die( "Couldn't create XML parser!" );
-		}
-
-		xml_set_element_handler( $xml_parser, "startElementHandler", "endElementHandler" );
-		xml_set_character_data_handler( $xml_parser, "characterDataHandler" );
-
-		while( $data = fread( $fh, "4096" ))
-		{
-			if( ! xml_parse( $xml_parser, $data, feof( $fh ) ))
-			{
-				break; // get out of while loop if we're done with the file
-			}
-		}
-
-		if( isset( $fh2 ))
-		{
-			while( $data = fread( $fh2, "4096" ))
-			{
-				if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
-				{
-					break; // get out of while loop if we're done with the file
-				}
-			}
-		}
-		xml_parser_free( $xml_parser );
+		$fh = fopen( "http://dir.xiph.org/yp.xml", "r" );
+		$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
 	}
+	else if( strcmp( $feature, "stream-shout" ) == "0" )
+	{
+		$fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" );
+	}
+
+	if( ! is_resource( $fh ) || ! is_resource( $fh2 ))
+	{
+		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+	}
+
+	$server_count = 0;
+	$server_data = array();
+	$xml_current_tag_state = '';
+
+	if( ! ( $xml_parser = xml_parser_create() ))
+	{
+		die( "Couldn't create XML parser!" );
+	}
+
+	xml_set_element_handler( $xml_parser, "startElementHandler", "endElementHandler" );
+	xml_set_character_data_handler( $xml_parser, "characterDataHandler" );
+
+	while( $data = fread( $fh, "4096" ))
+	{
+		if( ! xml_parse( $xml_parser, $data, feof( $fh ) ))
+		{
+			break; // get out of while loop if we're done with the file
+		}
+	}
+
+	while( is_resource( $fh2 ) && $data = fread( $fh2, "4096" ))
+	{
+		if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
+		{
+			break; // get out of while loop if we're done with the file
+		}
+	}
+	xml_parser_free( $xml_parser );
 }
 
 // This needs to go down here to give the cookies, server time to load

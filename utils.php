@@ -2,6 +2,30 @@
 include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
+function cleanSort( $sort_array, $display_fields )
+{
+	$sort_count = sizeof( $sort_array );
+	$new_sort_array = "";
+
+	for( $i=0; $i<$sort_count; $i++ )
+	{
+		if( in_array( $sort_array[$i], $display_fields ))
+		{
+			$new_sort_array[] = $sort_array[$i];
+		}
+	}
+
+	$new_sort_count = sizeof( $new_sort_array );
+
+	$new_sort = $new_sort_array[0];
+	for( $j=1; $j<$new_sort_count; $j++ )
+	{
+		$new_sort .= ','.$new_sort_array[$j];
+	}
+
+	return( array( $new_sort_array, $new_sort ));
+}
+
 /***********************************************************************************************#
 #												#
 #	crop: deletes all but the currently playing song from the current playlist		#
@@ -117,25 +141,26 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	{
 		if( $mfcount > "0" && $mtcount > "0" )
 		{
- 		        echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
+ 		        echo "<small>(<a title=\"Jump to the tagged music menu href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
+			echo "<small>(<a title=\"Jump to the untagged music menu\" href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 		}
 		else if( $mfcount > "0" )
 		{
-			echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
+			echo "<small>(<a title=\"Jump to the music menu\" href=\"#Untagged Music\">Music</a>)</small>&nbsp;";
 		}
 		else if( $mtcount > "0" )
 		{
-			echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
+			echo "<small>(<a title=\"Jump to the music menu\" href=\"#Tagged Music\">Music</a>)</small>&nbsp;";
 		}
 	}
 	else if( $mfcount > "0" && $mtcount > "0" )
 	{
-		echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
+		echo "<small>(<a title=\"Jump to the untagged music menu\" href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 	}
 
 	if ( $pcount > "0" )
 	{
-	        echo "<small>(<a title=\"Jump to Saved Playlists\" href=\"#playlists\">Saved Playlists</a>)</small>&nbsp;";
+	        echo "<small>(<a title=\"Jump to the saved playlists menu\" href=\"#playlists\">Saved Playlists</a>)</small>&nbsp;";
 	}
 
 	echo "</td><td align=right><small>";
@@ -317,107 +342,4 @@ function postStream( $fp, $filetype )
 	}
 	return $add;
 }
-
-function startElementHandler( $parser, $element_name, $element_attribs )
-{
-	global $server_count;
-	global $server_data;
-	global $xml_current_tag_state;
-	if( $element_name == "ENTRY" && isset ( $element_attribs["ALIGNMENT"] ))
-	{
-		$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
-	}
-	else
-	{
-		$xml_current_tag_state = $element_name;
-	}
-}
-
-function endElementHandler( $parser, $element_name )
-{
-	global $server_count;
-	global $server_data;
-	global $xml_current_tag_state;
-
-	$xml_current_tag_state = '';
-	if( $element_name == "ENTRY" )
-	{
-		$server_count++;
-	}
-}
-
-function characterDataHandler( $parser , $data )
-{
-	global $server_count;
-	global $server_data;
-	global $xml_current_tag_state;
-
-	if( $xml_current_tag_state == '' )
-	{
-		return;
-	}
-
-	if( $xml_current_tag_state == "SERVER_NAME" )
-	{
-		$server_data[$server_count]["server_name"] = $data;
-	}
-	else if( $xml_current_tag_state == "LISTEN_URL" )
-	{
-		// This is here because if a '&' (maybe other special characters) 
-		// is passed to the XML parser it will do a multipass on it.		
-		if( isset( $server_data[$server_count]["listen_url"] ))
-		{
-			$server_data[$server_count]["listen_url"] .= $data;
-		}
-		else
-		{
-			$server_data[$server_count]["listen_url"] = $data;
-		}
-	}
-	else if( $xml_current_tag_state == "SERVER_TYPE" )
-	{
-		$server_data[$server_count]["server_type"] = $data;
-	}
-	else if	( $xml_current_tag_state == "BITRATE" )
-	{
-		$server_data[$server_count]["bitrate"] = $data;
-	}
-	else if( $xml_current_tag_state == "CHANNELS" )
-	{
-		$server_data[$server_count]["channels"] = $data;
-	}
-	else if( $xml_current_tag_state == "SAMPLERATE" )
-	{
-		$server_data[$server_count]["samplerate"] = $data;
-	}
-	else if( $xml_current_tag_state == "GENRE" )
-	{
-		$server_data[$server_count]["genre"] = $data;
-	}
-	else if( $xml_current_tag_state == "CURRENT_SONG" )
-	{
-		$server_data[$server_count]["current_song"] = $data;
-	}
-	else if( $xml_current_tag_state == "RANK" )
-	{
-		$server_data[$server_count]["rank"] = $data;
-	}
-	else if( $xml_current_tag_state == "STREAM_HOMEPAGE" )
-	{
-		$server_data[$server_count]["stream_homepage"] = $data;
-	}
-	else if( $xml_current_tag_state == "LISTENING" )
-	{
-		$server_data[$server_count]["listening"] = $data;
-	}
-	else if( $xml_current_tag_state == "MAX_LISTENERS" )
-	{
-		$server_data[$server_count]["max_listeners"] = $data;
-	}
-	else if( $xml_current_tag_state == "BITRATE" )
-	{
-		$server_data[$server_count]["max_listeners"] = $data;
-	}
-}
-
 ?>

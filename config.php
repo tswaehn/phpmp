@@ -1,12 +1,20 @@
 <?php
 
-// Required
+/*
+	Be careful changing this configuration file, phpMp doesn't check this 
+	file for errors, and will certainly mess phpMp up if not correct.
+
+	If you edit this file, you must refresh the page for it to take effect
+*/
+
+/* Required */
+
 /**********************************************************************
 / This is a list of your MPD servers, one per line. (host,port,alias) /
 **********************************************************************/
 $servers[] = array('localhost', 6600, 'My MusicBox');
 
-// Optional
+/* Optional */
 $config = array(
 		/********************************************************************************
 		/  If set to "yes" up and down swap buttons will appear in the active playlist	/
@@ -38,9 +46,10 @@ $config = array(
                 "server_in_title" => "yes",
                 
 		/***********************************************
-		/ The order your music files will be sorted in /
+		/ The order your music files will be sorted in,/ 
+		/ metadata that doesn't exist will get skipped /
 		/**********************************************/
-		"default_sort" => "Artist,Composer,Performer,Album,Track,Title,Time,Date,Genre",
+		"default_sort" => "Artist,Composer,Performer,Track,Album,Track,Title,Time,Date,Genre",
 
 		/******************************************************************
 		/ Use this to change the width of either the main/playlist window /
@@ -108,7 +117,7 @@ $config = array(
 		/ Add any fields you would like that you have added to the metadata_to_use option in your mpd.conf	/
 		/ This field is extremely important to be setup correctly, type the field exactly as you did in mpd.conf/
 		/ capitolize the first letter.										/
-		/ Title is absolutely required for this phpMp to function						/
+		/ Title is absolutely required for this phpMp to function, else filename will show			/
 		/*******************************************************************************************************/
 		"display_fields" => array('Artist', 'Composer', 'Performer', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
