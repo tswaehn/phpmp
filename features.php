@@ -161,10 +161,18 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	
 	if(strcmp($feature,"stream"))
 	{
+		$k=0;
+		for($i=0;$i<sizeOf($server_data);$i++)
+		{
+			if(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"]))
+			{
+				$k++;
+			}
+		}
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td>";
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
-		echo "<tr><td><b>Icecast Streams</b></td>";
+		echo "<tr><td><b>Icecast Streams - $k unique results</b></td>";
 		echo "<td align=\"right\"><small>(<a <a title=\"Refresh Icecast Streams Table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
@@ -183,29 +191,10 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 				echo $song_seperator . $server_data[$i]["listen_url"];
 			}
 
-			echo "\">" . $server_data[$i]["server_name"] . "</a></td></tr>";
+			echo "\">" . trim($server_data[$i]["server_name"]) . "</a></td></tr>";
 			$k++;
 		}
-
-/*		for($i=0;$i<sizeOF($server_data);$i++)
-		{
-			if(strcmp($server_data[$i]["server_name"],$server_data[($i-1)]["server_name"])==0)
-			{
-				echo "&nbsp;[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
-				echo "$j</a>]";
-				$j++;
-			}
-			else
-			{
-				echo "</td></tr><tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
-				echo "<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
-				echo $server_data[$i]["server_name"] . "</a>";
-				$j=2;
-				$k++;
-			}
-		}
-		echo "</tr></table></form>";
-*/	}
+	}
 	else
 	{
 		echo "<a title=\"Open the table of Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>Load a table of icecast streams</a>";
