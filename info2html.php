@@ -341,11 +341,11 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
 				$mprint[$i] .= "target=\"playlist\" ";
 				$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-				$mprint[$i] .= "<td width=\"100%\" colspan=" . sizeof( $config["display_fields"] ) . ">$split_filename</td><td>";
+				$mprint[$i] .= "<td width=\"100%\" colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
 			}
 			else
 			{
-				$mprint[$i] = "<tr bgcolor=$col><td colspan=" . sizeof( $config["display_fields"] ) . ">$split_filename</td><td>";
+				$mprint[$i] = "<tr bgcolor=$col><td colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
 			}
 
 			if ( isset( $lsinfo["music"][$i]['Time'] ) && array_search( 'Time', $config["display_fields"] ))
