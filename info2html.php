@@ -334,7 +334,10 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 		$col = $color["meta"]["body"][ ( $i%2 ) ];
 		$full_filename = $info[$i]["file"];
 		$split_filename = basename( $full_filename );
-		$fc_filename = strtoupper( mbFirstChar( $info[$i][ $sort_array[0] ] ));
+		if( isset( $info[$i][ $sort_array[0] ] ))
+		{
+			$fc_filename = strtoupper( mbFirstChar( $info[$i][ $sort_array[0] ] ));
+		}
 
 		$full_filename = rawurlencode( $full_filename );
 
@@ -504,7 +507,12 @@ function createAddAll( $music, $song_separator )
 	{
 		$add_all .= addslashes( $music[$i]["file"] ) . $song_separator;
 	}
-	return $add_all . $music[$i]["file"];
+
+	// If this function gets called without any actual files this will save from getting notices
+	if( isset( $music[$i]["file"] ))
+	{
+		return $add_all . $music[$i]["file"];
+	}
 }
 
 /* This function is used to print the index for all tables that need an index */
@@ -674,8 +682,9 @@ function songInfo2Display( $song_info, $config )
 		$song = basename( $song_info["file"] );
 	}
 
-	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && $song_info["Title"] > "0" )
+	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
+		// Song Display stuff needs to go here
 		if( isset( $song_info["Artist"] ))
 		{
 		        $artist = $song_info["Artist"];
@@ -731,23 +740,15 @@ function songInfo2Display( $song_info, $config )
 		}
 
 		$trans = array( "artist" => $artist, "title" => $title, "album" => $album, "track" => $track, "genre" => $genre, "date" => $date );
-		
-		// If it doesn't exist don't print it, stupid
-		if( strlen( $artist ) == "0" && ! strlen( $title ) == "0" )
+
+		$song_display_conf = $config["display_conf"][0];
+		for( $i = "1"; $i < count( $config["display_conf"] ); $i++ )
 		{
-		        $song_display_conf = $config["display_conf"]["title"];
-		}
-		else if( strlen( $title ) == "0" && ! strlen( $artist ) == "0" )
-		{
-		        $song_display_conf = $config["display_conf"]["artist"];
-		}
-		else
-		{
-		        $song_display_conf = $config["display_conf"]["artist"] . $config["display_conf"]["seperator"] . $config["display_conf"]["title"];
+			$song_display_conf .= "&nbsp;" . $config["display_conf"][$i];
 		}
 		$song_display = strtr($song_display_conf, $trans);
 	}
-	else if( strcmp( $config["filenames_only"], "yes") == "0" && isset( $song_info["Name"] ) && ($song_info["Name"] > "0" ))
+	else if( strcmp( $config["filenames_only"], "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{
 		$song_display = $song_info["Name"];
 	}

@@ -5,9 +5,16 @@
 / This is a list of your MPD servers, one per line. (host,port,alias) /
 **********************************************************************/
 $servers[] = array('localhost', 6600, 'My MusicBox');
+$servers[] = array('localhost', 6601, 'My MusicBoxx');
 
 // Optional
 $config = array(
+		/********************************************************************************
+		/  If set to "yes" up and down swap buttons will appear in the active playlist	/
+		/  The only real downside is your playlist will take up more space if enabled	/
+		/*******************************************************************************/
+		"enable_swap" => "no",
+
 		/***********************************************************
 		/ If set to yes, this will hide your playlist options, and / 
 		/ leave you with an option to show it. Otherwise it will   /
@@ -91,15 +98,18 @@ $config = array(
 		/************************************************************/
 		"use_images" => "no",
 
-		// Don't Edit!
-		"display_conf" => array(
+		/****************************************************************************
+		/ Remove any of the following to get rid of the field in the music tables.  /
+		/***************************************************************************/
+		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
-		/******************************************************************
-		/ These change the way your song is displayed above the playlist. /
-		/*****************************************************************/
-					"artist" => "(artist)",
-					"seperator" => " ",
-					"title" => "title"),
+		/*********************************************************************
+		/ These change the way your song is displayed above the playlist.    /
+		/ You can add any values here that are in your display_fields value  /
+		/ You should add one value per set of quotes, that way the lines will/
+		/ be broken properly						     /
+		/********************************************************************/
+		"display_conf" => array( "(artist)", "title" ),
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /
@@ -134,11 +144,6 @@ $config = array(
 				/******************************************/
 				"uppercase_first" => "yes"),
 		
-		/****************************************************************************
-		/ Remove any of the following to get rid of the field in the music tables.  /
-		/***************************************************************************/
-		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
-
 		/*****************
 		/ Volume Options /
 		/****************/

@@ -1,19 +1,7 @@
 <?php
-// Initialize these variables to avoid E_NOTICE warnings
-if( ! isset( $server ))
-{
-	$server = "0";
-}
-
-if( ! isset( $hide ))
-{
-	$hide = "0";
-}
-
-if( ! isset( $show_options ))
-{
-	$show_options = "0";
-}
+$hide =	isset( $_REQUEST["hide"] ) ? $_REQUEST["hide"] : "";
+$server = isset( $_REQUEST["server"] ) ? $_REQUEST["server"] : "0";
+$show_options = isset( $_REQUEST["show_options"] ) ? $_REQUEST["show_options"] : "";
 
 // Font
 $fonts["all"] = "sans";

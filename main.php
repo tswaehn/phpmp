@@ -3,13 +3,10 @@
 $dir = stripslashes( $dir );
 $dir = rawurldecode( $dir );
 $dir_url = rawurlencode( $dir );
-$url = "index.php?body=main&amp;dir=$dir_url";
-if( ! isset( $sort ))
-{
-	$sort = $config["default_sort"];
-}
-
+$sort =	isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
 $sort_array = split( ",", $sort );
+$url = "index.php?body=main&amp;dir=$dir_url";
+
 $lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );
 $dinfo = lsinfo2directoryTable( $lsinfo, $server, $sort, $commands["add"], $colors["directories"]["body"] );
 $pinfo = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );
@@ -42,7 +39,7 @@ else
 }
 
 /* This is the features section, just throw a new feature in features.php, make a link in utils and edit below and you have a new feature */
-if( isset( $feature ))
+if( ! empty( $feature ))
 {
 	require "features.php";
 
@@ -58,10 +55,6 @@ if( isset( $feature ))
 			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 	}
 
-	if( ! isset ( $arg ))
-	{
-		$arg = "";
-	}
 	echo "<!-- Begin $feature -->";
 	switch( $feature )
 	{
@@ -72,15 +65,6 @@ if( isset( $feature ))
 			outputs( $fp, $host, $colors["outputs"], $server, $commands );
 			break;
 		case 'search':
-			// These help to avoid E_NOTICE warnings
-			if( ! isset( $search ))
-			{
-				$search = "";
-			}
-			if( ! isset( $find ))
-			{
-				$find = "";
-			}
 			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered );
 			break;
 		case 'server':
@@ -108,7 +92,7 @@ else
 		$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 
 	// The next few are targeted from URLs
-	if( isset( $save ) && strcmp( $save, "yes" ) == "0" )
+	if( strcmp( $save, "yes" ) == "0" )
 	{
 		printSavePlaylistTable( $server, $colors["playlist"] );
 	}

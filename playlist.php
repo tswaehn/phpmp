@@ -1,9 +1,9 @@
 <?php
-if( isset( $add_all ))
+if( ! empty( $add_all ))
 {
 	$add_all = rawurldecode( $add_all );
 }
-if( isset( $_FILES['playlist_file']['name'] ))
+if( ! empty( $_FILES['playlist_file']['name'] ))
 {
 	// PHP is capable of receiving multiple files, though
 	// I can't find a browser that properly supports
@@ -33,7 +33,7 @@ if( isset( $_FILES['playlist_file']['name'] ))
 		}
 	}   
 } 
-if( isset( $stream ))
+if( ! empty( $stream ))
 {
 	$stream = split( $config["song_separator"], $stream );
 	for( $i = 0; $i < sizeOf( $stream ); $i++ )
@@ -72,11 +72,12 @@ if( isset( $stream ))
 		}
 	}
 }
-else if( isset( $add_all ) && $add_all )
+else if( ! empty( $add_all ) && count( $add_all ) > "0" )
 {
 	$add = explode($config["song_separator"],$add_all);
 }
-if( isset( $add ) && count( $add ) > "0" )
+
+if( ! empty( $add ) && count( $add ) > "0" )
 {
 	$str = "command_list_begin\n";
 	for( $i=0; $i < count( $add ); $i++ )
@@ -90,20 +91,24 @@ if( isset( $add ) && count( $add ) > "0" )
 
 
 // This will extract the needed GET/POST variables
-extract( setupReceivedVars( array( "crop", "time" ), "2" ));
+$crop = isset( $_REQUEST["crop"] ) ? $_REQUEST["crop"] : "";
+$time = isset( $_REQUEST["time"] ) ? $_REQUEST["time"] : "";
+
 $status = getStatusInfo( $fp );
 
 if( isset( $status["error"] ))
 {
 	echo "Error:&nbsp;{$status["error"]}<br>\n";
 }
-if( isset( $crop ) && strcmp( $crop, "yes" ) == "0" )
+
+if( strcmp( $crop, "yes" ) == "0" )
 {
         crop( $fp, $status["song"], $status["playlistlength"] );
 
 	// Since status changes after crop, we need to refresh the status
 	$status = getStatusInfo( $fp );
 }
+
 if( isset( $status["state"] ))
 {
 	$repeat = $status["repeat"];
@@ -167,13 +172,13 @@ if( isset( $status["state"] ))
 	        // Begin The Time Remaining/Time Elapsed
 	        if( strcmp( $config["time_left"], "yes" ) == "0")
 		{
-		        $time_min = (int)(($time[1]-$time[0])/60);
-			$time_sec = (int)(($time[1]-$time[0])%60);
+		        $time_min = (int)( ( $time[1] - $time[0] ) / 60 );
+			$time_sec = (int)( ( $time[1] - $time[0] ) % 60);
 		}
 		else
 		{
-		        $time_min = (int)($time[0]/60);
-			$time_sec = (int)($time[0]%60);
+		        $time_min = (int)( $time[0] / 60 );
+			$time_sec = (int)( $time[0] % 60 );
 		}
 
 		if( $time_sec < "0" )
@@ -189,8 +194,8 @@ if( isset( $status["state"] ))
 	        echo "($time_min:$time_sec";
 
 		// Begin the Total Time
-		$time_min = (int)($time[1]/60);
-		$time_sec = (int)($time[1]-$time_min*60);
+		$time_min = (int) ( $time[1] / 60 );
+		$time_sec = (int) ( $time[1] - $time_min * 60 );
 		if( $time_sec < "10" )
 	        {
 		        $time_sec = "0$time_sec";
@@ -219,19 +224,19 @@ if( isset( $status["state"] ))
 		// Remove the seek bar if it's a stream
 		if( $time[1] > "0" ) {
 			$time_div = 4;
-			for( $i="0"; $i < round(100/$time_div); $i++ )
+			for( $i="0"; $i < round( 100 / $time_div ); $i++ )
 			{
 				// This is for the seekbar status
-				$time_perc = $time[0]*100/$time[1];
+				$time_perc = $time[0] * 100 / $time[1];
 
-				if( $i >= ( round( $time_perc/$time_div ) - 1) && $i <= ( round( $time_perc/$time_div ) + 1 ))
+				if( $i >= ( round( $time_perc / $time_div ) - 1 ) && $i <= ( round( $time_perc / $time_div ) + 1 ))
 				{
 					$col = $colors["time"]["foreground"];
 				}
 
-				$seek = round( $i*$time_div*$time[1]/100 );
-				$min = (int)( $seek/60 );
-				$sec = $seek-$min*60;
+				$seek = round( $i * $time_div * $time[1] / 100 );
+				$min = (int)( $seek / 60 );
+				$sec = $seek - $min * 60;
 
 				if( $sec < "10")
 				{
@@ -241,7 +246,8 @@ if( isset( $status["state"] ))
 				echo "<td border=0 width=8 height=8 bgcolor=\"$col\">";
 				if( $commands["seekid"] == "1" )
 				{
-					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
+					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\"";
+					echo "title=\"$min:$sec\">";
 				}
 				echo "<img alt='Seek to $min:$sec' border=0 width=8 height=8 src=transparent.gif>";
 				if( $commands["add"] == "1" )
@@ -272,11 +278,13 @@ if( $commands["crossfade"] == "1" )
 	if( $xfade == "0" )
 	{
 		echo "<a title=\"Set Crossfade to {$config["crossfade_seconds"]} Seconds\" ";
-		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=" . $config["crossfade_seconds"]*(int)(!$xfade) . "\">crossfade</a>";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=";
+		echo $config["crossfade_seconds"]*(int)(!$xfade) . "\">crossfade</a>";
 	}
 	else
 	{
-		echo "<a title=\"Remove Crossfade\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=0\">crossfade</a>";
+		echo "<a title=\"Remove Crossfade\" class=\"green\" ";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=0\">crossfade</a>";
 	};
 }
 else
@@ -297,11 +305,13 @@ if( $commands["random"] == "1" )
 {
 	if( $random == "0" )
 	{
-		echo "<a title=\"Turn Random On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=" .  (int)(!$random) . "\">random</a>";
+		echo "<a title=\"Turn Random On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=";
+		echo (int)(!$random) . "\">random</a>";
 	}
 	else
 	{
-		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=" . (int)(!$random) . "\">random</a>";
+		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=";
+		echo (int)(!$random) . "\">random</a>";
 	}
 }
 else
@@ -322,11 +332,13 @@ if( $commands["repeat"] == "1" )
 {
 	if( $repeat == "0" )
 	{
-		echo "<a title=\"Turn Repeat On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=";
+		echo (int)(!$repeat) . "\">repeat</a>";
 	}
 	else
 	{
-		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=";
+		echo (int)(!$repeat) . "\">repeat</a>";
 	}
 }
 else
@@ -371,7 +383,7 @@ if(strcmp( $config["play_pause"], "yes" ) == "0" )
 		}
 		else
 		{
-			echo $display["playing"]["pause"]["active"];			
+			echo $display["playing"]["pause"]["active"];
 		}
 	}
 	else
@@ -454,7 +466,8 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	else if ( $commands["setvol"] == "1")
 	{
 		echo "<a title=\"Decrease Volume by {$config["volume_incr"]}%\" ";
-		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=";
+		echo ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
 	}
 	echo "</td>";
 	echo "<td valign=\"middle\" align=\"center\">";
@@ -476,7 +489,9 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	echo "<td valign=\"middle\" align=\"center\">";
 	if( $status["volume"] != "100" && $commands["setvol"] == "1")
 	{
-		echo "<a  title=\"Increase Volume by {$config["volume_incr"]}%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
+		echo "<a  title=\"Increase Volume by {$config["volume_incr"]}%\" ";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=";
+		echo ($status["volume"]+$config["volume_incr"]) . "\">></a>";
 	}
 	else if( $status["volume"]=="100" )
 	{
@@ -524,7 +539,8 @@ if( ! $status["playlistlength"] == 0 )
 		echo "&nbsp;|&nbsp;";
 		if( $status["playlistlength"] > "1" && strcmp( $status["state"], "stop" ) && $commands["delete"] == "1" )
 		{
-			echo "<a title=\"Remove All Songs Except The Currently Playing Song\"href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1&amp;crop=yes\">crop</a>";
+			echo "<a title=\"Remove All Songs Except The Currently Playing Song\" ";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1&amp;crop=yes\">crop</a>";
 		}
 		else
 		{

@@ -144,7 +144,7 @@ function getPlaylistInfo( $conn, $song )
 
 function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length, $filenames_only, $commands, $arg, $color, $server, $config )
 {
-	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config )
+	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length )
 	{
 		if( $count > $start )
 		{
@@ -165,31 +165,58 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		}
 
 		$id = $ret["Id"];
-		if( isset($num) && ( $num == $count ))
+		if( isset( $num ) && ( $num == $count ))
 		{
 			echo "<tr bgcolor=\"{$color["current"]}\">";
 		}
 		else
 		{
-		        echo "<tr bgcolor=\"{$color["body"][($count%2)]}\">";
+		        echo "<tr bgcolor=\"{$color["body"][ ( $count % 2 ) ]}\">";
 		}
 		echo "<td valign=top><a name=$count></a><small>";
+
+		if( $commands["move"] == "0" || ( strcmp( $config["enable_swap"], "yes" ) == "0" && $ret["Pos"] == "0" ))
+		{
+			echo "<small>^</small><br>";
+		}
+		else if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		{
+			echo "<small><a title=\"Move song up one position in the playlist\" ";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
+			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] - 1 ) . "&amp;time=$tm#$goto\">^</a></small><br>";
+		}
+
 		if( $commands["delete"] == "0" )
 		{
-			echo "<small>d</small></td>";
+			echo "<small>d</small>";
 		}
 		else
 		{
-			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">d</a></small></td>";
+			echo "<small><a title=\"Remove song from the playlist\" ";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">";
+			echo "d</a></small>";
+		}
+
+		if( ( $commands["swap"] == "0" || $length == ( $ret["Pos"] + 1 )) && strcmp( $config["enable_swap"], "yes" ) == "0" )
+		{
+			echo "<br><small>v</small>";
+		}
+		else if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		{
+			echo "<br><small><a title=\"Move song down one position in the playlist\" ";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
+			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] + 1 ) . "&amp;time=$tm#$goto\">";
+			echo "v</a></small>";
 		}
 
 		if( $commands["play"] == "0" )
 		{
-			echo "<td width=\"100%\">$display";
+			echo "</td><td width=\"100%\">$display";
 		}
 		else
 		{
-			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=playid&amp;arg=$id\">$display</a>";
+			echo "</td><td width=\"100%\"><a title=\"Play this song\" ";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=playid&amp;arg=$id\">$display</a>";
 		}
 		echo "</td></tr>";
 	}
@@ -251,11 +278,11 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 			$str .= "playlistinfo $i\n";
 		}
-		fputs( $conn,$str . "command_list_end\n" );
+		fputs( $conn, $str . "command_list_end\n" );
 	}
 	else
 	{
-		if( $length > ($spread+1) )
+		if( $length > ( $spread + 1 ))
 		{
 			echo "<tr bgcolor=\"{$color["body"][1]}\">";
 			echo "<td colspan=2 align=center><small>";
@@ -278,13 +305,12 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 			break;
 		}
-
 		$el = strtok( $got, ":" );
 		if ( strcmp( $el, "file" ) == "0" )
 		{
 			if ( $count >= $start )
 			{
-				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config );
+				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length );
 				unset ( $ret );
 			}
 			$count++;
@@ -293,11 +319,11 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	}
 	if ( $count >= $start )
 	{
-		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config );
+		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length );
 	}
 	if ( $hide > 0 && $end < ($length-1) )
 	{
-		echo "<tr bgcolor=\"{$color["body"][(($end+1)%2)]}\">";
+		echo "<tr bgcolor=\"{$color["body"][ ( ( $end + 1 ) %2 ) ]}\">";
 		echo "<td colspan=2 align=center><small>";
 		echo "<a title=\"Unhide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=0&amp;show_options=$show_options\">...</a>";
 		echo "</small></td></tr>";

@@ -1,19 +1,18 @@
 0.12.0 Release - A good 0.12.0 release could be done today if needed, but these would be useful if implemented, if not by 0.12.0>
 --------------
 
-*) [* Browser]
-	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
-
-*) [Error handling]
-	*) There's very few errors that will be hit now (hopefully) but when it's possible we need to setup a better system 
-	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
-	   have the zlib dependency, for example (even though I couldn't imagine a php system that doesn't have it).
+*) Make all metatag stuff generic and configurable so it works well with the new MPD changes
 
 Future (doesn't have to be before release)
 ------------------------------------------
 
 *) [* Browser]
 	*) Probably should make the XML files user configurable.
+
+*) [Error handling]
+	*) There's very few errors that will be hit now (hopefully) but when it's possible we need to setup a better system 
+	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
+	   have the zlib dependency, for example (even though I couldn't imagine a php system that doesn't have it).
 
 *) [Index]
 	*) Need to make an effort to cut more fat from the index
@@ -23,6 +22,9 @@ Future (doesn't have to be before release)
 
 *) [printMusicTable]
 	*) Try to remove columns that go unused from printMusicTable
+
+*) [Stream Browser]
+	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
 
 *) [Streams functions]
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards

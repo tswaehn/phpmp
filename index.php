@@ -5,25 +5,11 @@ require "info2html.php";
 require "config.php";
 require "utils.php";
 
-// Multiple Server Stuff
-if( isset( $_REQUEST['server'] ))
+$server = isset( $_REQUEST["server"] ) ? $_REQUEST["server"] : "0";
+
+if( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
 {
-	$server = $_REQUEST['server'];
-}
-else
-{
-	$server = 0;
-}
-if ( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
-{
-	if ( $servers[$server][2] != '' )
-	{
-		$config["title"] .= " ({$servers[$server][2]})";
-	}
-	else
-	{
-		$config["title"] .= " ({$servers[$server][0]})";
-	}
+	$config["title"] .= strlen( $servers[$server][2] ) > "0" ? " ({$servers[$server][2]})" : " ({$servers[$server][0]})";
 }
 
 $host = $servers[$server][0];
@@ -33,77 +19,52 @@ $port = $servers[$server][1];
 // won't go any old place, but only to the host/port that you are speaking to
 $hostport = $host . ":" . $port;
 
-// Playlist Hiding stuff
-if ( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
+// Playlist Hiding Stuff
+if( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
 {
 	$hide = $_COOKIE["phpMp_playlist_hide"][$hostport];
 }
 
 // This will extract the needed GET/POST variables
-extract( setupReceivedVars( array( "arg", "arg2", "body", "command", "dir", "feature", "passarg", "server", "sort", "stream" ), "10" ));
+$arg =		isset( $_REQUEST["arg"] )	?	$_REQUEST["arg"]	:	"";
+$arg2 =		isset( $_REQUEST["arg2"] )	?	$_REQUEST["arg2"]	:	"";
+$body =		isset( $_REQUEST["body"] )	?	$_REQUEST["body"]	:	"";
+$command =	isset( $_REQUEST["command"] )	?	$_REQUEST["command"]	:	"";
+$dir =		isset( $_REQUEST["dir"] )	?	$_REQUEST["dir"]	:	"";
+$feature =	isset( $_REQUEST["feature"] )	?	$_REQUEST["feature"]	:	"";
+$remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
+$passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
+$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
 
-if( isset( $body ))
+if( ! empty( $body ))
 {
 	if( strcmp( $body, "main" ) == "0" )
 	{
-		if( isset( $feature ))
+		if( ! empty( $feature ))
 		{
 			if( strcmp( $feature, "search" ) == "0" )
 			{
-				extract( setupReceivedVars( array( "find", "search" ), "2" ));
+				$search = isset( $_REQUEST["search"] ) ? $_REQUEST["search"] : "";
+				$find = isset( $_REQUEST["find"] ) ? $_REQUEST["find"] : "";
 			}
 		}
-		extract( setupReceivedVars( array( "delete", "save", "server", "ordered" ), "4" ));
+		$delete = isset( $_REQUEST["delete"] ) ? $_REQUEST["delete"] : "no";
+		$save = isset( $_REQUEST["save"] ) ? $_REQUEST["save"] : "";
+		$ordered = isset( $_REQUEST["ordered"] ) ? $_REQUEST["ordered"] : "";
 	}
 	else if( strcmp( $body, "playlist" ) == "0" )
 	{
-		extract( setupReceivedVars( array( "add_all", "hide", "show_options" ), "3" ));
+		$add_all = isset( $_REQUEST["add_all"] ) ? $_REQUEST["add_all"] : "";
+		$hide = isset( $_REQUEST["hide"] ) ? $_REQUEST["hide"] : "";
+		$show_options = isset( $_REQUEST["show_options"] ) ? $_REQUEST["show_options"] : "0";
 	}
 }
 else
 {
-	extract( setupReceivedVars( array( "logout" ), "1" ));
+	$logout = isset( $_REQUEST["logout"] ) ? $_REQUEST["logout"] : "";
 }
 
-// This will prevent us from getting E_NOTICE warnings
-if( ! isset( $passarg ))
-{
-	$passarg = "";
-}
-if( ! isset( $server ))
-{
-	$server = 0;
-}
-if( ! isset( $dir ))
-{
-	$dir = "";
-}
-if( ! isset( $delete ))
-{
-	$delete = "no";
-}
-if( ! isset( $arg ))
-{
-	$arg = "";
-}
-if( ! isset( $arg2 ))
-{
-	$arg2 = "";
-}
-if( ! isset( $remember ))
-{
-	$remember = "";
-}
-if( ! isset( $ordered ))
-{
-	$ordered = "";
-}
-if( ! isset( $show_options ))
-{
-	$show_options = "0";
-}
-
-if ( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
+if( ! empty( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
 {
 	setcookie("phpMp_playlist_hide[$hostport]", $hide);
 }
@@ -125,12 +86,12 @@ echo "<html><head>";
 #echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">";
 
 // Open thee connection
-$fp = fsockopen($host,$port,$errno,$errstr,10);
+$fp = fsockopen( $host, $port, $errno, $errstr, 10 );
 
 // If there's no connection, and servers exist goto the server menu
-if (!$fp)
+if(! is_resource( $fp ))
 {
-	if (isset($servers) && (sizeof($servers) > 1))
+	if(isset($servers) && (sizeof($servers) > 1))
 	{
 		include "features.php";
 		server($servers, $host, $colors);
@@ -188,13 +149,13 @@ if( $commands["status"] == "1" )
 {
 	$status = getStatusInfo( $fp );
 }
-if( isset( $command ))
+if( ! empty( $command ))
 {
 	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
 	$status = getStatusInfo( $fp ); 
 }
 
-if( isset( $feature ))
+if( ! empty( $feature ))
 {
 	if( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" )
 	{
@@ -288,7 +249,7 @@ if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["play
 	server( $servers, $host, $port, $colors["server"], $config, $commands );
 }
 // This will serve as our front page if called w/o $body
-else if( ! isset( $body ) && ! isset( $feature ))
+else if( empty( $body ) && empty( $feature ))
 {
 	unset( $hostport );
 	echo "<title>{$config["title"]}</title>";
@@ -309,10 +270,7 @@ else
 	}
 	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
 	{
-		if( ! isset( $sort ))
-		{
-			$sort = $config["default_sort"];
-		}
+		$sort =	isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"{$config["refresh_freq"]};URL=index.php?body=main&amp;sort=$sort&amp;dir=$dir&amp;ordered=$ordered&amp;server=$server\">";
 	}
 	echo "<title>{$config["title"]} - $body</title>";

@@ -1,3 +1,50 @@
+Wed Dec 22 21:06:26 PST 2004  avuton@gmail.com
+  * TODO update
+
+Wed Dec 22 21:06:05 PST 2004  avuton@gmail.com
+  * Sane out the config defaults
+
+Wed Dec 22 21:01:15 PST 2004  avuton@gmail.com
+  * Fix for server tenerary operator
+
+Wed Dec 22 20:56:03 PST 2004  avuton@gmail.com
+  * Update to displayDirectories anchors stuff
+
+Wed Dec 22 20:55:28 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
+Wed Dec 22 20:54:04 PST 2004  avuton@gmail.com
+  * Steps toward making song display conf generic
+
+Wed Dec 22 20:53:02 PST 2004  avuton@gmail.com
+  * Spacing
+
+Wed Dec 22 20:51:23 PST 2004  avuton@gmail.com
+  * Add enable_playlist_swap config option
+  This enables simple moves up and down the playlist
+
+Wed Dec 22 05:17:49 PST 2004  avuton@gmail.com
+  * Replace all setupGetVars() stuff with tenarary operators
+  Mostly the reason this didn't happen before is because I didn't fully understand how tenarary operators worked. This patch is more than likely going to break some things, very minor fixes might be needed, but will kill three birds with one stone.
+  
+  	*) Get rid of all the isset() stuff clogging up the index.php
+  	*) Passing variables back and forth through a array is a slow operation, these operators are going to be much faster.
+  	*) Got rid of a bunch of isset()'s that were all over the place, mostly bad idea in the first place. empty() is much better.
+  
+  Also, this fixes remember, as I didn't notice I wasn't grabbing it in the index at startup.
+
+Wed Dec 22 01:31:20 PST 2004  avuton@gmail.com
+  * Spacing
+
+Wed Dec 22 01:28:29 PST 2004  avuton@gmail.com
+  * Move a variable that's used once into the body
+
+Tue Dec 21 23:16:48 PST 2004  avuton@gmail.com
+  * If no results are found in a 'search' or 'find' display as such.
+
+Tue Dec 21 21:47:17 PST 2004  avuton@gmail.com
+  * Prevent E_NOTICE warning in the new AddAll function.
+
 Tue Dec 21 05:49:45 PST 2004  avuton@gmail.com
   * Removed a few unused lines and made them useful from taginfo2musicTable()
 
@@ -39,9 +86,6 @@ Tue Dec 21 04:20:28 PST 2004  avuton@gmail.com
     
     Still have much more code to write but this is a good beginning.
   
-
-Mon Dec 20 18:43:55 PST 2004  avuton@gmail.com
-  * Changelog update
 
 Mon Dec 20 18:43:18 PST 2004  avuton@gmail.com
   * Fix for addall in single music menu

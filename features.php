@@ -52,8 +52,6 @@ function outputs( $fp, $host, $color, $server, $commands )
 
 function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 {
-	$dir_url = rawurlencode( $dir );
-
 	echo "<br>";
 	echo "<form target=_top action=\"index.php\" method=post>";
 	echo "<table summary=\"Login\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -61,13 +59,17 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 	echo "<tr bgcolor=\"{$color["body"]}\"><td>";
 	echo "<input type=hidden value=\"$server\" name=server>";
 	echo "<input type=password name=passarg value=\"{$arg}\" size=20>";
-	echo "<input type=hidden value=\"$dir_url\" name=dir>";
+	echo "<input type=hidden value=\"" . rawurlencode( $dir ) . "\" name=dir>";
 	echo "<input type=hidden value=\"$default_sort\" name=sort>";
 	echo "<input type=submit value=login name=foo>";
 	echo "<br>";
 	echo "<small><input type=checkbox name=remember value=true>remember password</small>";
 	echo "</td></tr></table>";
 	echo "</form>";
+
+	echo "<br>";
+
+#	if( $SERVER[
 }
 
 function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
@@ -249,7 +251,6 @@ function server( $servers, $host, $port, $color, $config )
 		if( strcmp( $servers[$x][0], $host ) == "0" && strcmp( $servers[$x][1], $port ) == "0" )
 		{
 			$sel1 .= "<option selected value=\"$x\">{$servers[$x][2]}</option>";
-#			$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
 		}
 		else
 		{
@@ -356,17 +357,17 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td></tr></table>";
 	echo "</form>";
-	if( isset( $search ) && ! empty( $search ) && ! empty( $arg ))
+	if( ! empty( $search ) && ! empty( $arg ))
 	{
 		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
-	else if( isset( $find ) && ! empty( $find ) &&  ! empty( $arg ))
+	else if( ! empty( $find ) &&  ! empty( $arg ))
 	{
 		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
 
 	$arg_url = rawurlencode( $arg );
-	if( isset( $lsinfo ))
+	if( ! empty( $lsinfo["music"] ))
 	{
 		if( empty( $search ))
 		{
@@ -376,6 +377,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		{
 			$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		}
+
 		$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
 		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
@@ -393,6 +395,10 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 
 		printMusicTable( $add_all, $config, $color["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $addperm, $feature, $ordered );
 		printMusicTable( $add_all, $config, $color["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $addperm, $feature, 0 );
+	}
+	else if( ! empty( $arg ))
+	{
+		echo "<br>&nbsp;<b>" . ucwords( $search ) . " \"$arg\" not found.</b>";
 	}
 }
 ?>

@@ -2,37 +2,6 @@
 include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
- /**************************************************************************************#
- #	$vars => An array of the get variables to be checked				#
- #	$num => How many variables there are (so extras aren't added for security)	#
- #**************************************************************************************/
-function setupReceivedVars( $vars, $num )
-{
-	$i = 0;
-	foreach ( $vars as $key )
-	{
-		$i++;
-		if( isset( $_GET[$key] ))
-		{
-			$vars[$key] = $_GET[$key];
-		}
-		else if( isset( $_POST[$key] ))
-		{
-			$vars[$key] = $_POST[$key];
-		}
-	}
-
-	if( $num == $i )
-	{
-		return $vars;
-	}
-	else
-	{
-		echo "Incorrect number of in \$num at setupGet";
-		exit; 
-	}
-}
-
 /***********************************************************************************************#
 #												#
 #	crop: deletes all but the currently playing song from the current playlist		#
@@ -82,7 +51,7 @@ function initialConnect( $fp )
 function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 {
 	// Don't let updates collide 
- 	if( isset ( $status["updating_db"] ) && strcmp( $command,"update" )==0 )
+ 	if( isset ( $status["updating_db"] ) && strcmp( $command,"update" ) == "0" )
 	{
 		return 0;
 	}
@@ -110,7 +79,7 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 
         // By the time you read this the 'kill' command will hopefully be a non-default compile time 
 	// option. $arg is also used here, so to make sure someone doesn't kill your MPD leave it.
-	if( strncmp( "kill", $command, strlen( "kill" )) || ( ! isset( $command ) && strncmp( "kill", $arg, strlen( "kill" ))))
+	if( strncmp( "kill", $command, strlen( "kill" )) || ( ! empty( $command ) && strncmp( "kill", $arg, strlen( "kill" ))))
 	{
 	          fputs( $fp, "$command\n" );
 	}
@@ -150,18 +119,14 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		{
  		        echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 		}
-		else if( $mfcount > "0" || $mtcount > "0" )
+		else if( $mfcount > "0" )
 		{
-			if( $mfcount > "0" )
-			{
-		 	        echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
-			}
-			if( $mtcount > "0" )
-			{
-		 	        echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
-			}
+			echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 		}
-
+		else if( $mtcount > "0" )
+		{
+			echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
+		}
 	}
 	else if( $mfcount > "0" && $mtcount > "0" )
 	{
@@ -173,13 +138,12 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	        echo "<small>(<a title=\"Jump to Saved Playlists\" href=\"#playlists\">Saved Playlists</a>)</small>&nbsp;";
 	}
 
-	echo "</td>";
-	echo "<td align=right><small>";
+	echo "</td><td align=right><small>";
 
 	$feature_bar = "";
 
 	// If we have all commands available and we don't have an active password don't show the feature bar.
-	if ( $commands["all"] == "0" || strlen( $passarg ) > "0" )
+	if( $commands["all"] == "0" || strlen( $passarg ) > "0" )
 	{
 		if( $has_password == "1" )
 		{
@@ -193,7 +157,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 
 	if( $commands["outputs"] == "1" )
 	{
-		if( ! empty ( $feature_bar ))
+		if( ! empty( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -202,16 +166,16 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 
 	if( $commands["search"] == "1" )
 	{
-		if( ! empty ( $feature_bar ))
+		if( ! empty( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
 		$feature_bar .= "<a title=\"Search the MPD Database\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=search\">Search</a>";
 	}
 
-	if (isset($servers) && (sizeof($servers) > 1))
+	if( sizeof( $servers ) > 1 )
 	{
-		if( ! empty ( $feature_bar ))
+		if( ! empty( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -220,7 +184,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 
 	if( $commands["stats"] == "1" )
 	{
-		if( ! empty ( $feature_bar ))
+		if( ! empty( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -229,25 +193,26 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 
 	if( $commands["load"] == "1" )
 	{
-		if( ! empty ( $feature_bar ))
+		if( ! empty( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
-		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
+		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\"";
+		$feature_bar .= "href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
 	}
 
-	if( isset( $feature_bar ))
+	if( ! empty( $feature_bar ))
 	{
 		echo $feature_bar;
 	}
 
-	echo "&nbsp";
-	echo "</small></td></tr>";
+	echo "&nbsp;</small></td></tr>";
 	echo "<tr bgcolor=\"{$color["body"][0]}\"><td colspan=2>";
 	$dirs = split( "/", $dir );
 	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered\">Music</a>";
+
 	$build_dir = "";
-	for( $i=0; $i < (count( $dirs ) - 1); $i++ )
+	for( $i=0; $i < ( count( $dirs ) - 1 ); $i++ )
 	{
 		if ($i > "0" && $i < ( count( $dirs ) - 1 ))
 		{
@@ -294,18 +259,17 @@ function mbFirstChar( $str )
 	$i = 1;
 	if( isset( $str[0] ))
 	{
-		$ret = "$str[0]";
-	}
-	else
-	{
-		$ret = "";
+		$ret = $str[0];
 	}
 	while ($i < strlen( $str ) && ord( $str[$i] ) >= 128  && ord( $str[$i] ) < 192)
 	{
 		$ret .= $str[$i];
 		$i++;
 	}
-	return $ret;
+	if( isset( $ret ))
+	{
+		return $ret;
+	}
 }
 
 function readFileOverHTTP( $fp, $stream )
