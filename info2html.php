@@ -15,17 +15,17 @@ include "sort.php";
 
 function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 {
-	$count = count( $lsinfo["dir"] );
+	$count = count( $lsinfo );
 	if( $count != "0" )
 	{
-		usort( $lsinfo["dir"], "strcasecmp" );
+		usort( $lsinfo, "strcasecmp" );
 	}
 
 	$dic = 0;
 	for( $i = "0"; $i < $count; $i++ )
 	{
-       		$dirstr = basename( $lsinfo["dir"][$i] );
-		$full_dir = rawurlencode( $lsinfo["dir"][$i] );
+       		$dirstr = basename( $lsinfo[$i] );
+		$full_dir = rawurlencode( $lsinfo[$i] );
 		$print[$i] = "<tr bgcolor=\"{$color[ ($i%2) ]}\"><td>";
 		$fc = strtoupper( mbFirstChar( $dirstr ));
 		if ($dic == "0" || $index[ ($dic-1) ]!=$fc)
@@ -116,15 +116,15 @@ function printDirectoryTable( $info, $dir, $sort, $server, $addperm, $color )
 function lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $loadperm )
 {
 	$pic = 0;
-	$count = count( $lsinfo["playlist"] );
+	$count = count( $lsinfo );
 
 	if($count)
 	{
-	        usort( $lsinfo["playlist"], "strcasecmp" );
+	        usort( $lsinfo, "strcasecmp" );
 	}
 	for( $i=0; $i < $count; $i++ )
 	{
-		$dirstr = basename( $lsinfo["playlist"][$i] );
+		$dirstr = basename( $lsinfo[$i] );
 
 		// TODO: find out why we have to double-encode here
 		$dirurl = rawurlencode( $dirstr );
