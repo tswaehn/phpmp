@@ -1,6 +1,6 @@
 <?php
 include "theme.php";
-$phpMpVersion="0.12.0-avuton-svn";
+$phpMpVersion="0.12.0-svn";
 
 /*
 	$vars => An array of the get variables to be checked
@@ -85,6 +85,7 @@ function doCommand($fp,$arg,$command, $overwrite)
 		return 0;
 	}
 
+
 	// Lets cleanup the $arg first
 	$arg = rawurldecode($arg);
 
@@ -152,20 +153,16 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 
 	echo "</td>";
 	echo "<td align=right><small>";
-
-	if(! $commands["all"])
+	if(isset($has_password))
 	{
-		if (isset($has_password))
-		{
-			$feature_bar = "<a title=\"Logout of MPD Server\" target=main href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
-		}
-		else
-		{
-			$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
-		}
+		$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
+	}
+	else
+	{
+		$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
 	}
 
-	if($commands["enableoutputs"] && $commands["disableoutputs"] && $commands["outputs"])
+	if($commands["enableoutput"] && $commands["disableoutput"] && $commands["outputs"])
 	{
 		if(isset($feature_bar))
 		{
@@ -248,9 +245,13 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		echo " / ";
 		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
-	if(strcmp($title,"Current Directory")==0 && $commands["update"])
+	if($status["updating_db"])
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=playlist&amp;server=$server&amp;command=update&amp;arg=$build_dir\" target=playlist title=\"Update the Current Directory\">db update</a>)</small>";
+		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
+	}
+	else if(strcmp($title,"Current Directory")==0 && $commands["update"])
+	{
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?server=$server&amp;command=update&amp;arg=$build_dir\" target=_top title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";
@@ -313,4 +314,79 @@ function postStream($fp,$filetype)
 	}
 	return $add;
 }
+
+	function startElementHandler( $parser, $element_name, $element_attribs )
+	{
+		global $server_count;
+		global $server_data;
+		global $xml_current_tag_state;
+		if( $element_name == "ENTRY" )
+		{
+			$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
+		}
+		else
+		{
+			$xml_current_tag_state = $element_name;
+		}
+	}
+
+	function endElementHandler( $parser, $element_name )
+	{
+		global $server_count;
+		global $server_data;
+		global $xml_current_tag_state;
+
+		$xml_current_tag_state = '';
+		if( $element_name == "ENTRY" )
+		{
+			$server_count++;
+		}
+	}
+
+	function characterDataHandler( $parser , $data )
+	{
+		global $server_count;
+		global $server_data;
+		global $xml_current_tag_state;
+	
+		if( $xml_current_tag_state == '' )
+		{
+			return;
+		}
+
+
+		if( $xml_current_tag_state == "SERVER_NAME" )
+		{
+			$server_data[$server_count]["server_name"] = $data;
+		}
+		else if( $xml_current_tag_state == "LISTEN_URL" )
+		{
+			$server_data[$server_count]["listen_url"] = $data;
+		}
+		else if( $xml_current_tag_state == "SERVER_TYPE" )
+		{
+			$server_data[$server_count]["server_type"] = $data;
+		}
+		else if	( $xml_current_tag_state == "BITRATE" )
+		{
+			$server_data[$server_count]["bitrate"] = $data;
+		}
+		else if( $xml_current_tag_state == "CHANNELS" )
+		{
+			$server_data[$server_count]["channels"] = $data;
+		}
+		else if( $xml_current_tag_state == "SAMPLERATE" )
+		{
+			$server_data[$server_count]["samplerate"] = $data;
+		}
+		else if( $xml_current_tag_state == "GENRE" )
+		{
+			$server_data[$server_count]["genre"] = $data;
+		}
+		else if( $xml_current_tag_state == "CURRENT_SONG" )
+		{
+			$server_data[$server_count]["current_song"] = $data;
+		}
+	}
+
 ?>

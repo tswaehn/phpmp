@@ -3,7 +3,6 @@ if (!isset($arg))
 {
 	$arg="";
 }
-// Begin POST information
 if(isset($add_all))
 {
 	$add_all = rawurldecode($add_all);
@@ -47,7 +46,7 @@ if (isset($stream))
 	}
         // This requires the cURL hooks, probably not that hard to implement, though it is
         // another dependency, and more problem where 0 people will probably use.
-        else if (preg_match("/^https:\/\/.*?/",$stream))
+        else if (preg_match("/^https:\/\/.*?\.(m3u|pls)/",$stream))
         {
 		echo "HTTPS protocol downloads are not yet implemented.";
 	}
@@ -94,7 +93,6 @@ if (isset($add) && count($add)>0)
 // This will extract the needed GET/POST variables
 extract(setupReceivedVars(array("crop", "time"),2));
 
-$status = getStatusInfo($fp);
 if (isset($status["error"]))
 {
 	echo "Error: " . $status["error"] . "<br>\n";
@@ -196,7 +194,7 @@ if (isset($status["state"]))
 		        $time_sec = "0$time_sec";
 		}
 
-		if($time_min != 0 && $time_sec != 00)
+		if(! ($time_min == 0 && $time_sec == 00))
 		{
 			echo "/$time_min:$time_sec";
 		}

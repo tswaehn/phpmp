@@ -3,12 +3,12 @@
 function outputs($fp, $host, $color, $server)
 {
 	$i = -1;
-	fputs($fp,"devices\n");
+	fputs($fp,"outputs\n");
 	while (!feof($fp))
 	{
 		$got = fgets($fp,1024);
 		list($val,$arg) = split(":",$got);
-		if (strcmp($val,"deviceid")==0)
+		if (strcmp($val,"outputid")==0)
 		{
 			$i++;
 		}
@@ -31,15 +31,15 @@ function outputs($fp, $host, $color, $server)
 	for($i=0;$i<sizeOf($outputs);$i++)
 	{
 		echo "<tr bgcolor=" . $color["body"][$i%2] . "><td nowrap>";
-		if(($outputs[$i]["deviceenabled"]%2)-1)
+		if(($outputs[$i]["outputenabled"]%2)-1)
 		{
-			echo "[<a title=\"Enable this device\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enabledevice&amp;arg=$i>enable</a>]";
+			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
 		else
 		{
-			echo "[<a title=\"Disable this device\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disabledevice&amp;arg=$i>disable</a>]</td>";
+			echo "[<a title=\"Disable this output\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disableoutput&amp;arg=$i>disable</a>]</td>";
 		}
-		echo "<td width=\"100%\">&nbsp;" . $outputs[$i]["devicename"] . "</td></tr>";
+		echo "<td width=\"100%\">&nbsp;" . $outputs[$i]["outputname"] . "</td></tr>";
 	}
 
 	echo "</table>";
@@ -56,12 +56,12 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 		echo "&nbsp;Incorrect Password";
 	}
 	echo "<br>";
-	echo "<form target=_top action=\"index.php?\" method=post>";
+	echo "<form target=_top action=\"index.php\" method=post>";
 	echo "<table summary=\"Login\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 	echo "<tr><td><b>Password</b></td></tr>";
 	echo "<tr bgcolor=\"" . $color["body"] . "\"><td>";
 	echo "<input type=hidden value=\"$server\" name=server>";
-	echo "<input type=password name=arg value=\"" . $arg . "\" size=20>";
+	echo "<input type=password name=passarg value=\"" . $arg . "\" size=20>";
 	echo "<input type=hidden value=\"$dir_url\" name=dir>";
 	echo "<input type=hidden value=\"$default_sort\" name=sort>";
 	echo "<input type=submit value=login name=foo>";

@@ -79,121 +79,58 @@ if (!$fp)
 
 // Lets go ahead and get the MPD version while we can
 $MPDversion = initialConnect($fp);
-doCommand($fp, $arg, $command, $config["overwrite_playlists"]);
 
 // Password stuff
 if (isset($logout))
 {
 	setcookie("phpMp_password[$hostport]","");
-	$has_password = 0;
+	unset($has_password);
 }
-else if (isset($_COOKIE["phpMp_password"]))
+else if (isset($_COOKIE["phpMp_password"][$hostport]))
 {
-	$password = $_COOKIE["phpMp_password"][$hostport];
+	$passarg = $_COOKIE["phpMp_password"][$hostport];
 	$has_password = 1;
 }
-if (isset($password))
+if (isset($passarg))
 {
-	fputs($fp,"password \"$password\"\n");
+	fputs($fp,"password \"$passarg\"\n");
 	while (!feof($fp))
 	{
-		$got =  fgets($fp,1024);
+		$got = fgets($fp,1024);
 		if (strncmp("OK",$got,strlen("OK"))==0)
 		{
+			$has_password=1;
+			if (isset($remember) && $remember=="true")
+			{
+				setcookie("phpMp_password[$hostport]",$passarg,time()+60*60*24*365);
+			}
+			else
+			{
+				setcookie("phpMp_password[$hostport]",$passarg);
+			}
 			break;
 		}
 		if (strncmp("ACK",$got,strlen("ACK"))==0)
 		{
+			unset($has_password);
 			break;
 		}
 	}
-	unset($password);
 }
+
+doCommand($fp, $arg, $command, $config["overwrite_playlists"]);
 
 if(strcmp($feature,"stream-icy")==0)
 {
 	if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )) )
 	{
-		die("Couldn't open xml file, or you don't have allow_url_fopen = On in your php.ini");
+		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 	}
 
 	$server_count = 0;
 	$server_data = array();
 	$xml_current_tag_state = '';
 
-	function startElementHandler( $parser, $element_name, $element_attribs )
-	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-		if( $element_name == "ENTRY" )
-		{
-			$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
-		}
-		else
-		{
-			$xml_current_tag_state = $element_name;
-		}
-	}
-
-	function endElementHandler( $parser, $element_name )
-	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-
-		$xml_current_tag_state = '';
-		if( $element_name == "ENTRY" )
-		{
-			$server_count++;
-		}
-	}
-
-	function characterDataHandler( $parser , $data )
-	{
-		global $server_count;
-		global $server_data;
-		global $xml_current_tag_state;
-	
-		if( $xml_current_tag_state == '' )
-			{
-			return;
-		}
-
-
-		if( $xml_current_tag_state == "SERVER_NAME" )
-		{
-			$server_data[$server_count]["server_name"] = $data;
-		}
-		else if( $xml_current_tag_state == "LISTEN_URL" )
-		{
-			$server_data[$server_count]["listen_url"] = $data;
-		}
-		else if( $xml_current_tag_state == "SERVER_TYPE" )
-		{
-			$server_data[$server_count]["server_type"] = $data;
-		}
-		else if	( $xml_current_tag_state == "BITRATE" )
-		{
-			$server_data[$server_count]["bitrate"] = $data;
-		}
-		else if( $xml_current_tag_state == "CHANNELS" )
-		{
-			$server_data[$server_count]["channels"] = $data;
-		}
-		else if( $xml_current_tag_state == "SAMPLERATE" )
-		{
-			$server_data[$server_count]["samplerate"] = $data;
-		}
-		else if( $xml_current_tag_state == "GENRE" )
-		{
-			$server_data[$server_count]["genre"] = $data;
-		}
-		else if( $xml_current_tag_state == "CURRENT_SONG" )
-		{
-			$server_data[$server_count]["current_song"] = $data;
-		}
-	}
 
 	if( !($xml_parser = xml_parser_create()) )
 	{
@@ -261,6 +198,11 @@ else
 	{
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";
 	}
+	if(strcmp($body,"playlist")==0 || strcmp($body,"main")==0)
+	{
+		$status = getStatusInfo($fp);
+	}
+
 	echo "<title>" . $config["title"] . " - " . $body . "</title>";
 
 	// I would _much_ rather have a php generated stylesheet
