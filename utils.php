@@ -158,7 +158,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	echo "</td>";
 	echo "<td align=right><small>";
-	if(isset($has_password))
+	if($has_password==1)
 	{
 		$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
 	}

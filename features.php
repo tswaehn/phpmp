@@ -7,7 +7,10 @@ function outputs($fp, $host, $color, $server)
 	while (!feof($fp))
 	{
 		$got = fgets($fp,1024);
-		list($val,$arg) = split(":",$got);
+		if ( strstr ( $got, ":" ))
+		{
+			list($val,$arg) = split(":",$got);
+		}
 		if (strcmp($val,"outputid")==0)
 		{
 			$i++;
@@ -51,7 +54,7 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 {
 	$dir_url = rawurlencode($dir);
 
-	if(isset($arg))
+	if( ! empty ( $arg ))
 	{
 		echo "&nbsp;Incorrect Password";
 	}

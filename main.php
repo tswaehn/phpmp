@@ -24,10 +24,18 @@ if(isset($feature))
 	require "features.php";
 	displayDirectory($dir, $sort,"Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
 
+	if( ! isset ( $arg ))
+	{
+		$arg = "";
+	}
 	echo "<!-- Begin $feature -->";
 	switch($feature)
 	{
 		case 'login':
+			if ( ! isset ( $remember))
+			{
+				$remember = "";
+			}
 			login($fp, $config["default_sort"], $colors["login"], $server, $arg, $dir, $remember);
 			break;
 		case 'outputs':
@@ -41,10 +49,6 @@ if(isset($feature))
 			if( ! isset ( $find ))
 			{
 				$find = "";
-			}
-			if( ! isset ( $arg ))
-			{
-				$arg = "";
 			}
 			search($fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"]);
 			break;

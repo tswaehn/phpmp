@@ -97,7 +97,6 @@ $MPDversion = initialConnect($fp);
 if (isset($logout))
 {
 	setcookie("phpMp_password[$hostport]","");
-	unset($has_password);
 }
 else if (isset($_COOKIE["phpMp_password"][$hostport]))
 {
@@ -124,7 +123,7 @@ if (isset($passarg))
 		}
 		if (strncmp("ACK",$got,strlen("ACK"))==0)
 		{
-			unset($has_password);
+			echo "Password Incorrect, press back button";
 			break;
 		}
 	}
@@ -132,7 +131,7 @@ if (isset($passarg))
 
 if( ! isset( $has_password ) )
 {
-	$has_password = 1;
+	$has_password = 0;
 } 
 
 if(isset($command))
@@ -228,7 +227,7 @@ if(! ($commands["listall"] || $commands["lsinfo"] || $commands["playlist"] || $c
 #	exit;
 }
 // This will serve as our front page if called w/o $body
-else if(! isset($body))
+else if(! isset($body) && ! isset($feature))
 {
 	echo "<title>" . $config["title"] ."</title>";
 	echo "</head>";
