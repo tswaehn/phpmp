@@ -684,69 +684,19 @@ function songInfo2Display( $song_info, $config )
 
 	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
-		// Song Display stuff needs to go here
-		if( isset( $song_info["Artist"] ))
-		{
-		        $artist = $song_info["Artist"];
-		}
-		else
-		{
-		        $artist = "";
-		}
-
-		if( isset( $song_info["Title"] ))
-		{
-		        $title = $song_info["Title"];
-		}
-		else
-		{
-		        $title = "";
-		}
-
-		if( isset( $song_info["Album"] ))
-		{
-		        $album = $song_info["Album"];
-		}
-		else
-		{
-		        $album = "";
-		}
-
-		if ( isset( $song_info["Genre"] ))
-		{
-			$genre = $song_info["Genre"];
-		}
-		else
-		{
-			$genre = "";
-		}
-
-		if ( isset($song_info["Date"] ))
-		{
-			$date = $song_info["Date"];
-		}
-		else
-		{
-			$date = "";
-		}
-
-		if ( isset( $song_info["Track"] ))
-		{
-		        $track = $song_info["Track"];
-		}
-		else
-		{
-		        $track = "";
-		}
-
-		$trans = array( "artist" => $artist, "title" => $title, "album" => $album, "track" => $track, "genre" => $genre, "date" => $date );
-
 		$song_display_conf = $config["display_conf"][0];
+
 		for( $i = "1"; $i < count( $config["display_conf"] ); $i++ )
 		{
 			$song_display_conf .= "&nbsp;" . $config["display_conf"][$i];
 		}
-		$song_display = strtr($song_display_conf, $trans);
+
+		// This will replace all song_display_conf stuff with the actual value
+		foreach( $song_info as $key => $value )
+		{
+			$song_display_conf = str_replace( $key, $value, $song_display_conf );
+		}
+		$song_display = $song_display_conf;
 	}
 	else if( strcmp( $config["filenames_only"], "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{

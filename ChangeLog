@@ -1,23 +1,52 @@
+Thu Dec 23 06:20:49 PST 2004  avuton@gmail.com
+  * Make variable requests more specific, improving security.
+
+Thu Dec 23 06:04:52 PST 2004  avuton@gmail.com
+  * Fix hide option
+  
+  This hopefully fixes the hide option, have to revert back to globals in theme.php. This also only loads/sets the cookies as needed.
+
+Thu Dec 23 05:17:47 PST 2004  avuton@gmail.com
+  * Replace strtr with str_replace
+  
+  Replacing strings with str_replace rather than strtr will:
+  	*) Keep us from creating a useless array, time bonus there
+  	*) str_replace() is about twice as fast as strtr
+  
+  All of this will add up seen as how the playlist will probably be loaded much more than anything else.
+
+Thu Dec 23 04:34:32 PST 2004  avuton@gmail.com
+  * Get rid of all references to specific metadata tags.
+
+Wed Dec 22 21:35:58 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
+Wed Dec 22 21:35:34 PST 2004  avuton@gmail.com
+  * Fix E_NOTICE warnings
+
+Wed Dec 22 21:34:59 PST 2004  avuton@gmail.com
+  * Change server/config title stuff into a tenerary
+
+Wed Dec 22 21:34:06 PST 2004  avuton@gmail.com
+  * Reorganize the sort stuff, put it where it needs to be so it doesn't get loaded every time
+
+Wed Dec 22 21:33:19 PST 2004  avuton@gmail.com
+  * Spacing
+
+Wed Dec 22 21:16:44 PST 2004  avuton@gmail.com
+  * Fix for server tenerary operator
+
 Wed Dec 22 21:06:26 PST 2004  avuton@gmail.com
   * TODO update
 
 Wed Dec 22 21:06:05 PST 2004  avuton@gmail.com
   * Sane out the config defaults
 
-Wed Dec 22 21:01:15 PST 2004  avuton@gmail.com
-  * Fix for server tenerary operator
-
 Wed Dec 22 20:56:03 PST 2004  avuton@gmail.com
   * Update to displayDirectories anchors stuff
 
-Wed Dec 22 20:55:28 PST 2004  avuton@gmail.com
-  * ChangeLog update
-
 Wed Dec 22 20:54:04 PST 2004  avuton@gmail.com
   * Steps toward making song display conf generic
-
-Wed Dec 22 20:53:02 PST 2004  avuton@gmail.com
-  * Spacing
 
 Wed Dec 22 20:51:23 PST 2004  avuton@gmail.com
   * Add enable_playlist_swap config option

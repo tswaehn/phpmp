@@ -19,22 +19,14 @@ $port = $servers[$server][1];
 // won't go any old place, but only to the host/port that you are speaking to
 $hostport = $host . ":" . $port;
 
-// Playlist Hiding Stuff
-if( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
-{
-	$hide = $_COOKIE["phpMp_playlist_hide"][$hostport];
-}
-
 // This will extract the needed GET/POST variables
 $arg =		isset( $_REQUEST["arg"] )	?	$_REQUEST["arg"]	:	"";
 $arg2 =		isset( $_REQUEST["arg2"] )	?	$_REQUEST["arg2"]	:	"";
 $body =		isset( $_REQUEST["body"] )	?	$_REQUEST["body"]	:	"";
 $command =	isset( $_REQUEST["command"] )	?	$_REQUEST["command"]	:	"";
-$dir =		isset( $_REQUEST["dir"] )	?	$_REQUEST["dir"]	:	"";
 $feature =	isset( $_REQUEST["feature"] )	?	$_REQUEST["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
-$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
 
 if( ! empty( $body ))
 {
@@ -47,30 +39,44 @@ if( ! empty( $body ))
 				$search = isset( $_REQUEST["search"] ) ? $_REQUEST["search"] : "";
 				$find = isset( $_REQUEST["find"] ) ? $_REQUEST["find"] : "";
 			}
+			if( strcmp( $feature, "stream" ) == "0" )
+			{
+				$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
+			}
 		}
 		$delete = isset( $_REQUEST["delete"] ) ? $_REQUEST["delete"] : "no";
+		$dir = isset( $_REQUEST["dir"] ) ? $_REQUEST["dir"] : "";
 		$save = isset( $_REQUEST["save"] ) ? $_REQUEST["save"] : "";
 		$ordered = isset( $_REQUEST["ordered"] ) ? $_REQUEST["ordered"] : "";
 	}
 	else if( strcmp( $body, "playlist" ) == "0" )
 	{
+		// Playlist Hiding Stuff
+		if( isset( $_REQUEST["hide"] ))
+		{
+			$hide = $_REQUEST["hide"];
+		}
+		else if( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
+		{
+			$hide = $_COOKIE["phpMp_playlist_hide"][$hostport];
+		}
+
+		if( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
+		{
+			setcookie("phpMp_playlist_hide[$hostport]", $hide);
+		}
+		else
+		{
+			$hide = 1;
+		}
+
 		$add_all = isset( $_REQUEST["add_all"] ) ? $_REQUEST["add_all"] : "";
-		$hide = isset( $_REQUEST["hide"] ) ? $_REQUEST["hide"] : "";
 		$show_options = isset( $_REQUEST["show_options"] ) ? $_REQUEST["show_options"] : "0";
 	}
 }
 else
 {
 	$logout = isset( $_REQUEST["logout"] ) ? $_REQUEST["logout"] : "";
-}
-
-if( ! empty( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
-{
-	setcookie("phpMp_playlist_hide[$hostport]", $hide);
-}
-else
-{
-	$hide = 1;
 }
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -112,6 +118,7 @@ else if( isset( $_COOKIE["phpMp_password"][$hostport] ))
 {
 	$passarg = $_COOKIE["phpMp_password"][$hostport];
 }
+
 if( strlen( $passarg ) > "0" )
 {
 	$has_password = 1;
@@ -149,6 +156,7 @@ if( $commands["status"] == "1" )
 {
 	$status = getStatusInfo( $fp );
 }
+
 if( ! empty( $command ))
 {
 	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
@@ -210,7 +218,6 @@ if( ! empty( $feature ))
 				}
 			}
 		}
-
 		xml_parser_free( $xml_parser );
 	}
 }

@@ -1,8 +1,6 @@
 0.12.0 Release - A good 0.12.0 release could be done today if needed, but these would be useful if implemented, if not by 0.12.0>
 --------------
 
-*) Make all metatag stuff generic and configurable so it works well with the new MPD changes
-
 Future (doesn't have to be before release)
 ------------------------------------------
 

@@ -103,13 +103,12 @@ $config = array(
 		/***************************************************************************/
 		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
-		/*********************************************************************
-		/ These change the way your song is displayed above the playlist.    /
-		/ You can add any values here that are in your display_fields value  /
-		/ You should add one value per set of quotes, that way the lines will/
-		/ be broken properly						     /
-		/********************************************************************/
-		"display_conf" => array( "(artist)", "title" ),
+		/*************************************************************************************
+		/ These change the way your song is displayed in the song field and in the playlist. /
+		/ You can add any values here that are in your display_fields value. You should add  /
+		/ one value per set of quotes, that way the lines will be broken properly	     /
+		/************************************************************************************/
+		"display_conf" => array( "(Artist)", "Title" ),
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /
