@@ -1,11 +1,8 @@
-Sat Nov  5 20:05:40 PST 2005  avuton@gmail.com
-  * Fix the songInfo2Display passing
+Sun Jan  9 21:12:37 PST 2005  avuton@gmail.com
+  * Add all needed arguments to songInfo2Display
 
-Sat Nov  5 20:05:16 PST 2005  avuton@gmail.com
-  * If the <TD> is for time, make it as small as possible
-
-Sat Nov  5 20:04:04 PST 2005  avuton@gmail.com
-  * Fix E_NOTICE warning
+Sun Jan  9 21:12:23 PST 2005  avuton@gmail.com
+  * Fix issue when not displaying tags
 
 Sat Dec 25 13:04:31 PST 2004  avuton@gmail.com
   * Work on not passing the whole $config variable all around

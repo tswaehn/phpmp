@@ -228,6 +228,7 @@ function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 	{
 		$display_fields = $ret;
 	}
+
 	return( array( $tagged, $untagged ));
 }
 
@@ -398,7 +399,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 		}
 		for ( $x = 0; $x < sizeof($display_fields); $x++)
 		{
-			$mprint[$i] .= strcmp( $display_fields[$x], "Time" ) ? "<td>" : '<td width="1%">';
+			$mprint[$i] .= "<td>";
 
 			/* 
 			 * If $display_fields[$x] an Album, Artist, Date or Genre make the HTML anchored to a mpd 'find' command so the 
