@@ -707,7 +707,11 @@ function songInfo2Display( $song_info, $display, $filenames_only, $regex, $wordw
 		// This will replace all song_display_conf stuff with the actual value
 		foreach( $song_info as $key => $value )
 		{
-			$song_display_conf = str_replace( $key, $value, $song_display_conf );
+			// Otherwise the Id or Pos could get translated into the metadata
+			if( $key != "Id" && $key != "Pos" )
+			{
+				$song_display_conf = str_replace( $key, $value, $song_display_conf );
+			}
 		}
 		$song_display = $song_display_conf;
 	}
