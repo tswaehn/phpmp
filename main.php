@@ -10,7 +10,6 @@ if(!isset($sort))
 $dir_url = rawurlencode($dir);
 $lsinfo = getLsInfo($fp,"lsinfo \"$dir\"\n");
 $sort_array = split(",",$sort);
-$status = getStatusInfo($fp);
 
 list($dprint, $dindex, $dcount) = lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"]);
 list($pprint, $pindex) = lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $commands["load"]);
@@ -22,7 +21,7 @@ utils and edit below and you have a new feature */
 if(isset($feature))
 {
 	require "features.php";
-	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $status);
+	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
 
 	echo "<!-- Begin $feature -->";
 	switch($feature)
@@ -53,7 +52,7 @@ if(isset($feature))
 }
 else
 {
-	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $status);
+	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
 
 	// The next few are targeted from URLs
 	printSavePlaylistTable($save, $server, $colors["playlist"]);

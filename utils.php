@@ -131,7 +131,7 @@ function doCommand($fp,$arg,$command, $overwrite)
 	}
 }
 
-function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers, $status)
+function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers)
 {
 	$dir_url = stripslashes($dir);
 	$dir_url = rawurlencode($dir_url);
@@ -246,13 +246,14 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
+	$status = getStatusInfo($fp);
 	if($status["updating_db"])
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
 	}
 	else if(strcmp($title,"Current Directory")==0 && $commands["update"])
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?server=$server&amp;command=update&amp;arg=$build_dir\" target=_top title=\"Update the Current Directory\">db update</a>)</small>";
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;command=update&amp;arg=$build_dir\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";
