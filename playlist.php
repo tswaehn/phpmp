@@ -99,6 +99,7 @@ $status = getStatusInfo( $fp );
 if( isset( $status["error"] ))
 {
 	echo "Error:&nbsp;{$status["error"]}<br>\n";
+	doCommand( $fp, NULL, NULL, "clearerror", NULL, NULL );
 }
 
 if( strcmp( $crop, "yes" ) == "0" )
