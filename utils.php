@@ -131,7 +131,7 @@ function doCommand($fp,$arg,$command, $overwrite)
 	}
 }
 
-function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers)
+function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers, $fp)
 {
 	$dir_url = stripslashes($dir);
 	$dir_url = rawurlencode($dir_url);

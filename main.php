@@ -21,7 +21,7 @@ utils and edit below and you have a new feature */
 if(isset($feature))
 {
 	require "features.php";
-	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
+	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
 
 	echo "<!-- Begin $feature -->";
 	switch($feature)
@@ -52,7 +52,7 @@ if(isset($feature))
 }
 else
 {
-	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
+	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
 
 	// The next few are targeted from URLs
 	printSavePlaylistTable($save, $server, $colors["playlist"]);
