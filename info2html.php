@@ -229,8 +229,9 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				    ($mic==0 || $mindex[$mic-1]!=strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]))))
 				{
 					$mindex[$mic] = strtoupper(mbFirstChar($lsinfo["music"][$i][$sort_array[0]]));
+					$foo = $mindex[$mic];
 					$mic++;
-					$mprint[$i] = "<a name=m" . $mindex[$mic] . "></a>";
+					$mprint[$i] = "<a name=m$foo></a>";
 				}
 				else
 				{
