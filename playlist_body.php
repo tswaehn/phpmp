@@ -65,7 +65,7 @@ else {
 		}
 	}
 	if(isset($stream)) {
-		if(preg_match("/^[a-z]*:\/\//",$stream)) {
+		if(preg_match("/^[a-z]*:\/\//",$stream) && !preg_match("/^file:/",$stream)) {
 			if(preg_match("/\.m3u/",$stream)) {
 				$pls_fp = fopen($stream,"r");
 				$add = readM3uFile($pls_fp);
