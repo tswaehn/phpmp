@@ -133,7 +133,7 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 	echo "</table></td></tr><table>";
 }
 
-function stream($server, $color, $feature, $server_data)
+function stream($server, $color, $feature, $server_data, $song_seperator)
 {
 	echo "<br>";
 	echo "<form action=index.php? target=playlist method=get>";
@@ -173,6 +173,22 @@ function stream($server, $color, $feature, $server_data)
 		$k=0;
 		for($i=0;$i<sizeOf($server_data);$i++)
 		{
+
+			echo "<tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
+			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;add_all=" . $server_data[$i]["listen_url"];
+
+			while(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"])==0)
+			{
+				$i++;
+				echo $song_seperator . $server_data[$i]["listen_url"];
+			}
+
+			echo "\">" . $server_data[$i]["server_name"] . "</a></td></tr>";
+			$k++;
+		}
+
+/*		for($i=0;$i<sizeOF($server_data);$i++)
+		{
 			if(strcmp($server_data[$i]["server_name"],$server_data[($i-1)]["server_name"])==0)
 			{
 				echo "&nbsp;[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=" . $server_data[$i]["listen_url"] . "\">";
@@ -189,7 +205,7 @@ function stream($server, $color, $feature, $server_data)
 			}
 		}
 		echo "</tr></table></form>";
-	}
+*/	}
 	else
 	{
 		echo "<a title=\"Open the table of Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>Load a table of icecast streams</a>";

@@ -42,10 +42,10 @@ if(isset($feature))
 			stats($fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port);
 			break;
 		case 'stream':
-			stream($server, $colors["stream"], $feature, 0);
+			stream($server, $colors["stream"], $feature, 0, $config["song_separator"]);
 			break;
 		case 'stream-icy':
-			stream($server, $colors["stream"], $feature, $server_data);
+			stream($server, $colors["stream"], $feature, $server_data, $config["song_separator"]);
 			break;
 	}
 	echo "<!-- End $feature -->";
