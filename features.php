@@ -183,7 +183,7 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		if( strcmp( $feature, "stream-icy" ) == "0" )
 		{ 
-			echo "<tr><td><b>Icecast/Oddcast Streams</b>";
+			echo "<tr><td><b>Icecast / Oddcast Streams</b>";
 		}
 		else if( strcmp( $feature, "stream-shout" ) == "0" )
 		{
