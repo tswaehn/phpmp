@@ -1,6 +1,7 @@
 <?php
 include "config.php";
 include "utils.php";
+include "info.php";
 $dir = "";
 $sort = $default_sort;
 EXTRACT($HTTP_GET_VARS);
@@ -32,18 +33,35 @@ else {
 	$dir_url = sanitizeForURL($dir);
 	displayDirectory($dir,$sort,"Back to Directory",0,0);
 	fputs($fp,"update\n");
-	print "<br>updating ...<br>\n";
-	flush();
 	while(!feof($fp)) {
 		$got =  fgets($fp,1024);
 		if(strncmp("OK",$got,strlen("OK"))==0) {
-			print "update finished successfully\n";
 			break;
+		}
+		if(strncmp("updating_db",$got,strlen("updating_db"))==0) {
+			strtok($got,":");
+			$update_id = strtok("\0");
+			$update_id = preg_replace("/\n/","",$update_id);
+			$update_id = preg_replace("/^ /","",$update_id);
+			$update_id = $got;
+			continue;
 		}
 		print "$got<br>";
 		if(strncmp("ACK",$got,strlen("ACK"))==0) 
 			break;
 	}
+	print "<br>updating ";
+	flush();
+	$status = getStatusInfo($fp);
+	while(isset($update_id) && isset($status["updating_db"]) && 
+			$status["updating_db"]==$update_id) 
+	{
+		print ".";
+		flush();
+		sleep(1);
+	}
+	print "<br>\n";
+	print "Update Succesful<br>\n";
 	fclose($fp);
 }
 ?>
