@@ -21,6 +21,7 @@ function setupReceivedVars( $vars, $num )
 			$vars[$key] = $_POST[$key];
 		}
 	}
+
 	if( $num == $i )
 	{
 		return $vars;
@@ -248,7 +249,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	$build_dir = "";
 	for( $i=0; $i < (count( $dirs ) - 1); $i++ )
 	{
-		if ($i > "0" && $i < (count($dirs)-1))
+		if ($i > "0" && $i < ( count( $dirs ) - 1 ))
 		{
 		        $build_dir.="/";
 		}
@@ -291,7 +292,14 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 function mbFirstChar( $str )
 {
 	$i = 1;
-	$ret = "$str[0]";
+	if( isset( $str[0] ))
+	{
+		$ret = "$str[0]";
+	}
+	else
+	{
+		$ret = "";
+	}
 	while ($i < strlen( $str ) && ord( $str[$i] ) >= 128  && ord( $str[$i] ) < 192)
 	{
 		$ret .= $str[$i];
