@@ -335,7 +335,7 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=hidden value=\"search\" name=feature>";
 	echo "<input type=hidden value=\"$server\" name=server>";
 	echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=40>";
-	echo "<input type=hidden value=\"$dir_url\" name=dir>";
+	echo "<input type=hidden value=\"$dir\" name=dir>";
 	echo "<input type=hidden value=\"$sort\" name=sort>";
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td>";
