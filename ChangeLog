@@ -1,3 +1,6 @@
+Fri Dec 17 15:29:48 PST 2004  avuton@gmail.com
+  * Remove columns if it doesn't exist (excluding Title/Time obviously) and finally figured out how to correctly minimalize the [add] <td>
+
 Fri Dec 17 13:46:31 PST 2004  avuton@gmail.com
   * Fix find'ing/sorting
 

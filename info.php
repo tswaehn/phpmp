@@ -305,12 +305,19 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	echo "<!-- End printPlaylistInfo Here -->";
 }
 
-function getLsInfo( $conn, $command )
+function getLsInfo( $conn, $command, $display_fields )
 {
 	fputs( $conn, $command );
 	$mcount = -1;
 	$dcount = 0;
 	$pcount = 0;
+
+	$Track = 0;
+	$Album = 0;
+	$Artist = 0;
+	$Genre = 0;
+	$Date = 0;
+
 	while( ! feof( $conn ))
 	{
 		$got = fgets( $conn, "1024" );
@@ -347,7 +354,57 @@ function getLsInfo( $conn, $command )
 			$music[$mcount] = array( 'file' => '', 'Title' => '', 'Time' => '', 'Track' => '', 'Track' => '', 'Album' => '', 'Artist' => '', 'Genre' => '', 'Date' => '' );
 		}
 		$music[$mcount]["$el"] = preg_replace( "/^$el: /", "", $got);
+		if( $el == "Track" )
+		{
+			$Track++;
+		}
+		if( $el == "Album" )
+		{
+			$Album++;
+		}
+		if( $el == "Artist" )
+		{
+			$Artist++;
+		}
+		if( $el == "Genre" )
+		{
+			$Genre++;
+		}
+		if( $el == "Date" )
+		{
+			$Date++;
+		}
 	}
+	if( $Date == "0" )
+	{
+		unset( $display_fields[ array_search( 'Date', $display_fields ) ] );
+	}
+	if( $Track == "0" )
+	{
+		unset( $display_fields[ array_search( 'Track', $display_fields ) ] );
+	}
+	if( $Genre == "0" )
+	{
+		unset( $display_fields[ array_search( 'Genre', $display_fields ) ] );
+	}
+	if( $Album == "0" )
+	{
+		unset( $display_fields[ array_search( 'Album', $display_fields ) ] );
+	}
+	if( $Artist == "0" )
+	{
+		unset( $display_fields[ array_search( 'Artist', $display_fields ) ] );
+	}
+
+	// This removes the empty values, there should be a php function to do this, but I couldn't find it
+	foreach( $display_fields as $key => $value )
+	{
+		if( isset( $value ))
+		{
+			$ret2[] = $display_fields[$key];
+		}
+	}
+
 	if ( ! isset( $dir ))
 	{
 	        $dir = array();
@@ -363,6 +420,6 @@ function getLsInfo( $conn, $command )
 	$ret["dir"] = $dir;
 	$ret["music"] = $music;
 	$ret["playlist"] = $playlist;
-	return $ret;
+	return( array( $ret, $ret2 ));
 }
 ?>
