@@ -18,7 +18,18 @@ function getStatusInfo($conn) {
 	return $ret;
 }
 
+function setNotSetSongFields($song) {
+	if(isset($song["Title"])) {
+		if(!isset($song["Track"])) $song["Track"] = "";
+		if(!isset($song["Album"])) $song["Album"] = "";
+		if(!isset($song["Artist"])) $song["Artist"] = "";
+	}
+
+	return $song;
+}
+
 function getPlaylistInfo($conn,$song) {
+	global $unknown_string;
 	fputs($conn,"playlistinfo $song\n");
 	$count = -1;
 	while(!feof($conn)) {
@@ -30,6 +41,7 @@ function getPlaylistInfo($conn,$song) {
 			break;
 		$el = strtok($got,":");
 		if(0==strcmp($el,"file")) {
+			if($count>=0) $ret[$count] = setNotSetSongFields($ret[$count]);
 			$count++;
 		}
 		$ret[$count]["$el"] = strtok("\0");
@@ -149,6 +161,7 @@ function getLsInfo($conn,$command) {
 			continue;
 		}
 		if(0==strcmp($el,"file")) {
+			if($mcount>=0) $music[$mcount] = setNotSetSongFields($music[$mcount]);
 			$mcount++;
 		}
 		$music[$mcount]["$el"] = preg_replace("/^$el: /","",$got);

@@ -131,7 +131,9 @@ else {
 			$time_sec = (int)($time[1]-$time_min*60);
 			if($time_sec<10) $time_sec = "0$time_sec";
 			print "[$time_min:$time_sec]\n";
-			$time_perc = $time[0]*100/$time[1];
+			if($time[1]>0)
+				$time_perc = $time[0]*100/$time[1];
+			else $time_perc = 100.0;
 			$time_div = 4;
 			$do = round($time_perc/$time_div);
 			print "<table border=0 cellspacing=0 cellpadding=0 height=\"8\"><tr>";
