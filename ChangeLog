@@ -1,3 +1,7 @@
+ver 0.11.0 (2004/6/18)
+1) Add ability to add streams
+2) Support for displaying stream names
+
 ver 0.10.1 (2004/3/25)
 1) Check that Track, Album, and Artist indexes are set for songs
 2) Fix seek bar devide by zero error when total time is 0
