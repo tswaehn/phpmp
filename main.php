@@ -38,11 +38,11 @@ if( isset( $feature ))
 			break;
 		case 'search':
 			// These help to avoid E_NOTICE warnings
-			if( ! isset ( $search ))
+			if( ! isset( $search ))
 			{
 				$search = "";
 			}
-			if( ! isset ( $find ))
+			if( ! isset( $find ))
 			{
 				$find = "";
 			}

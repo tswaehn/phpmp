@@ -274,13 +274,13 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<select name=search>";
 	function localPrintFileNameOption( $which_search )
 	{
-		if( ! empty( $search ))
+		if( ! isset( $search ) ||  empty( $search ))
 		{
-			$which_search=$search;
+			$which_search = $search;
 		}
-		else if( ! empty( $find ))
+		else if( ! isset( $find ) || empty( $find ))
 		{
-			$which_search=$find;
+			$which_search = $find;
 		}
 		if( strcmp( $which_search, "filename" ) == "0" )
 		{
@@ -292,12 +292,12 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		}
 	}
 
-	if( strcmp( $config["filenames_only"], "yes" ) == "0")
+	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
 	{
 		localPrintFileNameOption( $search );
 	}
 
-	if( strcmp( $search, "title" ) == "0" || strcmp( $find, "title" ) == "0")
+	if( strcmp( $search, "title" ) == "0" || strcmp( $find, "title" ) == "0" )
 	{
 		echo "<option selected>title</option>";
 	}
@@ -306,7 +306,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>title</option>";
 	}
 
-	if( strcmp( $search, "date") =="0" || strcmp($find,"date") == "0" )
+	if( strcmp( $search, "date" ) =="0" || strcmp( $find, "date" ) == "0" )
 	{
 		echo "<option selected>date</option>";
 	}
@@ -356,22 +356,24 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td></tr></table>";
 	echo "</form>";
-	if( isset( $search ) && ! empty( $arg ))
+
+	$arg_url = rawurlencode( $arg );
+	if( isset( $search ) && ! empty( $search ) && ! empty( $arg ))
 	{
+		$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
-	else if( isset( $find ) && ! empty( $arg ))
+	else if( isset( $find ) && ! empty( $find ) &&  ! empty( $arg ))
 	{
+		$local_url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
 		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
 	if( isset( $lsinfo ))
 	{
 		list( $mprint, $mindex, $add_all ) = lsinfo2musicTable( $lsinfo, $sort, $dir_url, $sort_array, $config, $color["body"], $server, $addperm );
 	}
-	$arg_url = rawurlencode( $arg );
 	if ( isset( $mprint ))
 	{
-		$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		printMusicTable( $config, $color, $sort_array, $server, $mprint, $local_url, $add_all, $mindex, $dir, $addperm, $feature, $ordered );
 	}
 

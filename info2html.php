@@ -179,8 +179,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 	$mic = 0;
 	$mcount = count( $lsinfo["music"] );
 
-	// Generate short names, mostly for the purposes of sorting by filename
-	for( $i = "0"; $i < $mcount; $i++ )
+	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
 	{
 		$split = split( "/", $lsinfo["music"][$i]["file"] );
 		$lsinfo["music"][$i]["key"] = $split[sizeOf($split)-1];
@@ -467,7 +466,7 @@ function printMusicTable( $config, $color, $sort_array, $server, $mprint, $url, 
 				echo "<td>";
 				if( strcmp( $ordered, "yes" ) && strcmp( $config["display_fields"][$i], $sort_array[0] ) == "0" )
 				{
-	       				echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;ordered=yes&amp;server=$server\">";
+					echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;ordered=yes&amp;server=$server\">";
 				}
 				else
 				{

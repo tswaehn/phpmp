@@ -2,12 +2,17 @@
 // Initialize these variables to avoid E_NOTICE warnings
 if( ! isset( $server ))
 {
-	$server = 0;
+	$server = "0";
 }
 
 if( ! isset( $hide ))
 {
-	$hide = 0;
+	$hide = "0";
+}
+
+if( ! isset( $show_options ))
+{
+	$show_options = "0";
 }
 
 // Font
@@ -89,28 +94,28 @@ if ($config["use_images"]=="yes")
 	// The following are examples of images you could use for phpMp. These are user-supplied.
 	$display["playing"]["prev"]["active"] = "<a title=\"Previous\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=previous\"><img src=\"images/previous.gif\" border=0></a>";
 	$display["playing"]["prev"]["inactive"] = "<img src=\"images/previous_inactive.gif\" border=0>";
-	$display["playing"]["play"]["active"] = "<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=play\"><img src=\"images/play.gif\" border=0></a>";
-	$display["playing"]["play"]["pause"] = "<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=pause\"><img src=\"images/play.gif\" border=0></a>";
+	$display["playing"]["play"]["active"] = "<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=play\"><img src=\"images/play.gif\" border=0></a>";
+	$display["playing"]["play"]["pause"] = "<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=pause\"><img src=\"images/play.gif\" border=0></a>";
 	$display["playing"]["play"]["inactive"] = "<img src=\"images/play_inactive.gif\" border=0>";
-	$display["playing"]["next"]["active"] = "<a title=\"Next\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=next\"><img src=\"images/next.gif\" border=0></a>";
+	$display["playing"]["next"]["active"] = "<a title=\"Next\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=next\"><img src=\"images/next.gif\" border=0></a>";
 	$display["playing"]["next"]["inactive"] = "<img src=\"images/next_inactive.gif\" border=0>";
-	$display["playing"]["pause"]["active"] = "<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=pause\"><img src=\"images/pause.gif\" border=0></a>";
+	$display["playing"]["pause"]["active"] = "<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=pause\"><img src=\"images/pause.gif\" border=0></a>";
 	$display["playing"]["pause"]["inactive"] = "<img src=\"images/pause_inactive.gif\" border=0>";
-	$display["playing"]["stop"]["active"] = "<a title=\"Stop\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=stop\"><img src=\"images/stop.gif\" border=0></a>";
+	$display["playing"]["stop"]["active"] = "<a title=\"Stop\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=stop\"><img src=\"images/stop.gif\" border=0></a>";
 	$display["playing"]["stop"]["inactive"] = "<img src=\"images/stop_inactive.gif\" border=0>";
 }
 else
 {
-	$display["playing"]["prev"]["active"] = "[<a title=\"Previous\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=previous\">&lt;&lt;</a>]";
+	$display["playing"]["prev"]["active"] = "[<a title=\"Previous\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=previous\">&lt;&lt;</a>]";
 	$display["playing"]["prev"]["inactive"] = "[&lt;&lt;]";
-	$display["playing"]["play"]["active"] = "[<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=play\">Play</a>]";
-	$display["playing"]["play"]["pause"] = "[<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=pause\">Play</a>]";
+	$display["playing"]["play"]["active"] = "[<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=play\">Play</a>]";
+	$display["playing"]["play"]["pause"] = "[<a title=\"Play\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=pause\">Play</a>]";
 	$display["playing"]["play"]["inactive"] = "[Play]";
-	$display["playing"]["next"]["active"] = "[<a title=\"Next\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=next\">&gt;&gt;</a>]";
+	$display["playing"]["next"]["active"] = "[<a title=\"Next\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=next\">&gt;&gt;</a>]";
 	$display["playing"]["next"]["inactive"] = "[&gt;&gt;]";
-	$display["playing"]["pause"]["active"] = "[<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=pause\">| |</a>]";
+	$display["playing"]["pause"]["active"] = "[<a title=\"Pause\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=pause\">| |</a>]";
 	$display["playing"]["pause"]["inactive"] = "[| |]";
-	$display["playing"]["stop"]["active"] = "[<a title=\"Stop\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=stop\">Stop</a>]";
+	$display["playing"]["stop"]["active"] = "[<a title=\"Stop\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=stop\">Stop</a>]";
 	$display["playing"]["stop"]["inactive"] = "[Stop]";
 }
 ?>

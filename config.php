@@ -2,16 +2,19 @@
 
 // Required
 /**********************************************************************
-/ This is a list of your MPD servers, one per line. (host,port,alias) /                                 /
+/ This is a list of your MPD servers, one per line. (host,port,alias) /
 **********************************************************************/
 $servers[] = array('localhost', 6600, 'My MusicBox');
-$servers[] = array('localhost', 6601, 'Webusers1');
-$servers[] = array('localhost', 6602, 'Webusers2');
-$servers[] = array('rocket', 6600, 'Rocket');
-$servers[] = array('micromachine', 6600, 'Micromachine');
 
 // Optional
 $config = array(
+		/***********************************************************
+		/ If set to yes, this will hide your playlist options, and / 
+		/ leave you with an option to show it. Otherwise it will   /
+		/ always be shown.					   /
+		/**********************************************************/
+		"playlist_option_hide" => "yes",
+
 		/***************************************************************
 		/ Frame border size, set this to 0 for usability, 1 for looks. /
 		/**************************************************************/
@@ -94,9 +97,9 @@ $config = array(
 		/******************************************************************
 		/ These change the way your song is displayed above the playlist. /
 		/*****************************************************************/
-					"artist" => "(artist)",
-					"seperator" => " ",
-					"title" => "title"),
+		"artist" => "(artist)",
+		"seperator" => " ",
+		"title" => "title"),
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /

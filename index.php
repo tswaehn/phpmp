@@ -58,7 +58,7 @@ if( isset( $body ))
 	}
 	else if( strcmp( $body, "playlist" ) == "0" )
 	{
-		extract( setupReceivedVars( array( "add_all", "hide" ), "2" ));
+		extract( setupReceivedVars( array( "add_all", "hide", "show_options" ), "3" ));
 	}
 }
 else
@@ -98,6 +98,10 @@ if( ! isset( $remember ))
 if( ! isset( $ordered ))
 {
 	$ordered = "";
+}
+if( ! isset( $show_options ))
+{
+	$show_options = "0";
 }
 
 if ( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
@@ -301,7 +305,7 @@ else
 	unset( $hostport );
 	if( strcmp( $body, "playlist" ) == "0" )
 	{
-		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";
+		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;hide=$hide&amp;show_options=$show_options&amp;server=" . $server . "\">";
 	}
 	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
 	{

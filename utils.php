@@ -1,5 +1,4 @@
 <?php
-include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
  /*

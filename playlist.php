@@ -144,7 +144,7 @@ if( isset( $status["state"] ))
 	}
 	echo "</b>";
 	echo "<small>";
-	echo "&nbsp;(<a title=\"Refresh the Playlist Window\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">refresh</a>)";
+	echo "&nbsp;(<a title=\"Refresh the Playlist Window\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options\">refresh</a>)";
 	echo "</small>";
 	echo "</td></tr>";
 	echo "<tr></tr>"; // Make some space under the title
@@ -245,7 +245,7 @@ if( isset( $status["state"] ))
 				echo "<td border=0 width=8 height=8 bgcolor=\"" . $col . "\">";
 				if( $commands["seekid"] == "1" )
 				{
-					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
+					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
 				}
 				echo "<img alt='Seek to $min:$sec' border=0 width=8 height=8 src=transparent.gif>";
 				if( $commands["add"] == "1" )
@@ -276,11 +276,11 @@ if( $commands["crossfade"] == "1" )
 	if( $xfade == "0" )
 	{
 		echo "<a title=\"Set Crossfade to " . $config["crossfade_seconds"] . " Seconds\" ";
-		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=crossfade&amp;arg=" . $config["crossfade_seconds"]*(int)(!$xfade) . "\">crossfade</a>";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=" . $config["crossfade_seconds"]*(int)(!$xfade) . "\">crossfade</a>";
 	}
 	else
 	{
-		echo "<a title=\"Remove Crossfade\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=crossfade&amp;arg=0\">crossfade</a>";
+		echo "<a title=\"Remove Crossfade\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=0\">crossfade</a>";
 	};
 }
 else
@@ -291,7 +291,7 @@ else
 	}
 	else
 	{
-		echo "<a title=\"Remove Crossfade\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">crossfade</a>";
+		echo "<a title=\"Remove Crossfade\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options\">crossfade</a>";
 	}
 }
 
@@ -301,11 +301,11 @@ if( $commands["random"] == "1" )
 {
 	if( $random == "0" )
 	{
-		echo "<a title=\"Turn Random On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=random&amp;arg=" .  (int)(!$random) . "\">random</a>";
+		echo "<a title=\"Turn Random On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=" .  (int)(!$random) . "\">random</a>";
 	}
 	else
 	{
-		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=random&amp;arg=" . (int)(!$random) . "\">random</a>";
+		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=random&amp;arg=" . (int)(!$random) . "\">random</a>";
 	}
 }
 else
@@ -316,7 +316,7 @@ else
 	}
 	else
 	{
-		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">random</a>";
+		echo "<a title=\"Turn Random Off\" class=\"green\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options\">random</a>";
 	}
 }
 
@@ -326,11 +326,11 @@ if( $commands["repeat"] == "1" )
 {
 	if( $repeat == "0" )
 	{
-		echo "<a title=\"Turn Repeat On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat On\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
 	}
 	else
 	{
-		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
+		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=repeat&amp;arg=" . (int)(!$repeat) . "\">repeat</a>";
 	}
 }
 else
@@ -341,7 +341,7 @@ else
 	}
 	else
 	{
-		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide\">repeat</a>";
+		echo "<a title=\"Turn Repeat Off\" class=\"green\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options\">repeat</a>";
 	}
 }
 
@@ -458,7 +458,7 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	else if ( $commands["setvol"] == "1")
 	{
 		echo "<a title=\"Decrease Volume by ".$config["volume_incr"]."%\" ";
-		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=setvol&amp;arg=" . ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
 	}
 	echo "</td>";
 	echo "<td valign=\"middle\" align=\"center\">";
@@ -480,7 +480,7 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	echo "<td valign=\"middle\" align=\"center\">";
 	if( $status["volume"] != "100" && $commands["setvol"] == "1")
 	{
-		echo "<a  title=\"Increase Volume by " . $config["volume_incr"] . "%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
+		echo "<a  title=\"Increase Volume by " . $config["volume_incr"] . "%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
 	}
 	else if( $status["volume"]=="100" )
 	{
@@ -499,54 +499,68 @@ if( ! $status["playlistlength"] == 0 )
 
 	// This is for the border table
 	echo "<table summary=\"Playlist Table\" cellspacing=1><tr>";
-	echo "<tr valign=\"middle\"><td><b>Playlist</b></td></tr>";
+	echo "<tr valign=\"middle\"><td><b>Playlist</b>&nbsp;";
+	if( strcmp( $config["playlist_option_hide"], "yes" ) == "0" )
+	{
+		if( $show_options == "0" )
+		{
+			echo "<small>(<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1\">options</a>)</small></td></tr>";
+		}
+		else
+		{
+			echo "<small>(<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=0\">hide</a>)</small></td></tr>";
+		}
+	}
 	echo "<tr align=\"" . $config["playlist_align"] . "\">";
 	echo "<td nowrap align=\"" . $config["playlist_align"] . "\">";
-	echo "<small>";
-	/* clear | crop | shuffle | save */
-	if( $commands["clear"] == "1" )
+	if( strcmp( $config["playlist_option_hide"], "yes" ) || $show_options == "1" )
 	{
-		echo "<a title=\"Clear the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=clear\">clear</a>";
+		echo "<small>";
+		/* clear | crop | shuffle | save */
+		if( $commands["clear"] == "1" )
+		{
+			echo "<a title=\"Clear the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1&amp;command=clear\">clear</a>";
+		}
+		else
+		{
+			echo "clear";
+		}
+		echo "&nbsp;|&nbsp;";
+		if( $status["playlistlength"] > "1" && strcmp( $status["state"], "stop" ) && $commands["delete"] == "1" )
+		{
+			echo "<a title=\"Remove All Songs Except The Currently Playing Song\"href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1&amp;crop=yes\">crop</a>";
+		}
+		else
+		{
+			echo "crop";
+		}
+		echo "&nbsp;|&nbsp;";
+		if( $commands["save"] == "1" )
+		{
+			echo "<a title=\"Save the Active Playlist to the Saved Playlists\" target=main href=\"index.php?body=main&amp;server=$server&amp;save=yes\">save</a>";
+		}
+		else
+		{
+			echo "save";
+		}
+		echo "&nbsp;|&nbsp;";
+		if( $status["playlistlength"] >= "2" && $commands["shuffle"] == "1" )
+		{
+			echo "<a title=\"Shuffle the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=1&amp;command=shuffle\">shuffle</a>";
+		}
+		else
+		{
+			echo "shuffle";
+		}
+		echo "</small></td></tr>";
 	}
-	else
-	{
-		echo "clear";
-	}
-	echo "&nbsp;|&nbsp;";
-	if( $status["playlistlength"] > "1" && strcmp( $status["state"], "stop" ) && $commands["delete"] == "1" )
-	{
-		echo "<a title=\"Remove All Songs Except The Currently Playing Song\"href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;crop=yes\">crop</a>";
-	}
-	else
-	{
-		echo "crop";
-	}
-	echo "&nbsp;|&nbsp;";
-	if( $commands["save"] == "1" )
-	{
-		echo "<a title=\"Save the Active Playlist to the Saved Playlists\" target=main href=\"index.php?body=main&amp;server=$server&amp;save=yes\">save</a>";
-	}
-	else
-	{
-		echo "save";
-	}
-	echo "&nbsp;|&nbsp;";
-	if( $status["playlistlength"] >= "2" && $commands["shuffle"] == "1" )
-	{
-		echo "<a title=\"Shuffle the Active Playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=shuffle\">shuffle</a>";
-	}
-	else
-	{
-		echo "shuffle";
-	}
-	echo "</small></td></tr>";
 	echo "</table>";
 	echo "<table summary=\"Playlist Content\" cellspacing=0><tr>";
 
 	/* Display Playlist if songs exist in the current playlist */
 	if( isset($status["playlistlength"] ))
 	{
-		printPlaylistInfo( $fp, $num, $hide, $config["hide_threshold"], $status["playlistlength"], $config["filenames_only"], $commands, $arg, $colors["playlist"], $server, $config );
+		printPlaylistInfo( $fp, $num, $hide, $show_options, $config["hide_threshold"], $status["playlistlength"], $config["filenames_only"], $commands, $arg, $colors["playlist"], $server, $config );
 	}
 	echo "</tr></table>";
 }

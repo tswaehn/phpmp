@@ -142,9 +142,9 @@ function getPlaylistInfo( $conn, $song )
 	return $ret;
 }
 
-function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_only, $commands, $arg, $color, $server, $config )
+function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length, $filenames_only, $commands, $arg, $color, $server, $config )
 {
-	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $commands, $tm, $config )
+	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config )
 	{
 		if( $count > $start )
 		{
@@ -180,7 +180,7 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 		}
 		else
 		{
-			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">d</a></small></td>";
+			echo "<small><a title=\"Remove song from the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">d</a></small></td>";
 		}
 
 		if( $commands["play"] == "0" )
@@ -189,7 +189,7 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 		}
 		else
 		{
-			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=playid&amp;arg=$id\">$display</a>";
+			echo "<td width=\"100%\"><a title=\"Play this song\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=playid&amp;arg=$id\">$display</a>";
 		}
 		echo "</td></tr>";
 	}
@@ -242,7 +242,7 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 		{
 			echo "<tr bgcolor=\"" . $color["body"][($start-1)%2] . "\">";
 			echo "<td colspan=2 align=center><small>";
-			echo "<a title=\"Unhide the playlist\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=0\">...</a>";
+			echo "<a title=\"Unhide the playlist\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=0&amp;show_options=$show_options\">...</a>";
 			echo "</small></td></tr>";
 		}
                 
@@ -259,7 +259,7 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 		{
 			echo "<tr bgcolor=\"" . $color["body"][1] . "\">";
 			echo "<td colspan=2 align=center><small>";
-			echo "(<a title=\"Hide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=1\">condense</a>)";
+			echo "(<a title=\"Hide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=1&amp;show_options=$show_options\">condense</a>)";
 			echo "</small></td></tr>";
 		}
 		fputs( $conn, "playlistinfo -1\n" );
@@ -284,7 +284,7 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 		{
 			if ( $count >= $start )
 			{
-				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $commands, $tm, $config );
+				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config );
 				unset ( $ret );
 			}
 			$count++;
@@ -293,13 +293,13 @@ function printPlaylistInfo( $conn, $num, $hide, $spread, $length, $filenames_onl
 	}
 	if ( $count >= $start )
 	{
-		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $commands, $tm, $config );
+		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config );
 	}
 	if ( $hide > 0 && $end < ($length-1) )
 	{
 		echo "<tr bgcolor=\"" . $color["body"][(($end+1)%2)] . "\">";
 		echo "<td colspan=2 align=center><small>";
-		echo "<a title=\"Unhide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=0\">...</a>";
+		echo "<a title=\"Unhide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=0&amp;show_options=$show_options\">...</a>";
 		echo "</small></td></tr>";
 	}
 	echo "<!-- End printPlaylistInfo Here -->";
