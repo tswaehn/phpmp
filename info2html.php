@@ -95,6 +95,7 @@ function printDirectoryTable( $info, $dir, $sort, $server, $addperm, $color )
 	        echo "<table summary=\"Directory Border\" cellspacing=1 bgcolor=\"{$color["title"]}\">";
 		echo "<tr><td nowrap><b>Directories</b>";
 	        printIndex($index,"","d");
+		$dir = rawurlencode($dir);
 		if( $addperm == "1" )
 		{
 			echo "&nbsp;<small>(<a title=\"Add All Directories and Music\" target=playlist href=index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dir>add all</a>)</small>";
