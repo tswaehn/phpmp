@@ -51,29 +51,29 @@ $colors["time"]["foreground"] = "#000000";
 if(!isset($hide)) $hide = 1;
 // URL Displays
 if($use_images=="yes") {
-	$display["playing"]["prev"]["active"] = "<a href=\"playlist.php?hide=$hide&command=previous\"><img src=\"images/previous.gif\" border=0></a>";
+	$display["playing"]["prev"]["active"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=previous\"><img src=\"images/previous.gif\" border=0></a>";
 	$display["playing"]["prev"]["inactive"] = "<img src=\"images/previous_inactive.gif\" border=0>";
-	$display["playing"]["play"]["active"] = "<a href=\"playlist.php?hide=$hide&command=play\"><img src=\"images/play.gif\" border=0></a>";
-	$display["playing"]["play"]["pause"] = "<a href=\"playlist.php?hide=$hide&command=pause\"><img src=\"images/play.gif\" border=0></a>";
+	$display["playing"]["play"]["active"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=play\"><img src=\"images/play.gif\" border=0></a>";
+	$display["playing"]["play"]["pause"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=pause\"><img src=\"images/play.gif\" border=0></a>";
 	$display["playing"]["play"]["inactive"] = "<img src=\"images/play_inactive.gif\" border=0>";
-	$display["playing"]["next"]["active"] = "<a href=\"playlist.php?hide=$hide&command=next\"><img src=\"images/next.gif\" border=0></a>";
+	$display["playing"]["next"]["active"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=next\"><img src=\"images/next.gif\" border=0></a>";
 	$display["playing"]["next"]["inactive"] = "<img src=\"images/next_inactive.gif\" border=0>";
-	$display["playing"]["pause"]["active"] = "<a href=\"playlist.php?hide=$hide&command=pause\"><img src=\"images/pause.gif\" border=0></a>";
+	$display["playing"]["pause"]["active"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=pause\"><img src=\"images/pause.gif\" border=0></a>";
 	$display["playing"]["pause"]["inactive"] = "<img src=\"images/pause_inactive.gif\" border=0>";
-	$display["playing"]["stop"]["active"] = "<a href=\"playlist.php?hide=$hide&command=stop\"><img src=\"images/stop.gif\" border=0></a>";
+	$display["playing"]["stop"]["active"] = "<a href=\"playlist.php?server=$server&hide=$hide&command=stop\"><img src=\"images/stop.gif\" border=0></a>";
 	$display["playing"]["stop"]["inactive"] = "<img src=\"images/stop_inactive.gif\" border=0>";
 }
 else {
-	$display["playing"]["prev"]["active"] = "[<a href=\"playlist.php?hide=$hide&command=previous\">&lt;&lt;</a>]";
+	$display["playing"]["prev"]["active"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=previous\">&lt;&lt;</a>]";
 	$display["playing"]["prev"]["inactive"] = "[&lt;&lt;]";
-	$display["playing"]["play"]["active"] = "[<a href=\"playlist.php?hide=$hide&command=play\">Play</a>]";
-	$display["playing"]["play"]["pause"] = "[<a href=\"playlist.php?hide=$hide&command=pause\">Play</a>]";
+	$display["playing"]["play"]["active"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=play\">Play</a>]";
+	$display["playing"]["play"]["pause"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=pause\">Play</a>]";
 	$display["playing"]["play"]["inactive"] = "[Play]";
-	$display["playing"]["next"]["active"] = "[<a href=\"playlist.php?hide=$hide&command=next\">&gt;&gt;</a>]";
+	$display["playing"]["next"]["active"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=next\">&gt;&gt;</a>]";
 	$display["playing"]["next"]["inactive"] = "[&gt;&gt;]";
-	$display["playing"]["pause"]["active"] = "[<a href=\"playlist.php?hide=$hide&command=pause\">| |</a>]";
+	$display["playing"]["pause"]["active"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=pause\">| |</a>]";
 	$display["playing"]["pause"]["inactive"] = "[| |]";
-	$display["playing"]["stop"]["active"] = "[<a href=\"playlist.php?hide=$hide&command=stop\">Stop</a>]";
+	$display["playing"]["stop"]["active"] = "[<a href=\"playlist.php?server=$server&hide=$hide&command=stop\">Stop</a>]";
 	$display["playing"]["stop"]["inactive"] = "[Stop]";
 }
 ?>

@@ -2,6 +2,7 @@
 include "sort.php";
 
 function lsinfo2playlistTable($lsinfo,$sort) {
+	global $server;
 	$pic = 0;
 	$pcount = count($lsinfo["playlist"]);
 	if($pcount) usort($lsinfo["playlist"],"strcasecmp");
@@ -23,7 +24,7 @@ function lsinfo2playlistTable($lsinfo,$sort) {
 		else {
 			$pprint[$i] = "";
 		}
-		$pprint[$i].="[<a target=\"playlist\" href=\"playlist.php?command=load&arg=$dirstr\">load</a>] $dirss[0] (<small><a href=\"main.php?sort=$sort&command=rm&arg=$dirstr\">d</a>elete</small>)<br>\n";
+		$pprint[$i].="[<a target=\"playlist\" href=\"playlist.php?server=$server&command=load&arg=$dirstr\">load</a>] $dirss[0] (<small><a href=\"main.php?server=$server&sort=$sort&command=rm&arg=$dirstr\">d</a>elete</small>)<br>\n";
 	}
 	if(!isset($pprint)) $pprint = array();
 	if(!isset($pindex)) $pindex = array();
@@ -46,7 +47,7 @@ function display_time($seconds)
 
 function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 	global $sort_array, $song_seperator, $filenames_only,$colors;
-	global $unknown_string, $display_fields;
+	global $unknown_string, $display_fields, $server;
 	$color = $colors["music"]["body"];
 	$mic = 0;
 	$mcount = count($lsinfo["music"]);
@@ -89,7 +90,7 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 					$mprint[$i] = "";
 				}
 			}
-			$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?command=add&arg=$dirstr\">add</a>]</td>";
+			$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&command=add&arg=$dirstr\">add</a>]</td>";
 			for ($x = 0; $x < sizeof($display_fields); $x++)
 			{
 				$mprint[$i] .= "<td>";
@@ -103,7 +104,7 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 						else
 						{
 							$url = sanitizeForURL($lsinfo["music"][$i][$display_fields[$x]]);
-							$mprint[$i].= "<a href=\"find.php?find=" . strtolower($display_fields[$x]) . "&arg=$url&sort=$sort&dir=$dir_url\">";
+							$mprint[$i].= "<a href=\"find.php?server=$server&find=" . strtolower($display_fields[$x]) . "&arg=$url&sort=$sort&dir=$dir_url\">";
 							$mprint[$i].= $lsinfo["music"][$i][$display_fields[$x]] . "</a>";
 						}
 						break;
@@ -145,7 +146,7 @@ function lsinfo2musicTable($lsinfo,$sort,$dir_url) {
 			else {
 				$mprint[$i] = "";
 			}
-			$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?command=add&arg=$dirstr\">add</a>]</td><td colspan=4>$dirss[0]</td></tr>\n";
+			$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a target=\"playlist\" href=\"playlist.php?server=$server&command=add&arg=$dirstr\">add</a>]</td><td colspan=4>$dirss[0]</td></tr>\n";
 		}
 	}
 	if(!isset($mprint)) $mprint = array();
@@ -166,13 +167,14 @@ function printIndex($index,$title,$anc) {
 
 function printMusicTable($mprint,$url,$add_all,$mindex) {
 	global $filenames_only, $colors, $use_javascript_add_all,$sort_array;
-	global $display_fields;
+	global $display_fields, $server;
 	if(count($mprint)>0) {
 		print "<br>\n";
 		if($use_javascript_add_all=="yes") {
 			$add_all = sanitizeForPost($add_all);
 			print "<form style=\"padding:0;margin:0;\" name=\"add_all\" method=\"post\" action=\"playlist.php\" target=\"playlist\">";
 			print "<input type=hidden name=\"add_all\" value=\"$add_all\">";
+			print "<input type=hidden name=\"server\" value=\"$server\">";
 			print "<table border=0 cellspacing=1 bgcolor=\"";
 			print $colors["music"]["title"];
 			print "\" width=\"100%\">\n";
@@ -188,7 +190,7 @@ function printMusicTable($mprint,$url,$add_all,$mindex) {
 			print $colors["music"]["title"];
 			print "\" width=\"100%\">\n";
 			print "<tr><td colspan=4><b>Music</b>\n";
-			print "(<a target=\"playlist\" href=\"playlist.php?add_all=$add_all\">";
+			print "(<a target=\"playlist\" href=\"playlist.php?server=$server&add_all=$add_all\">";
 			print "add all</a>)\n";
 			printIndex($mindex,"","m");
 			print "</td></tr>\n";
@@ -204,7 +206,7 @@ function printMusicTable($mprint,$url,$add_all,$mindex) {
 			for($i=0;$i<count($display_fields);$i++)
 			{
 				$new_sort = pickSort("$display_fields[$i]");
-				print "<td><a href=\"$url&sort=$new_sort\">" . (($display_fields[$i] == $sort_array[0]) ? '<b>' . $display_fields[$i] . '</b>' : $display_fields[$i]) . '</a></td>';
+				print "<td><a href=\"$url&sort=$new_sort&server=$server\">" . (($display_fields[$i] == $sort_array[0]) ? '<b>' . $display_fields[$i] . '</b>' : $display_fields[$i]) . '</a></td>';
 			}
 			print "</tr>\n";
 		}

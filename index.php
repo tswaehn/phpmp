@@ -10,10 +10,22 @@ header("Pragma: no-cache");
 <title><?php print $title?></title>
 </head>
 <?php
+
+if (!isset($_REQUEST['server']))
+{
+	$server = 0;
+}
+else
+{
+	$server = $_REQUEST['server'];
+}
+$host = $servers[$server][0];
+$port = $servers[$server][1];
+
 if(0==strcmp($frames,"yes")) {
 	print "<frameset border=3 $frames_layout>\n";
-	print "<frame name=\"main\" src=\"main.php\">\n";
-	print "<frame name=\"playlist\" src=\"playlist.php\">\n";
+	print "<frame name=\"main\" src=\"main.php?server=$server\">\n";
+	print "<frame name=\"playlist\" src=\"playlist.php?server=$server\">\n";
 	print "<noframes>NO FRAMES :-(</noframes>\n";
 	print "</frameset>\n";
 }

@@ -6,6 +6,18 @@ if(isset($_COOKIE["phpMp_password"])) {
 	$has_password = 1;
 }
 include "config.php";
+
+if (!isset($_REQUEST['server']))
+{
+        $server = 0;
+}
+else
+{
+        $server = $_REQUEST['server'];
+}
+$host = $servers[$server][0];
+$port = $servers[$server][1];
+
 include "theme.php";
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-cache, must-revalidate");

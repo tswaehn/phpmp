@@ -1,7 +1,12 @@
 <?php
-// NEED TO SET THESE!
-$host = "localhost";
-$port = 6600;
+
+// this is a list of your MusicDB (MDB) servers
+// if you only have one then only have one line, otherwise have a seperate line
+// for each of your servers you want to be able to control via the web interface
+// the fields in the array are:  hostname, port, description
+// the description field is only really useful if you have multiple servers
+$servers[] = array('localhost', 6600, 'Stereo');
+//$servers[] = array('192.168.0.40', 6600, 'Livingroom');
 
 // OPTIONAL
 $title = "phpMp";
