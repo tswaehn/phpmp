@@ -1,29 +1,35 @@
 <?php
 function decodeHTML($string)
 {
-	$string = preg_replace("/\%26/","&",$string);
-	$string = preg_replace("/\%20/"," ",$string);
-	$string = preg_replace("/\%2D/","-",$string);
-	$string = preg_replace("/\%2B/","+",$string);
-	$string = preg_replace("/\%23/","#",$string);
-	$string = preg_replace("/\%27/","'",$string);
-	$string = preg_replace("/\%22/","\"",$string);
-	$string = preg_replace("/\%25/","%",$string);
-	$strng = addSlashes($string);
+	$trans = array(
+			"%26" => "&",
+			"%20" => " ",
+			"%2D" => "-",
+			"%2B" => "+",
+			"%23" => "#",
+			"%27" => "'",
+			"%22" => "\"",
+			"%25" => "%"
+		);
+	$string = strtr($string, $trans);
+	$string = addslashes($string);
 	return $string;
 }
 
 function sanitizeForURL($str)
 {
 	$url = stripslashes($str);
-	$url = preg_replace("/\%/","%25",$url);
-	$url = preg_replace("/\&/","%26",$url);
-	$url = preg_replace("/ /","%20",$url);
-	$url = preg_replace("/-/","%2D",$url);
-	$url = preg_replace("/\+/","%2B",$url);
-	$url = preg_replace("/#/","%23",$url);
-	$url = preg_replace("/\'/","%27",$url);
-	$url = preg_replace("/\"/","%22",$url);
+	$trans = array(
+			"%" => "%25",
+			"&" => "%26",
+			" " => "%20",
+			"-" => "%2D",
+			"+" => "%2B",
+			"#" => "%23",
+			"'" => "%27",
+			"\"" => "%22"
+		);
+	$url = strtr($url, $trans);
 	return $url;
 }
 
@@ -68,17 +74,13 @@ function displayDirectory($dir,$sort,$title,$music,$playlists)
 	for ($i=0;$i<count($dirs)-1;$i++)
 	{
 		if ($i>0 && $i<(count($dirs)-1)) $build_dir.="/";
-		$dirs[$i] = stripslashes($dirs[$i]);
-		$build_dir.="$dirs[$i]";
-		$build_dir = sanitizeForURL($build_dir);
+		$build_dir.= sanitizeForUrl($dirs[$i]);
 		print " / <a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 	if ($i>0) $build_dir.="/";
 	if (strlen($dir)>0)
 	{
-		$dirs[$i] = stripslashes($dirs[$i]);
-		$build_dir.="$dirs[$i]";
-		$build_dir = sanitizeForURL($build_dir);
+		$build_dir.= sanitizeForUrl($dirs[$i]);
 		print " / <a href=\"main.php?server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 	print "</td></tr></table>\n";
