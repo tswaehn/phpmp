@@ -1,6 +1,6 @@
 <?php
 // This will extract the needed GET/POST variables
-extract(setupReceivedVars(array("delete", "feature", "save", "server", "sort"),5));
+extract(setupReceivedVars(array("delete", "save", "server", "sort"),4));
 
 if(!isset($sort))
 {
