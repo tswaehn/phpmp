@@ -356,24 +356,22 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td></tr></table>";
 	echo "</form>";
-
-	$arg_url = rawurlencode( $arg );
 	if( isset( $search ) && ! empty( $search ) && ! empty( $arg ))
 	{
-		$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
 	else if( isset( $find ) && ! empty( $find ) &&  ! empty( $arg ))
 	{
-		$local_url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
 		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
 	if( isset( $lsinfo ))
 	{
 		list( $mprint, $mindex, $add_all ) = lsinfo2musicTable( $lsinfo, $sort, $dir_url, $sort_array, $config, $color["body"], $server, $addperm );
 	}
+	$arg_url = rawurlencode( $arg );
 	if ( isset( $mprint ))
 	{
+		$local_url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		printMusicTable( $config, $color, $sort_array, $server, $mprint, $local_url, $add_all, $mindex, $dir, $addperm, $feature, $ordered );
 	}
 

@@ -23,6 +23,7 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $dir, $addperm, $color 
 		{
  			$dirss[0] = $dirstr;
 		}
+		$dirstr = rawurlencode( $dirstr );
 		$dirss[0] = $dirss[ (count( $dirss ) - 1) ];
 		$dprint[$i] = "<tr bgcolor=\"" . $color[ ($i%2) ]  . "\"><td>";
 		$fc = strtoupper( mbFirstChar( $dirss[0] ));
@@ -178,12 +179,6 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 {
 	$mic = 0;
 	$mcount = count( $lsinfo["music"] );
-
-	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
-	{
-		$split = split( "/", $lsinfo["music"][$i]["file"] );
-		$lsinfo["music"][$i]["key"] = $split[sizeOf($split)-1];
-	}
         usort( $lsinfo["music"], "msort" );
 
 	$add_all = "";
@@ -191,13 +186,11 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 	// Loop for every song in the current directory
 	for( $i="0"; $i < $mcount; $i++ )
 	{
+		$col = $color[ ($i%2) ];
 		$full_filename = $lsinfo["music"][$i]["file"];
-		$split_filename = split( "/", $full_filename );
-		if( count( $split_filename ) == "0")
-		{
-			$split_filename[0] = $full_filename;
-		}
-		$split_filename[0] = array_pop( $split_filename );
+		$split_filename = basename( $full_filename );
+		$fc_filename = mbFirstChar( $split_filename );
+
 		if ( $i < $mcount - "1" )
 		{
 		        $add_all .= addslashes( $full_filename ) . $config["song_separator"];
@@ -206,10 +199,13 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 		{
 		        $add_all .= $full_filename;
 		}
-		$full_filename = rawurlencode( $full_filename );
-		$col = $color[ ($i%2) ];
 
-		// If not filenames_only and title is set
+		$full_filename = rawurlencode( $full_filename );
+
+		/************************************************************************
+		/ If $config["filenames_only"] is not "yes", and the 'Title' is not set /
+		/***********************************************************************/
+
 		if( strcmp( $config["filenames_only"], "yes" ) &&
 		    isset( $lsinfo["music"][$i]["Title"] ) &&
 		    $lsinfo["music"][$i]["Title"])
@@ -327,9 +323,9 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 
 		else
 		{
-			if ( $mic == "0" || $mindex[ ($mic-1) ] != strtoupper( $split_filename[0][0] ))
+			if ( $mic == "0" || $mindex[ ($mic-1) ] != strtoupper( $fc_filename ))
 			{
-				$mindex[ $mic ] = strtoupper( $split_filename[0][0] );
+				$mindex[ $mic ] = strtoupper( mbFirstChar( $fc_filename ));
 				$foo = $mindex[ $mic ];
 				$mic++;
 				$mprint[$i] = "<a name=m$foo></a>";
@@ -345,11 +341,11 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
 					$mprint[$i] .= "target=\"playlist\" ";
 					$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-					$mprint[$i] .= "<td width=\"100%\" colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename[0]</td><td>";
+					$mprint[$i] .= "<td width=\"100%\" colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
 				}
 				else
 				{
-					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename[0]</td><td>";
+					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
 				}
 
 				if ( isset($lsinfo["music"][$i]['Time'] ))
@@ -466,7 +462,7 @@ function printMusicTable( $config, $color, $sort_array, $server, $mprint, $url, 
 				echo "<td>";
 				if( strcmp( $ordered, "yes" ) && strcmp( $config["display_fields"][$i], $sort_array[0] ) == "0" )
 				{
-					echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;ordered=yes&amp;server=$server\">";
+	       				echo "<a title=\"Sort by this field\" href=\"$url&amp;sort=" . pickSort($config["display_fields"][$i]) . "&amp;ordered=yes&amp;server=$server\">";
 				}
 				else
 				{

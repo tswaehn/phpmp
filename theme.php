@@ -33,8 +33,8 @@ $colors["directories"]["body"][1] = "#ddddff";
 
 // Colors for Music
 $colors["music"]["title"] = "#aaffaa";
-$colors["music"]["body"][0] = "#ccffcc";
-$colors["music"]["body"][1] = "#eeffee";
+$colors["music"]["body"][0] = "#eeffee";
+$colors["music"]["body"][1] = "#ccffcc";
 $colors["music"]["sort"] = "#88ff88";
 
 // Colors for Playlist Table
@@ -69,8 +69,8 @@ $colors["server"]["body"] = "#eeeeee";
 
 // Colors for Stats
 $colors["stats"]["title"] = "#cccccc";
-$colors["stats"]["body"][0] = "#eeeeee";
-$colors["stats"]["body"][1] = "#ffffff";
+$colors["stats"]["body"][0] = "#ffffff";
+$colors["stats"]["body"][1] = "#eeeeee";
 
 // Colors for the Steam Table
 $colors["stream"]["title"] = "#aaffaa";

@@ -13,10 +13,10 @@ $config = array(
 		/ leave you with an option to show it. Otherwise it will   /
 		/ always be shown.					   /
 		/**********************************************************/
-		"playlist_option_hide" => "yes",
+		"playlist_option_hide" => "no",
 
 		/***************************************************************
-		/ Frame border size, set this to 0 for usability, 1 for looks. /
+		/ Frame border size, set this to 0 for looks, 1 for usability. /
 		/**************************************************************/
 		"frame_border_size" => "0",
 
@@ -97,9 +97,9 @@ $config = array(
 		/******************************************************************
 		/ These change the way your song is displayed above the playlist. /
 		/*****************************************************************/
-		"artist" => "(artist)",
-		"seperator" => " ",
-		"title" => "title"),
+					"artist" => "(artist)",
+					"seperator" => " ",
+					"title" => "title"),
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /
@@ -134,9 +134,10 @@ $config = array(
 				/******************************************/
 				"uppercase_first" => "yes"),
 		
-		/***************************************************************************
-		/ Remove any of the following to get rid of the field in the music tables. /
-		/**************************************************************************/
+		/****************************************************************************
+		/ Remove any of the following to get rid of the field in the music tables.  /
+		/ Please don't (re)move 'Time' from the end slot, it will break things atm. /
+		/***************************************************************************/
 		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
 		/*****************

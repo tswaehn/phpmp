@@ -1,4 +1,5 @@
 <?php
+include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
  /*
@@ -234,7 +235,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 		}
 		$dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir.="$dirs[$i]";
-		$build_dir = rawurldecode( $build_dir );
+		$build_dir = rawurlencode( $build_dir );
 		echo " / ";
 		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
@@ -247,8 +248,8 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 	if ( ! empty( $dir ))
 	{
 		$dirs[$i] = stripslashes( $dirs[$i] );
-		$build_dir.="$dirs[$i]";
-		$build_dir = rawurldecode( $build_dir );
+		$build_dir.=$dirs[$i];
+		$build_dir = rawurlencode( $build_dir );
 		echo " / ";
 		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
@@ -260,8 +261,10 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 	}
 	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" )
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
-		echo "target=main title=\"Update the Current Directory\">db update</a>)</small>";
+		$dirs[$i] = stripslashes( $dirs[$i] );
+		$build_dir = rawurlencode( $build_dir );
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$build_dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
+		echo "target=\"main\" title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";

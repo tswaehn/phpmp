@@ -42,8 +42,8 @@ function msort( $a, $b )
 		$i++;
 	}
 	if ( $ret == "0" )
-	{
-		$ret = strcasecmp( $a["key"], $b["key"] );
+	{ 
+		$ret = strcasecmp( $a["file"], $b["file"] );
 	}
 	return $ret;
 }

@@ -1,12 +1,14 @@
 <?php
 // This will extract the needed GET/POST variables
 $dir_url = stripslashes( $dir );
+$dir = rawurldecode( $dir );
 $dir_url = rawurlencode( $dir );
 
 if( ! isset( $sort ))
 {
 	$sort = $config["default_sort"];
 }
+
 
 $sort_array = split( ",", $sort );
 $lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );

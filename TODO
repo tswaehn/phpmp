@@ -4,6 +4,15 @@
 *) [* Browser]
 	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
 
+*) [printMusicTable] - More is broken than meets the eye. These fixes are going to make things ugly, but it _will_ fix many issues. This
+			_must_ happen before release. We can clean it up later.
+	*) Seperate the metadata and non-metadata files, have the header for metadata show up after non-metadata and before
+	metadata files.
+
+	*) If the 'Time' field is removed or changed from the last value this completely breaks the musicTable.
+
+	*) Ensure that ordered and sorts work independantly. 
+
 *) [Error handling]
 	*) There's very few errors that will be hit now (hopefully) but when it's possible we need to setup a better system 
 	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
