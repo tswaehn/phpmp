@@ -41,32 +41,63 @@ if ( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_pla
 }
 
 // This will extract the needed GET/POST variables
-extract( setupReceivedVars( array( "add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream" ), "14" ));
+extract( setupReceivedVars( array( "arg", "arg2", "body", "command", "dir", "feature", "passarg", "server", "sort", "stream" ), "10" ));
+
+if( isset( $body ))
+{
+	if( strcmp( $body, "main" ) == "0" )
+	{
+		if( isset( $feature ))
+		{
+			if( strcmp( $feature, "search" ) == "0" )
+			{
+				extract( setupReceivedVars( array( "find", "search" ), "2" ));
+			}
+		}
+		extract( setupReceivedVars( array( "delete", "save", "server", "ordered" ), "4" ));
+	}
+	else if( strcmp( $body, "playlist" ) == "0" )
+	{
+		extract( setupReceivedVars( array( "add_all", "hide" ), "2" ));
+	}
+}
+else
+{
+	extract( setupReceivedVars( array( "logout" ), "1" ));
+}
 
 // This will prevent us from getting E_NOTICE warnings
-if (! isset($server))
+if( ! isset( $passarg ))
+{
+	$passarg = "";
+}
+if( ! isset( $server ))
 {
 	$server = 0;
 }
-if (! isset($dir))
+if( ! isset( $dir ))
 {
 	$dir = "";
 }
-if (! isset($delete))
+if( ! isset( $delete ))
 {
 	$delete = "no";
 }
-if(! isset ( $arg ))
+if( ! isset( $arg ))
 {
 	$arg = "";
 }
-if(! isset ( $arg2 ))
+if( ! isset( $arg2 ))
 {
 	$arg2 = "";
 }
-if( ! isset ( $remember ))
+if( ! isset( $remember ))
 {
 	$remember = "";
+}
+if( ! isset( $ordered ))
+{
+	$ordered = "";
 }
 
 if ( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
@@ -108,24 +139,24 @@ if (!$fp)
 $MPDversion = initialConnect($fp);
 
 // Password stuff
-if (isset($logout))
+if( isset( $logout ))
 {
-	setcookie("phpMp_password[$hostport]","");
+	setcookie( "phpMp_password[$hostport]", "" );
 }
-else if (isset($_COOKIE["phpMp_password"][$hostport]))
+else if( isset( $_COOKIE["phpMp_password"][$hostport] ))
 {
 	$passarg = $_COOKIE["phpMp_password"][$hostport];
 }
-if (isset($passarg))
+if( strlen( $passarg ) > "0" )
 {
 	$has_password = 1;
 	fputs( $fp, "password \"$passarg\"\n" );
 	while ( ! feof( $fp ))
 	{
 		$got = fgets( $fp, 1024 );
-		if ( strncmp( "OK", $got, strlen( "OK" )) == "0" )
+		if( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
-			if ( isset( $remember ) && strcmp( $remember, "true" ) == "0" )
+			if( isset( $remember ) && strcmp( $remember, "true" ) == "0" )
 			{
 				setcookie( "phpMp_password[$hostport]", $passarg, time()+60*60*24*365 );
 			}
@@ -135,7 +166,7 @@ if (isset($passarg))
 			}
 			break;
 		}
-		if ( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
+		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0" )
 		{
 			echo "Password Incorrect, press back button";
 			break;
@@ -151,12 +182,12 @@ if( ! isset( $has_password ))
 $commands = getCommandInfo( $fp );
 if( $commands["status"] == "1" )
 {
-	$status = getStatusInfo($fp); 
+	$status = getStatusInfo( $fp );
 }
 if( isset( $command ))
 {
 	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
-	$status = getStatusInfo($fp); 
+	$status = getStatusInfo( $fp ); 
 }
 
 if( isset( $feature ))
@@ -165,18 +196,19 @@ if( isset( $feature ))
 	{
 		if( strcmp( $feature, "stream-icy" ) == "0" )
 		{
-			if( ! ( $fh = fopen( "http://dir.xiph.org/yp.xml", "r" )))
-			{
-				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-			}
-			if( ! ( $fh2 = fopen( "http://oddsock.org/yp.xml", "r" )))
+			$fh = fopen( "http://dir.xiph.org/yp.xml", "r" );
+			$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
+
+			if( ! is_resource( $fh ) && ! is_resource( $fh2 ))
 			{
 				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 			}
 		}
 		else if( strcmp( $feature, "stream-shout" ) == "0" )
 		{
-			if( ! ( $fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" )))
+			$fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" );
+
+			if( ! is_resource( $fh ))
 			{
 				die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 			}
@@ -221,6 +253,7 @@ if( isset( $feature ))
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
 
+// There might be more that's would prevent phpMp from loading, rather than taking time to figure it out, we'll wait for reports.
 if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["playlist"] == "0" || $commands["playlistinfo"] == "0" || $commands["stats"] == "0" )
 {
 	include "features.php";
@@ -272,7 +305,11 @@ else
 	}
 	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
 	{
-		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=main&amp;dir=$dir&amp;server=" . $server . "\">";
+		if( ! isset( $sort ))
+		{
+			$sort = $config["default_sort"];
+		}
+		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=main&amp;sort=$sort&amp;dir=$dir&amp;ordered=$ordered&amp;server=" . $server . "\">";
 	}
 	echo "<title>" . $config["title"] . " - " . $body . "</title>";
 
@@ -295,7 +332,6 @@ else
 
 	include $body . ".php";
 
-#	echo "status: " . $status["updating_db"];
 	echo "</body>";
 }
 echo "</html>";

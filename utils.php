@@ -2,10 +2,10 @@
 include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
-/*
-	$vars => An array of the get variables to be checked
-	$num => How many variables there are (so extras aren't added for security)
-*/
+ /*
+  *	$vars => An array of the get variables to be checked
+  *	$num => How many variables there are (so extras aren't added for security)
+  */
 function setupReceivedVars( $vars, $num )
 {
 	$i = 0;
@@ -136,11 +136,8 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 	}
 }
 
-function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp )
+function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp, $passarg, $ordered )
 {
-	$dir_url = stripslashes( $dir );
-	$dir_url = rawurlencode( $dir_url );
-
 	echo "<!-- Begin displayDirectory  -->";
 	// The next line needs a cellspacing value of 2 since the other tables have 2 tables, and this one only has one
 	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"" . $color["title"] . "\">";
@@ -161,17 +158,18 @@ function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_passwor
 
 	$feature_bar = "";
 
-#	if ( $commands["all"] == "0" )
-#	{
+	// If we have all commands available and we don't have an active password don't show the feature bar.
+	if ( $commands["all"] == "0" || strlen( $passarg ) > "0" )
+	{
 		if( $has_password == "1" )
 		{
-			$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
+			$feature_bar .= "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
 		}
 		else
 		{
-			$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
+			$feature_bar .= "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
 		}
-#	}
+	}
 
 	if( $commands["outputs"] == "1" )
 	{
@@ -227,7 +225,7 @@ function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_passwor
 	echo "</small></td></tr>";
 	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td colspan=2>";
 	$dirs = split( "/", $dir );
-	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort\">Music</a>";
+	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered\">Music</a>";
 	$build_dir = "";
 	for( $i=0; $i < (count( $dirs ) - 1); $i++ )
 	{
@@ -239,7 +237,7 @@ function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_passwor
 		$build_dir.="$dirs[$i]";
 		$build_dir = rawurldecode( $build_dir );
 		echo " / ";
-		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	if ( $i > "0" )
@@ -253,7 +251,7 @@ function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_passwor
 		$build_dir.="$dirs[$i]";
 		$build_dir = rawurldecode( $build_dir );
 		echo " / ";
-		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	$status = getStatusInfo( $fp );
@@ -263,7 +261,8 @@ function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_passwor
 	}
 	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" )
 	{
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir/\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
+		echo "target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
 	echo "<!-- End displayDirectory -->";

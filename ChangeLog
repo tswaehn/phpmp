@@ -1,12 +1,12 @@
 ver 0.12.0 (200?/x/x)
-	
+
 This was near a rewrite, tons of code changed, only the changes that were less significant or that I totally forgot
 are not here. Due to changes in this version the way it loads has completely changed.
 
 My experience is, on a 800 mhz machine phpMp 0.11.x loads at 60% for about 1.8 seconds, phpMp 0.12.0 loads at 100%
 for about 0.8 seconds, this gets shorter (to a limit) with each load due to caching in linux. This is with the
 machine with MPD, Apache & phpMp serving.
-	
+
 1) Fixed some problems with server change
 2) Changed all prints to echos for uniformity
 3) Got rid of all *_body.php 
@@ -43,7 +43,7 @@ machine with MPD, Apache & phpMp serving.
 31) Moved connection, connection detection, command execution, includes, login stuff, cookies to the index, so we don't duplicate over frames.
 32) Added option to the config to add the current server to the browser display.
 29) Make config option to align
-30) Removed $_GET & $_POST from extract() due to known security problems.
+30) Don't show the index if sorting by Time because it's not only broken but useless
 31) Moved connection, connection detection, command execution, includes, login stuff, cookies to the index, so we don't duplicate over frames.
 32) Added option to the config to add the current server to the browser display.
 33) Added a icecast/shoutcast browser to the streams feature (thanks goto QballCow for the idea!)
@@ -69,6 +69,8 @@ machine with MPD, Apache & phpMp serving.
 53) When MPD is updating it's visible on the main page now, also 	
 54) Prevent updates from colliding
 55) Completely implemented commands/notcommands support across the client, this will make things be much more predictable.
+56) If a sorting by something, if you click it again the sorting is reversed
+57) If filenames_only = "yes" searching now sorts correctly
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

@@ -21,8 +21,7 @@ Future (doesn't have to be before release)
 *) [i18n]
 	*) Need to look into the gettext/i18n stuff
 
-*) [printMusicTable] These tell me that we need to rewrite printMusicTable from scratch, to be more flexiable and scalable
-	*) Try to fix the sort issue with filename_only files
+*) [printMusicTable]
 	*) Try to remove columns that go unused from printMusicTable
 
 *) [Streams functions]
