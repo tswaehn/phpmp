@@ -266,9 +266,14 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 function mbFirstChar($str)
 {
-	preg_match("/^(.)/", $str, $out);
-	strtoupper($out[0]);
-	return $out[0];
+	$i = 1;
+	$ret = "$str[0]";
+	while ($i < strlen($str) && ord($str[$i]) >= 128  && ord($str[$i]) < 192)
+	{
+		$ret.=$str[$i];
+		$i++;
+	}
+	return $ret;
 }
 
 function readFileOverHTTP($fp, $stream)
