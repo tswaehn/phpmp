@@ -10,7 +10,7 @@ if( ! isset( $sort ))
 }
 
 $sort_array = split( ",", $sort );
-list( $lsinfo, $config["display_fields"]) = getLsInfo( $fp, "lsinfo \"$dir\"\n", $config["display_fields"] );
+$lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );
 
 list( $dprint, $dindex, $dcount ) = lsinfo2directoryTable( $lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"] );
 list( $pprint, $pindex ) = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );

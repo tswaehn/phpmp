@@ -358,11 +358,11 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "</form>";
 	if( isset( $search ) && ! empty( $search ) && ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
+		list( $lsinfo, $config["null"] ) = getLsInfo( $fp, "search $search \"$arg\"\n", $config["display_fields"]);
 	}
 	else if( isset( $find ) && ! empty( $find ) &&  ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
+		list( $lsinfo, $config["null"] ) = getLsInfo( $fp, "find $find \"$arg\"\n", $config["display_fields"]);
 	}
 
 	$arg_url = rawurlencode( $arg );

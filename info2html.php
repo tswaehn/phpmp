@@ -357,7 +357,7 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 	
 		if( $addperm == "1" )
 		{
-			$mprint[$i] = "<tr bgcolor=$col><td width=\"1%\">$mprint[$i][";
+			$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][";
 			$mprint[$i] .= "<a title=\"Add this song to the current playlist\" ";
 			$mprint[$i] .= "target=\"playlist\" ";
 			$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=";

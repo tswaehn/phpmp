@@ -24,6 +24,9 @@ Future (doesn't have to be before release)
 *) [i18n]
 	*) Need to look into the gettext/i18n stuff
 
+*) [printMusicTable]
+	*) Try to remove columns that go unused from printMusicTable
+
 *) [Streams functions]
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
 
