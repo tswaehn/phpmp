@@ -162,7 +162,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	echo "</table></td></tr><table>";
 }
 
-function stream( $server, $color, $feature, $server_data, $song_seperator )
+function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser )
 {
 	echo "<br>";
 
@@ -191,7 +191,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 
 	echo "<br>";
 	
-	if( strcmp( $feature,"stream" ))
+	if( strcmp( $feature,"stream" ) && strcmp( $stream_browser, "no" ))
 	{
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )

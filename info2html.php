@@ -400,6 +400,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 		}
 		for ( $x = 0; $x < sizeof($display_fields); $x++)
 		{
+			$comment = "";
 			$mprint[$i] .= "<td>";
 
 			/* 
@@ -412,6 +413,8 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 			{
 				case 'Album':
 				case 'Artist':
+				case 'Composer':
+				case 'Performer':
 				case 'Date':
 				case 'Genre':
 				{
@@ -446,6 +449,12 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 					{
 						$mprint[$i] .= $unknown;
 					}
+					break;
+				}
+
+				case 'Comment':
+				{
+					$comment = "On";
 					break;
 				}
 
@@ -503,7 +512,6 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 		$sort_bar .= "</a></td>";
 	}
 	$sort_bar .= "</tr>";
-
 
 	$ret["count"] = $count;
 	$ret["index"] = $index;
@@ -684,7 +692,7 @@ function printPlaylistTable( $color, $server, $info, $delete, $rmperm )
 	}
 }
 
-function songInfo2Display( $song_info, $display, $filenames_only, $regex, $wordwrap )
+function songInfo2Display( $song_info, $display, $display_separator, $filenames_only, $regex, $wordwrap )
 {
 	// If it's a URL don't grab it's basename
 	if( preg_match( "/^[a-z]*:\/\//", $song_info["file"] ))
@@ -698,24 +706,23 @@ function songInfo2Display( $song_info, $display, $filenames_only, $regex, $wordw
 
 	if( strcmp( $filenames_only,"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
-		$song_display_conf = $display[0];
-
-		for( $i = "1"; $i < count( $display ); $i++ )
-		{
-			$song_display_conf .= " " . $display[$i];
-		}
-
-		$s_display_conf = $song_display_conf;
 		// This will replace all song_display_conf stuff with the actual value
 		foreach( $song_info as $key => $value )
 		{
-			// Prevent the metadata from getting translated
-			if( strstr( $song_display_conf, $key ))
+			for( $i = "0"; $i < count( $display ); $i++ )
 			{
-				$s_display_conf = str_replace( $key, $value, $s_display_conf );
+				if( strstr( $display[$i], $key ) && $value != NULL )
+				{
+					// Don't put the separator before the display
+					if( $i != 0 )
+					{
+						$song_display_conf .= $display_separator;
+					}
+					$song_display_conf .= str_replace( $key, $value, $display[$i] );
+				}
 			}
 		}
-		$song_display = $s_display_conf;
+		$song_display = $song_display_conf;
 	}
 	else if( strcmp( $filenames_only, "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{

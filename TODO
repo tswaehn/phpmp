@@ -1,6 +1,20 @@
 0.12.0 Release - A good 0.12.0 release could be done today if needed, but these would be useful if implemented, if not by 0.12.0>
 --------------
 
+*) Need to make table element to take up a whole column, made specifically for metadata comments
+
+*) Stream browser configurable
+
+*) Fix add/rm slashes problem
+	*) Translate slashes to a string
+	*) Add Slashes
+	*) Rm Slashes
+	*) Untranslate from string
+
+*) Fix shoutcast streaming
+
+*) Restricted tags array
+
 Future (doesn't have to be before release)
 ------------------------------------------
 

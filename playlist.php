@@ -166,7 +166,7 @@ if( isset( $status["state"] ))
 		echo "<a title=\"Jump to the Current Song\" href=#$num>";
 
 		// This is in info2html.php
-		echo songInfo2Display( $song_info[0], $config["song_display_conf"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
+		echo songInfo2Display( $song_info[0], $config["song_display_conf"], $config["song_display_conf_separator"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
 		echo "</a><br>";
 
 	        // Begin The Time Remaining/Time Elapsed

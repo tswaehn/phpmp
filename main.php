@@ -85,13 +85,10 @@ else
 			stats( $fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port );
 			break;
 		case 'stream':
-			stream( $server, $colors["stream"], $feature, 0, $config["song_separator"] );
-			break;
+			$server_data = 0;
 		case 'stream-icy':
-			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"] );
-			break;
 		case 'stream-shout':
-			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"] );
+			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["enable_stream_browser"] );
 			break;
 	}
 	echo "<!-- End $feature -->";

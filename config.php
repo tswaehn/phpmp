@@ -74,6 +74,12 @@ $config = array(
 		"time_left" => "no",
 
 		/************************************************************************
+		/ Yes to this to enable the icecast/streamcast stream browser.		/ 
+		/ If you enable this 'allow_url_fopen = On' in your php.ini.		/
+		/************************************************************************
+		"enable_stream_browser" => "no",
+
+		/************************************************************************
 		/ Playlist Align (this is useful for making the frame bigger)           /
 		/ Valid values are left, right, and center (center is good for scaling) /
 		/***********************************************************************/
@@ -110,9 +116,14 @@ $config = array(
 		/ These change the way your song is displayed in the song field and in the playlist. /
 		/ You can add any values here that are in your display_fields value. You should add  /
 		/ one value per set of quotes, that way the lines will be broken properly	     /
+		/										     /
+		/ It is wise to have a space in the separator or have wordwrap set.		     /
 		/************************************************************************************/
 		"song_display_conf" => array( "(Artist)", "Title" ),
+		"song_display_conf_separator" => " ",
+
 		"playlist_display_conf" => array( "(Artist)", "Title" ),
+		"playlist_display_conf_separator" => " ",
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /

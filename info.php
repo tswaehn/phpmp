@@ -142,7 +142,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 		}
 		else 
 		{
-			$display = songInfo2Display( $ret, $config["playlist_display_conf"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
+			$display = songInfo2Display( $ret, $config["playlist_display_conf"], $config["playlist_display_conf_separator"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
 		}
 
 		$id = $ret["Id"];
