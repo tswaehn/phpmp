@@ -6,22 +6,22 @@ $phpMpVersion="0.12.0-svn";
 	$vars => An array of the get variables to be checked
 	$num => How many variables there are (so extras aren't added for security)
 */
-function setupReceivedVars($vars, $num)
+function setupReceivedVars( $vars, $num )
 {
 	$i = 0;
-	foreach ($vars as $key)
+	foreach ( $vars as $key )
 	{
 		$i++;
-		if(isset($_GET[$key]))
+		if( isset( $_GET[$key] ))
 		{
 			$vars[$key] = $_GET[$key];
 		}
-		else if(isset($_POST[$key]))
+		else if( isset( $_POST[$key] ))
 		{
 			$vars[$key] = $_POST[$key];
 		}
 	}
-	if($num == $i)
+	if( $num == $i )
 	{
 		return $vars;
 	}
@@ -43,33 +43,33 @@ function setupReceivedVars($vars, $num)
 */
 function crop($fp,$current,$playlistlength)
 {
-        $playlistlength-=1;
+        $playlistlength -= 1;
 
 	$str = "command_list_begin\n";
-	for($playlistlength;$playlistlength>=0;$playlistlength--)
+	for( $playlistlength; $playlistlength >= "0"; $playlistlength-- )
 	{
-	        if(strcmp($current,$playlistlength))
+	        if( strcmp( $current, $playlistlength ))
 		{
 			$str .= "delete $playlistlength\n";
 		}
 	}
-	fputs($fp,$str . "command_list_end\n");
+	fputs( $fp, $str . "command_list_end\n" );
 
-	initialConnect($fp);
+	initialConnect( $fp );
 	return;
 }
 
-function initialConnect($fp)
+function initialConnect( $fp )
 {
-	while (!feof($fp))
+	while( ! feof( $fp ))
 	{
-		$got =  fgets($fp,1024);
-		if (strncmp("OK",$got,strlen("OK"))==0)
+		$got =  fgets( $fp, "1024" );
+		if( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
-		        $MPDversion=preg_replace("/^OK MPD /","",$got);
+		        $MPDversion = preg_replace( "/^OK MPD /", "", $got );
 			break;
 		}
-		if (strncmp("ACK",$got,strlen("ACK"))==0)
+		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
 			echo "$got<br>";
 			break;
@@ -78,7 +78,7 @@ function initialConnect($fp)
 	return $MPDversion;
 }
 
-function doCommand($fp, $arg, $arg2, $command, $overwrite, $status)
+function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 {
 	// Don't let updates collide 
  	if( isset ( $status["updating_db"] ) && strcmp( $command,"update" )==0 )
@@ -87,22 +87,22 @@ function doCommand($fp, $arg, $arg2, $command, $overwrite, $status)
 	}
 
 	// Lets cleanup the $arg first
-	$arg = rawurldecode($arg);
+	$arg = rawurldecode( $arg );
 
 	// This is to facilitate for overwriting playlists, it should probably detect to see if
 	// it exists first, but who cares, right?
-        if (strncmp("save",$command,strlen("save"))==0 && 0==strcmp($overwrite,"yes"))
+        if( strncmp( "save", $command, strlen( "save" )) == "0" && strcmp( $overwrite, "yes" ) == "0" )
 	{
-		fputs($fp,"rm \"$arg\"\n");
-		fgets($fp,1024);
+		fputs( $fp, "rm \"$arg\"\n" );
+		fgets( $fp, "1024");
 	}
 
 	// Cannot use empty() here because when the argument == 0 it returns false.
-	if ( strlen($arg2)>0 )
+	if ( strlen( $arg2 ) > "0" )
 	{
 		$command.= " \"$arg\" \"$arg2\"";
 	}
-	else if( strlen($arg)>0 )
+	else if( strlen( $arg ) > "0" )
 	{
 	        $command.= " \"$arg\"";
         }
@@ -111,47 +111,47 @@ function doCommand($fp, $arg, $arg2, $command, $overwrite, $status)
 	// option. $arg is also used here, so to make sure someone doesn't kill your MPD leave it.
 	if (strncmp("kill",$command,strlen("kill")) || (! isset($command) && strncmp("kill",$arg,strlen("kill"))))
 	{
-	          fputs($fp,"$command\n");
+	          fputs( $fp, "$command\n" );
 	}
 
-	while (!feof($fp))
+	while( ! feof( $fp ))
 	{
-	        $got = fgets($fp,1024);
-		if (strncmp("OK",$got,strlen("OK"))==0) 
+	        $got = fgets( $fp, "1024" );
+		if( strncmp( "OK", $got, strlen( "OK" )) == "0" ) 
 		{
 		        break;
 		}
-		str_replace("\n","\n<br>",$got);
+		str_replace( "\n", "\n<br>", $got );
 
 		// Otherwise it will output how many times it's updated
-		if (strncmp("update",$command,strlen("update")))
+		if ( strncmp( "update", $command, strlen( "update" )))
 		{
 		        echo "<a target=main><b><br>Error! $got<br></b></a><br>\n";
                 }
 	
-		if (strncmp("ACK",$got,strlen("ACK"))==0) 
+		if ( strncmp( "ACK", $got, strlen( "ACK" )) == "0" ) 
 		{
 		        break;
 		}
 	}
 }
 
-function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp)
+function displayDirectory( $dir, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp )
 {
-	$dir_url = stripslashes($dir);
-	$dir_url = rawurlencode($dir_url);
+	$dir_url = stripslashes( $dir );
+	$dir_url = rawurlencode( $dir_url );
 
 	echo "<!-- Begin displayDirectory  -->";
 	// The next line needs a cellspacing value of 2 since the other tables have 2 tables, and this one only has one
 	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"" . $color["title"] . "\">";
 	echo "<tr><td><b>$title</b>";
 	echo "&nbsp;";
-	if ($music && ! $dcount == 0)
+	if ( $music && ( $dcount > "0" ))
 	{
 	        echo "<small>(<a href=\"#music\">Music</a>)</small>&nbsp;";
 	}
 
-	if ($playlists)
+	if ( isset( $playlists ) && $playlists > "0" )
 	{
 	        echo "<small>(<a title=\"Jump to Saved Playlists\" href=\"#playlists\">Saved Playlists</a>)</small>&nbsp;";
 	}
@@ -161,9 +161,9 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	$feature_bar = "";
 
-	if ( $commands["all"] == "0" )
-	{
-		if($has_password==1)
+#	if ( $commands["all"] == "0" )
+#	{
+		if( $has_password == "1" )
 		{
 			$feature_bar = "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
 		}
@@ -171,7 +171,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		{
 			$feature_bar = "<a title=\"Login to MPD Server\" target=main href=\"index.php?body=main&amp;feature=login&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort\">Login</a>";
 		}
-	}
+#	}
 
 	if( $commands["outputs"] == "1" )
 	{
@@ -209,7 +209,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"View MPD/phpMp Statistics\" target=main href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stats\">Stats</a>";
 	}
 
-	if( $commands["load"] == "1")
+	if( $commands["load"] == "1" )
 	{
 		if( ! empty ( $feature_bar ))
 		{
@@ -218,7 +218,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
 	}
 
-	if(isset($feature_bar))
+	if( isset( $feature_bar ))
 	{
 		echo $feature_bar;
 	}
@@ -226,42 +226,42 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	echo "&nbsp";
 	echo "</small></td></tr>";
 	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td colspan=2>";
-	$dirs = split("/",$dir);
+	$dirs = split( "/", $dir );
 	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort\">Music</a>";
 	$build_dir = "";
-	for ($i=0;$i<count($dirs)-1;$i++)
+	for( $i=0; $i < (count( $dirs ) - 1); $i++ )
 	{
-		if ($i>0 && $i<(count($dirs)-1))
+		if ($i > "0" && $i < (count($dirs)-1))
 		{
 		        $build_dir.="/";
 		}
-		$dirs[$i] = stripslashes($dirs[$i]);
+		$dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir.="$dirs[$i]";
-		$build_dir = rawurldecode($build_dir);
+		$build_dir = rawurldecode( $build_dir );
 		echo " / ";
 		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
-	if ($i>0)
+	if ( $i > "0" )
 	{
 	        $build_dir.="/";
 	}
 
 	if ( ! empty( $dir ))
 	{
-		$dirs[$i] = stripslashes($dirs[$i]);
+		$dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir.="$dirs[$i]";
-		$build_dir = rawurldecode($build_dir);
+		$build_dir = rawurldecode( $build_dir );
 		echo " / ";
 		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
-	$status = getStatusInfo($fp);
-	if(isset($status["updating_db"]))
+	$status = getStatusInfo( $fp );
+	if( isset( $status["updating_db"] ))
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
 	}
-	else if(strcmp($title,"Current Directory")==0 && $commands["update"] == "1" )
+	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" )
 	{
 		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;command=update&amp;arg=$build_dir/\" target=main title=\"Update the Current Directory\">db update</a>)</small>";
 	}
@@ -269,33 +269,33 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 	echo "<!-- End displayDirectory -->";
 }
 
-function mbFirstChar($str)
+function mbFirstChar( $str )
 {
 	$i = 1;
 	$ret = "$str[0]";
-	while ($i < strlen($str) && ord($str[$i]) >= 128  && ord($str[$i]) < 192)
+	while ($i < strlen( $str ) && ord( $str[$i] ) >= 128  && ord( $str[$i] ) < 192)
 	{
-		$ret.=$str[$i];
+		$ret .= $str[$i];
 		$i++;
 	}
 	return $ret;
 }
 
-function readFileOverHTTP($fp, $stream)
+function readFileOverHTTP( $fp, $stream )
 {
-	$stream = rawurldecode($stream);
-	$pointer = fopen($stream,"r") or die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-	$contents = fread($pointer,1024);
-	if(preg_match("/.pls$/",$stream))
+	$stream = rawurldecode( $stream );
+	$pointer = fopen( $stream, "r" ) or die ( "<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+	$contents = fread( $pointer, "1024" );
+	if( preg_match( "/.pls$/", $stream ))
 	{
-		preg_match_all("/File[0-9]*=(.*?)\n/", $contents, $out);
+		preg_match_all( "/File[0-9]*=(.*?)\n/", $contents, $out );
 		$streams = $out[1];
 	}
 	else
 	{
-		if(strcmp($contents," "))
+		if( strcmp( $contents, " " ))
 		{
-			$streams = explode(" ", $contents);
+			$streams = explode( " ", $contents );
 		}
 		else
 		{
@@ -305,20 +305,20 @@ function readFileOverHTTP($fp, $stream)
 	return($streams);	
 }
 
-function postStream($fp,$filetype)
+function postStream( $fp, $filetype )
 {
 	$add = array();
 	$i = 0;
         
-	while (!feof($fp))
+	while ( ! feof( $fp ))
 	{
-		$url = fgets($fp,4096);
-		if(strcmp($filetype,"pls") && preg_match("/File[0-9]*=/",$url))
+		$url = fgets( $fp, 4096 );
+		if( strcmp( $filetype, "pls" ) && preg_match( "/File[0-9]*=/", $url ))
 		{
-			$url = preg_replace("/^File[0-9]*=/","",$url);
+			$url = preg_replace( "/^File[0-9]*=/", "", $url );
                 }
-		$url = preg_replace("/\n$/","",$url);
-		if (preg_match("/^[a-z]*:\/\//",$url))
+		$url = preg_replace( "/\n$/", "", $url );
+		if ( preg_match( "/^[a-z]*:\/\//", $url ))
 		{
 			$add[$i] = $url;
 			$i++;
@@ -373,6 +373,8 @@ function characterDataHandler( $parser , $data )
 	}
 	else if( $xml_current_tag_state == "LISTEN_URL" )
 	{
+		// This is here because if a '&' (maybe other special characters) 
+		// is passed to the XML parser it will do a multipass on it.		
 		if( isset( $server_data[$server_count]["listen_url"] ))
 		{
 			$server_data[$server_count]["listen_url"] .= $data;

@@ -41,7 +41,7 @@ if ( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_pla
 }
 
 // This will extract the needed GET/POST variables
-extract( setupReceivedVars( array( "add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream" ), 14 ));
+extract( setupReceivedVars( array( "add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream" ), "14" ));
 
 // This will prevent us from getting E_NOTICE warnings
 if (! isset($server))
@@ -156,6 +156,7 @@ if( $commands["status"] == "1" )
 if( isset( $command ))
 {
 	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
+	$status = getStatusInfo($fp); 
 }
 
 if( isset( $feature ))
@@ -186,17 +187,17 @@ if( isset( $feature ))
 		$xml_current_tag_state = '';
 
 
-		if( !($xml_parser = xml_parser_create()) )
+		if( ! ( $xml_parser = xml_parser_create() ))
 		{
-			die("Couldn't create XML parser!");
+			die( "Couldn't create XML parser!" );
 		}
 
-		xml_set_element_handler($xml_parser, "startElementHandler", "endElementHandler");
-		xml_set_character_data_handler($xml_parser, "characterDataHandler");
+		xml_set_element_handler( $xml_parser, "startElementHandler", "endElementHandler" );
+		xml_set_character_data_handler( $xml_parser, "characterDataHandler" );
 
-		while( $data = fread( $fh, 4096 ))
+		while( $data = fread( $fh, "4096" ))
 		{
-			if( ! xml_parse( $xml_parser, $data, feof( $fh )))
+			if( ! xml_parse( $xml_parser, $data, feof( $fh ) ))
 			{
 				break; // get out of while loop if we're done with the file
 			}
@@ -204,7 +205,7 @@ if( isset( $feature ))
 
 		if( isset( $fh2 ))
 		{
-			while( $data = fread( $fh2, 4096 ))
+			while( $data = fread( $fh2, "4096" ))
 			{
 				if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
 				{
@@ -269,6 +270,10 @@ else
 	{
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";
 	}
+	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
+	{
+		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=main&amp;dir=$dir&amp;server=" . $server . "\">";
+	}
 	echo "<title>" . $config["title"] . " - " . $body . "</title>";
 
 	// I would _much_ rather have a php generated stylesheet
@@ -290,6 +295,7 @@ else
 
 	include $body . ".php";
 
+#	echo "status: " . $status["updating_db"];
 	echo "</body>";
 }
 echo "</html>";

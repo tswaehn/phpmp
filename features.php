@@ -357,11 +357,11 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td></tr></table>";
 	echo "</form>";
-	if( isset( $search ) && isset( $arg ))
+	if( isset( $search ) && ! empty( $arg ))
 	{
 		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
-	else if( isset( $find ) && isset( $arg ))
+	else if( isset( $find ) && ! empty( $arg ))
 	{
 		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
