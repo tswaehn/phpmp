@@ -4,6 +4,9 @@
 *) [Features Menu]
 	*) When the ability comes about to be able to tell if all commands are available remove the 'login', if all commands are available
 
+*) [Commands]
+	*) When a command negating 'commands' is available all $commands[] need to be set to 1 and all unavailable commands need to be set to 0. This way we don't need issets everywhere to test what's available.
+
 
 Future (doesn't have to be before release)
 ------------------------------------------
@@ -14,7 +17,6 @@ Future (doesn't have to be before release)
 *) [printMusicTable] These tell me that we need to rewrite printMusicTable from scratch, to be more flexiable and scalable
 	*) Try to fix the sort issue with filename_only files
 	*) Try to remove columns that go unused from printMusicTable
-	*) Need to rid of duplicate code, esp in the metadata switch
 
 *) [Streams functions]
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
