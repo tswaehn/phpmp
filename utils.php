@@ -8,6 +8,7 @@ function decodeHTML($string)
 	$string = preg_replace("/\%23/","#",$string);
 	$string = preg_replace("/\%27/","'",$string);
 	$string = preg_replace("/\%22/","\"",$string);
+	$string = preg_replace("/\%25/","%",$string);
 	$strng = addSlashes($string);
 	return $string;
 }
@@ -22,6 +23,7 @@ function sanitizeForURL($str)
 	$url = preg_replace("/#/","%23",$url);
 	$url = preg_replace("/\'/","%27",$url);
 	$url = preg_replace("/\"/","%22",$url);
+	$url = preg_replace("/\%/","%25",$url);
 	return $url;
 }
 
