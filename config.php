@@ -14,7 +14,7 @@ global $song_display_conf;
 $song_display_conf = "(artist) title";
 $use_images = "no";
 $refresh_freq = 60;
-$default_sort = "Artist,Album,Track,Title";
+$default_sort = "Artist,Album,Track,Title,Time";
 // music list fields
 // can be any combination of 1 or more of the following fields in any order:
 // Artist, Title, Album, Track, Time
