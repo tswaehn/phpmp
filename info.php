@@ -129,18 +129,12 @@ function getPlaylistInfo( $conn, $song, $display_fields )
 	return $ret;
 }
 
-function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length, $filenames_only, $commands, $arg, $color, $server, $config )
+function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $commands, $arg, $color, $server, $config )
 {
-	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length )
+	function local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $config, $length )
 	{
-		if( $count > $start )
-		{
-		        $goto = $count-1;
-		}
-		else 
-		{
-		        $goto = $count;
-		}
+		$goto = $count > $start ? $count - 1 : $count;
+		$time = time();
 
 		if( strcmp( $filenames_only, "yes" ) && isset($ret["Name"]) && $ret["Name"] > "0")
 		{
@@ -148,7 +142,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		}
 		else 
 		{
-			$display = songInfo2Display($ret, $config, $config["playlist_display_conf"]);
+			$display = songInfo2Display( $ret, $config["playlist_display_conf"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
 		}
 
 		$id = $ret["Id"];
@@ -178,7 +172,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 			echo "<small><a title=\"Move song up one position in the playlist\" ";
 			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
-			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] - 1 ) . "&amp;time=$tm#$goto\">^</a></small><br>";
+			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] - 1 ) . "&amp;time=$time#$goto\">^</a></small><br>";
 		}
 
 		if( $commands["delete"] == "0" )
@@ -188,7 +182,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		else
 		{
 			echo "<small><a title=\"Remove song from the playlist\" ";
-			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=deleteid&amp;arg=$id&amp;time=$tm#$goto\">";
+			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=deleteid&amp;arg=$id&amp;time=$time#$goto\">";
 			echo "d</a></small>";
 		}
 
@@ -200,7 +194,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 			echo "<br><small><a title=\"Move song down one position in the playlist\" ";
 			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
-			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] + 1 ) . "&amp;time=$tm#$goto\">";
+			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] + 1 ) . "&amp;time=$time#$goto\">";
 			echo "v</a></small>";
 		}
 
@@ -221,18 +215,19 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		$num => The actual MPD playlist number
 	*/
 
-	$tm = time();
+	$spread = $config["hide_threshold"];
+	$filenames_only = $config["filenames_only"];
 	$start = "0";
-	$end = ( $length-1 );
+	$end = ( $length - 1 );
 	$spread *= "2";
 	echo "<!-- Begin printPlaylistInfo Here -->";
 	if ( $hide == "1" )
 	{
 		// $start is playlist length minus the spread divided by two
-		$start = $num-$spread/2;
+		$start = $num - $spread / 2;
 		
 		// $end is just the length-1
-		$end = $num+$spread/2;
+		$end = $num + $spread / 2;
 
 		/*
 		   If $start is less than 0 go ahead and make it 0 and 
@@ -305,7 +300,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 			if ( $count >= $start )
 			{
-				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length );
+				local( &$count, &$start, &$filenames_only, &$ret, &$num, &$color, &$server, &$hide, &$show_options, &$commands, &$config, &$length );
 				unset ( $ret );
 			}
 			$count++;
@@ -315,7 +310,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	}
 	if ( $count >= $start )
 	{
-		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length );
+		local( &$count, &$start, &$filenames_only, &$ret, &$num, &$color, &$server, &$hide, &$show_options, &$commands, &$config, &$length );
 	}
 	if ( $hide > 0 && $end < ( $length - 1) )
 	{

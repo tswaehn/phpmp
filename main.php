@@ -16,9 +16,9 @@ if( empty( $feature ))
 	if( ! empty( $lsinfo["music"] ))
 	{
 		$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
-		list( $tagged, $untagged, $config["display_fields"] ) = splitTagFile( $lsinfo["music"], $config );
-		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $ordered, $url );
-		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $url );
+		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], &$config["display_fields"], $config["filenames_only"] );
+		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config["display_fields"], $config["unknown_string"], $colors["music"], $server, $commands["add"], $sort_array, $sort, $ordered, $url );
+		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $colors["music"], $server, $commands["add"], $sort_array, $sort, $url );
 		unset( $tagged, $untagged );
 		displayDirectory( $dir, $dir_url, $sort, "Current Directory", $file_info["count"], $tagged_info["count"], $pinfo["count"], $dinfo["count"],
 			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
@@ -38,8 +38,8 @@ if( empty( $feature ))
 
 	if( ! empty( $lsinfo["music"] ))
 	{
-		printMusicTable( $add_all, $config, $colors["music"]["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
-		printMusicTable( $add_all, $config, $colors["music"]["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, 0 );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, 0 );
 	}
 
 	printPlaylistTable( $colors["playlist"], $server, $pinfo, $delete, $commands["rm"] );
@@ -62,7 +62,7 @@ else
 		{
 			$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n", $config["display_fields"] );
 		}
-		list( $tagged, $untagged, $config["display_fields"] ) = splitTagFile( $lsinfo["music"], $config );
+		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], &$config["display_fields"], $config["filenames_only"] );
 	}
 
 	displayDirectory( $dir, $dir_url, $sort, "Current Directory", count( $untagged ), count( $tagged ), 0, 0,
@@ -81,7 +81,7 @@ else
 			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered, $tagged, $untagged, $lsinfo["music"] );
 			break;
 		case 'server':
-			server( $servers, $host, $port, $colors["server"], $config );
+			server( $servers, $host, $port, $colors["server"] );
 			break;
 		case 'stats':
 			stats( $fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port );

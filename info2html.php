@@ -192,7 +192,7 @@ function display_time( $seconds )
 	} 
 }
 
-function splitTagFile( $lsinfo, $config )
+function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 {
 	$stats = array();
 	$tagged = array();
@@ -200,31 +200,35 @@ function splitTagFile( $lsinfo, $config )
 
 	for( $i="0"; $i < count( $lsinfo ); $i++ )
 	{
-		if( strcmp( $config["filenames_only"], "yes" ) == "0" || empty( $lsinfo[$i]["Title"] ))
+		if( strcmp( $filenames_only, "yes" ) == "0" || empty( $lsinfo[$i]["Title"] ))
 		{
 			$untagged[] = $lsinfo[$i];
 		}
 		else
 		{
-			for( $j = "0"; $j < count( $config["display_fields"] ); $j++ )
+			for( $j = "0"; $j < count( $display_fields ); $j++ )
 			{
-				if( ! empty( $lsinfo[$i][ $config["display_fields"][$j] ] ) && ! in_array( $config["display_fields"][$j], $stats ))
+				if( ! empty( $lsinfo[$i][ $display_fields[$j] ] ) && ! in_array( $display_fields[$j], $stats ))
 				{
-					$stats[$j] =  $config["display_fields"][$j];
+					$stats[$j] =  $display_fields[$j];
 				}
 			}
 			$tagged[] = $lsinfo[$i];
 		}
 	}
 
-	for( $i = "0"; $i < count( $config["display_fields"] ); $i++ )
+	for( $i = "0"; $i < count( $display_fields ); $i++ )
 	{
 		if( isset( $stats[$i] ))
 		{
 			$ret[] = $stats[$i];
 		}
 	}
-	return( array( $tagged, $untagged, $ret ));
+	if( isset( $ret ))
+	{
+		$display_fields = $ret;
+	}
+	return( array( $tagged, $untagged ));
 }
 
 function streamxml2musicTable( )
@@ -232,7 +236,7 @@ function streamxml2musicTable( )
 	
 }
 
-function fileinfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort )
+function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server, $addperm, $sort_array, $sort )
 {
 	$count = count( $info );
 	$dir_url = rawurlencode( $dir_url );
@@ -275,7 +279,7 @@ function fileinfo2musicTable( $info, $dir_url, $config, $color, $server, $addper
 		}
 
 		// The <td>s here must be included inside the if() else() blocks in case the user doesn't want it displayed at all.
-		if( array_search( 'Time', $config["display_fields"] ))
+		if( array_search( 'Time', $display_fields ))
 		{
 			$mprint[$i] .= "<td>" . display_time( $info[$i]['Time'] ) . "</td>";
 		}
@@ -291,7 +295,7 @@ function fileinfo2musicTable( $info, $dir_url, $config, $color, $server, $addper
 	}
 
 	// In case 'Time' isn't part of the display fields at all
-	if( array_search( 'Time', $config["display_fields"] ))
+	if( array_search( 'Time', $display_fields ))
 	{
 		$sort_bar .= "<td>Files</td><td width=\"1%\">Time</td></tr>";
 	}
@@ -319,9 +323,7 @@ function fileinfo2musicTable( $info, $dir_url, $config, $color, $server, $addper
 #											#
 #***************************************************************************************/
 
-# TODO: AddAll() will need it's own separate function
-
-function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url )
+function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color, $server, $addperm, $sort_array, $sort, $ordered, $url )
 {
 	$count = count( $info );
 	$dir_url = rawurlencode( $dir_url );
@@ -394,62 +396,62 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 		{
 			$mprint[$i] = "<tr bgcolor=$col>";
 		}
-		for ( $x = 0; $x < sizeof($config["display_fields"]); $x++)
+		for ( $x = 0; $x < sizeof($display_fields); $x++)
 		{
-			$mprint[$i] .= "<td>";
+			$mprint[$i] .= strcmp( $display_fields[$x], "Time" ) ? "<td>" : '<td width="1%">';
 
 			/* 
-			 * If $config["display_fields"][$x] an Album, Artist, Date or Genre make the HTML anchored to a mpd 'find' command so the 
+			 * If $display_fields[$x] an Album, Artist, Date or Genre make the HTML anchored to a mpd 'find' command so the 
 			 * user can click anything in the Album Artist, Date or Genre fields and it will automatically search for them case sensitively
 			 * Sort the known remaining tags by just echoing the sting, otherwise print config error.
 			 */
 
-			switch( $config["display_fields"][$x] )
+			switch( $display_fields[$x] )
 			{
 				case 'Album':
 				case 'Artist':
 				case 'Date':
 				case 'Genre':
 				{
-					if( isset( $info[$i][ $config["display_fields"][$x] ] ))
+					if( isset( $info[$i][ $display_fields[$x] ] ))
 					{
-						$local_url = rawurlencode( $info[$i][ $config["display_fields"][$x] ] );
+						$local_url = rawurlencode( $info[$i][ $display_fields[$x] ] );
 						$mprint[$i] .= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
-						$mprint[$i] .= strtolower( $config["display_fields"][$x] );
+						$mprint[$i] .= strtolower( $display_fields[$x] );
 						$mprint[$i] .= "&amp;arg=$local_url&amp;sort=$sort&amp;dir=$dir_url\">";
-						$mprint[$i] .= "{$info[$i][ $config["display_fields"][$x] ]}</a>";
+						$mprint[$i] .= "{$info[$i][ $display_fields[$x] ]}</a>";
 					}
 					else
 					{
-						$mprint[$i] .= $config["unknown_string"];
+						$mprint[$i] .= $unknown;
 					}
 					break;
 				}
 
 				case 'Title':
 				{
-					$mprint[$i] .= $info[$i][ $config["display_fields"][$x] ];
+					$mprint[$i] .= $info[$i][ $display_fields[$x] ];
 					break;
 				}
 
 				case 'Time':
 				{
-					if ( isset( $info[$i][ $config["display_fields"][$x] ] ))
+					if ( isset( $info[$i][ $display_fields[$x] ] ))
 					{
-						$mprint[$i] .= display_time( $info[$i][ $config["display_fields"][$x] ] );
+						$mprint[$i] .= display_time( $info[$i][ $display_fields[$x] ] );
 					}
 					else
 					{
-						$mprint[$i] .= $config["unknown_string"];
+						$mprint[$i] .= $unknown;
 					}
 					break;
 				}
 
 				default:
 				{
-					if( isset( $info[$i][ $config["display_fields"][$x] ]))
+					if( isset( $info[$i][ $display_fields[$x] ]))
 					{
-						$mprint[$i] .= $info[$i][ $config["display_fields"][$x] ];
+						$mprint[$i] .= $info[$i][ $display_fields[$x] ];
 					}
 					else
 					{
@@ -471,29 +473,29 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 		$sort_bar .= "<td width=0></td>";
 	}
 
-	for( $j = 0; $j < count( $config["display_fields"] ); $j++ )
+	for( $j = 0; $j < count( $display_fields ); $j++ )
 	{
 		// Cut this in pieces so it wouldn't wrap
 		$sort_bar .= "<td>";
 
-		if( strcmp( $config["display_fields"][$j], $sort_array[0] ) == "0" )
+		if( strcmp( $display_fields[$j], $sort_array[0] ) == "0" )
 		{
 			$sort_bar .= "<a title=\"Reverse this field\"";
 			if( strcmp( $ordered, "yes" ))
 			{
-				$sort_bar .= " href=\"$url&amp;sort=" . pickSort($config["display_fields"][$j]) . "&amp;ordered=yes&amp;server=$server\">";
+				$sort_bar .= " href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=yes&amp;server=$server\">";
 			}
 			else
 			{
-				$sort_bar .= "href=\"$url&amp;sort=" . pickSort($config["display_fields"][$j]) . "&amp;ordered=no&amp;server=$server\">";
+				$sort_bar .= "href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
 			}
-			$sort_bar .= "<b>{$config["display_fields"][$j]}</b>";
+			$sort_bar .= "<b>{$display_fields[$j]}</b>";
 		}
 		else
 		{
 			$sort_bar .= "<a title=\"Sort by this field\" ";
-			$sort_bar .= "href=\"$url&amp;sort=" . pickSort($config["display_fields"][$j]) . "&amp;ordered=no&amp;server=$server\">";
-			$sort_bar .= $config["display_fields"][$j];
+			$sort_bar .= "href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
+			$sort_bar .= $display_fields[$j];
 		}
 
 		$sort_bar .= "</a></td>";
@@ -558,7 +560,7 @@ function printIndex( $index, $title, $anc )
 #														#
 #***************************************************************************************************************/
 
-function printMusicTable( $add_all, $config, $color, $info, $altcount, $sort_array, $server, $dir, $addperm, $feature, $ordered )
+function printMusicTable( $add_all, $field_count, $use_javascript, $color, $info, $altcount, $sort_array, $server, $dir, $addperm, $feature, $ordered )
 {
 	if( is_array( $info ))
 	{
@@ -590,11 +592,11 @@ function printMusicTable( $add_all, $config, $color, $info, $altcount, $sort_arr
 		echo "<a name=\"$title\"></a>";
 		if( $altcount > "0" )
 		{
-			echo "<tr><td colspan=". ( count( $config["display_fields"] ) - 1 ) . "><b>$title</b>";
+			echo "<tr><td colspan=". ( $field_count - 1 ) . "><b>$title</b>";
 		}
 		else
 		{
-			echo "<tr><td colspan=". ( count( $config["display_fields"] ) - 1 ) . "><b>Music</b>";
+			echo "<tr><td colspan=". ( $field_count - 1 ) . "><b>Music</b>";
 		}
 
 		// If not sorting by 'Time' display the index, due to bugs in 'Time'/index
@@ -605,7 +607,7 @@ function printMusicTable( $add_all, $config, $color, $info, $altcount, $sort_arr
 
 		if( ! empty( $add_all ))
 		{
-			if( strcmp( $config["use_javascript"], "yes" ) == "0" )
+			if( strcmp( $use_javascript, "yes" ) == "0" )
 			{
 				if( $count > 0 && $altcount > 0 )
 				{
@@ -680,7 +682,7 @@ function printPlaylistTable( $color, $server, $info, $delete, $rmperm )
 	}
 }
 
-function songInfo2Display( $song_info, $config, $display )
+function songInfo2Display( $song_info, $display, $filenames_only, $regex, $wordwrap )
 {
 	// If it's a URL don't grab it's basename
 	if( preg_match( "/^[a-z]*:\/\//", $song_info["file"] ))
@@ -692,7 +694,7 @@ function songInfo2Display( $song_info, $config, $display )
 		$song = basename( $song_info["file"] );
 	}
 
-	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
+	if( strcmp( $filenames_only,"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
 		$song_display_conf = $display[0];
 
@@ -708,7 +710,7 @@ function songInfo2Display( $song_info, $config, $display )
 		}
 		$song_display = $song_display_conf;
 	}
-	else if( strcmp( $config["filenames_only"], "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
+	else if( strcmp( $filenames_only, "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{
 		$song_display = $song_info["Name"];
 	}
@@ -717,24 +719,24 @@ function songInfo2Display( $song_info, $config, $display )
 		// Let's not regex urls
 		if( ! preg_match( "/^(http|ftp|https):\/\/.*/", $song ))
 		{
-			for( $i= "0"; $i < sizeOf( $config["regex"]["remove"] ); $i++ )
+			for( $i= "0"; $i < sizeOf( $regex["remove"] ); $i++ )
 			{
-				$song = str_replace( $config["regex"]["remove"][$i], '', $song );
+				$song = str_replace( $regex["remove"][$i], '', $song );
 			}
-			if( strcmp( $config["regex"]["space"], "yes") == "0" )
+			if( strcmp( $regex["space"], "yes") == "0" )
 			{
 				$song = str_replace( '_', ' ', $song );
 			}
-			if( strcmp( $config["regex"]["uppercase_first"], "yes" ) == "0" )
+			if( strcmp( $regex["uppercase_first"], "yes" ) == "0" )
 			{
 				$song = ucwords( $song );
 			}
 		}
 		$song_display = $song;
 	}
-	if( $config["wordwrap"] > "0" )
+	if( $wordwrap > "0" )
 	{
-		$song_display = wordwrap( $song_display, $config["wordwrap"], "<br />", "1" );
+		$song_display = wordwrap( $song_display, $wordwrap, "<br />", "1" );
 	}
 	return $song_display;
 }

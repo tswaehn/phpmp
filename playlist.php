@@ -166,7 +166,7 @@ if( isset( $status["state"] ))
 		echo "<a title=\"Jump to the Current Song\" href=#$num>";
 
 		// This is in info2html.php
-		echo songInfo2Display( $song_info[0], $config, $config["song_display_conf"] );
+		echo songInfo2Display( $song_info[0], $config["song_display_conf"], $config["filenames_only"], $config["regex"], $config["wordwrap"] );
 		echo "</a><br>";
 
 	        // Begin The Time Remaining/Time Elapsed
@@ -572,7 +572,7 @@ if( ! $status["playlistlength"] == 0 )
 	/* Display Playlist if songs exist in the current playlist */
 	if( isset($status["playlistlength"] ))
 	{
-		printPlaylistInfo( $fp, $num, $hide, $show_options, $config["hide_threshold"], $status["playlistlength"], $config["filenames_only"], $commands, $arg, $colors["playlist"], $server, $config );
+		printPlaylistInfo( $fp, $num, $hide, $show_options, $status["playlistlength"], $commands, $arg, $colors["playlist"], $server, &$config );
 	}
 	echo "</tr></table>";
 }

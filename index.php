@@ -97,7 +97,7 @@ if(! is_resource( $fp ))
 	if(isset($servers) && (sizeof($servers) > 1))
 	{
 		include "features.php";
-		server($servers, $host, $colors);
+		server( $servers, $host, $port, $colors["server"] );
 	}
 	echo "$errstr ($errno)<br>\n";
 	die;

@@ -228,7 +228,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 	}
 }
 
-function server( $servers, $host, $port, $color, $config )
+function server( $servers, $host, $port, $color )
 {
 	echo "<br>";
 	echo "<table summary=\"Server Selection\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -329,8 +329,8 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	if( is_array( $untagged ) || is_array( $tagged ))
 	{
 		$add_all = createAddAll( $lsinfo, $config["song_separator"] );
-		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
-		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $url );
+		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config["display_fields"], $config["unknown_string"], $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
+		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $color, $server, $addperm, $sort_array, $sort, $url );
 		unset( $tagged, $untagged );
 
 		if( ! empty( $tagged_info ) && ! empty( $untagged_info ))
@@ -344,8 +344,8 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 				$tagged_info["title"] = "Music";
 			}
 		}
-		printMusicTable( $add_all, $config, $color["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $addperm, $feature, $ordered );
-		printMusicTable( $add_all, $config, $color["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $addperm, $feature, 0 );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $color["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $addperm, $feature, $ordered );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $color["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $addperm, $feature, 0 );
 	}
 	else if( ! empty( $arg ))
 	{

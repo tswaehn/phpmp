@@ -1,12 +1,30 @@
+Sat Nov  5 20:05:40 PST 2005  avuton@gmail.com
+  * Fix the songInfo2Display passing
+
+Sat Nov  5 20:05:16 PST 2005  avuton@gmail.com
+  * If the <TD> is for time, make it as small as possible
+
+Sat Nov  5 20:04:04 PST 2005  avuton@gmail.com
+  * Fix E_NOTICE warning
+
+Sat Dec 25 13:04:31 PST 2004  avuton@gmail.com
+  * Work on not passing the whole $config variable all around
+
+Sat Dec 25 11:29:38 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
+Sat Dec 25 11:29:19 PST 2004  avuton@gmail.com
+  * TODO update
+
+Sat Dec 25 11:10:48 PST 2004  avuton@gmail.com
+  * Spacing, move time() into the local function, and change if() else() to a tenerary
+
 Fri Dec 24 23:27:42 PST 2004  avuton@gmail.com
   * Turn autocomplete on for printSaveTable()
 
 Fri Dec 24 23:23:18 PST 2004  avuton@gmail.com
   * Remove fields that are not in use from printMusicTable
   This is a patch to taginfo2musicTable() to remove the metadata fields in which tags don't exist in the current music list/table.
-
-Fri Dec 24 23:22:54 PST 2004  avuton@gmail.com
-  * TODO update
 
 Fri Dec 24 13:34:08 PST 2004  avuton@gmail.com
   * Enable swap = "yes" by default. See how the people like it.
@@ -25,9 +43,6 @@ Fri Dec 24 11:32:29 PST 2004  avuton@gmail.com
 
 Fri Dec 24 10:39:22 PST 2004  avuton@gmail.com
   * Don't pass the full $lsinfo, just pass what's required respective to the function being called
-
-Fri Dec 24 09:48:28 PST 2004  avuton@gmail.com
-  * ChangeLog update
 
 Fri Dec 24 09:41:58 PST 2004  avuton@gmail.com
   * Reorganize main.php to fix issues
