@@ -220,6 +220,9 @@ function songInfo2Display($song_info) {
 		$trans = array("artist" => $artist, "title" => $title, "album" => $album, "track" => $track);
 		$song_display = strtr($song_display_conf, $trans);
 	}
+	else if($filenames_only!="yes" && isset($song_info["Name"]) && $song_info["Name"]) {
+		$song_display = $song_info["Name"];
+	}
 	else {
 		$song_display = $song;
 	}

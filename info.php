@@ -52,7 +52,7 @@ function getPlaylistInfo($conn,$song) {
 }
 
 function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
-	global $colors;
+	global $colors,$filenames_only;
 	$tm = time();
 	$start = 0;
 	$end = $length-1;
@@ -100,14 +100,18 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 			if($count>=$start) {
 				if($count>$start) $goto = $count-1;
 				else $goto = $count;
-				$display = songInfo2Display($ret);
+				if($filenames_only!="yes" && isset($ret["Name"]) && $ret["Name"]) {
+					$display = $ret["Name"];
+				}
+				else $display = songInfo2Display($ret);
+				$id = $ret["Id"];
 				unset($ret);
 				if(isset($num) && $num==$count)
 					print "<tr bgcolor=\"". $colors["playlist"]["current"] . "\">";
 				else 
 					print "<tr bgcolor=\"" . $colors["playlist"]["body"] . "\">";
-				print "<td valign=top><a name=$count><small><a href=\"playlist.php?hide=$hide&command=delete $count&time=$tm#$goto\">d</a></small></td>\n";
-				print "<td width=\"100%\"><a href=\"playlist.php?hide=$hide&command=play%20$count\">$display</a></td></tr>\n";
+				print "<td valign=top><a name=$count><small><a href=\"playlist.php?hide=$hide&command=deleteid $id&time=$tm#$goto\">d</a></small></td>\n";
+				print "<td width=\"100%\"><a href=\"playlist.php?hide=$hide&command=playid%20$id\">$display</a></td></tr>\n";
 			}
 			$count++;
 		}
@@ -117,7 +121,11 @@ function printPlaylistInfo($conn,$num,$hide,$spread,$length) {
 	if($count>=$start) {
 		if($count>$start) $goto = $count-1;
 		else $goto = $count;
-		$display = songInfo2Display($ret);
+		if($filenames_only!="yes" && isset($ret["Name"]) && $ret["Name"]) {
+			$display = $ret["Name"];
+		}
+		else $display = songInfo2Display($ret);
+		$id = $ret["Id"];
 		if(isset($num) && $num==$count)
 			print "<tr bgcolor=\"". $colors["playlist"]["current"] . "\">";
 		else 

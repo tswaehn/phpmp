@@ -112,6 +112,7 @@ else {
 		$xfade = $status["xfade"];
 		if(strcmp($status["state"],"play")==0 || 0==strcmp($status["state"],"pause")) {
 			$num = $status["song"];
+			$songid = $status["songid"];
 			$time = split(":",$status["time"]);
 			$time_min = (int)($time[0]/60);
 			$time_sec = (int)($time[0]-$time_min*60);
@@ -147,7 +148,7 @@ else {
 				$min = (int)($seek/60);
 				$sec= $seek-$min*60;
 				if($sec<10) $sec = "0$sec";
-				print "<td width=8 bgcolor=\"$col\"><a href=\"playlist.php?hide=$hide&command=seek $num $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
+				print "<td width=8 bgcolor=\"$col\"><a href=\"playlist.php?hide=$hide&command=seekid $songid $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
 				$col = $colors["time"]["background"];
 			}
 			print "</tr></table>\n";
