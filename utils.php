@@ -158,6 +158,9 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	echo "</td>";
 	echo "<td align=right><small>";
+
+	$feature_bar = "";
+
 	if ( $commands["all"] == "0" )
 	{
 		if($has_password==1)
@@ -172,7 +175,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	if( $commands["outputs"] == "1" )
 	{
-		if(isset($feature_bar))
+		if( ! empty ( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -181,7 +184,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	if( $commands["search"] == "1" )
 	{
-		if(isset($feature_bar))
+		if( ! empty ( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -190,17 +193,16 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	if (isset($servers) && (sizeof($servers) > 1))
 	{
-		if(isset($feature_bar))
+		if( ! empty ( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
 		$feature_bar .= "<a title=\"Change the MPD Server\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$dir_url&amp;feature=server\">Servers</a>";
 	}
 
-	// Please rewrite me, this is extemely ugly, and there's probably a better way to do this
 	if( $commands["stats"] == "1" )
 	{
-		if(isset($feature_bar))
+		if( ! empty ( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
@@ -209,7 +211,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password
 
 	if( $commands["load"] == "1")
 	{
-		if(isset($feature_bar))
+		if( ! empty ( $feature_bar ))
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}

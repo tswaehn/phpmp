@@ -69,10 +69,10 @@ function getCommandInfo($conn)
 			$ret["all"] = "0";
 			$ret[$el] = "0";
 		}
-		else
-		{
-			$ret["all"] = "1";
-		}
+	}
+	if ( ! isset ( $ret["all"] ))
+	{
+		$ret["all"] = "1";
 	}
 	return $ret;
 }
