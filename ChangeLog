@@ -1,3 +1,10 @@
+ver 0.10.0 (2004/3/4)
+1) Add password support
+2) Add crossfade support
+3) UTF-8 Support
+4) Fix " " => "%20" for url in loast song of playlist (Hannes Reich)
+5) Link directory names instead of using [dir]
+
 ver 0.9.1 (2003/10/30)
 1) Fix flush() bugs with z-compression
 2) Check for each metadata element for songs

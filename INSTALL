@@ -15,7 +15,7 @@ Get the latest release of phpMp from http://www.musicpd.org
 Requirements
 ------------
 
-MPD >= 0.8.0
+MPD >= 0.10.0
 PHP >= 4
 
 Install
