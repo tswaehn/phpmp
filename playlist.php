@@ -31,6 +31,14 @@ header("Content-Type: text/html; charset=UTF-8");
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="REFRESH" CONTENT="<?php print $refresh_freq;?>;URL=playlist.php">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<?php
+// php won't interpret inside of the style block
+print "<style type=\"text/css\">\n";
+print "* {\n";
+print "  font-family: " . $fonts["all"] . ";\n";
+print "}\n";
+print "</style>\n";
+?>
 </head>
 <body	link="<?php print $colors["links"]["link"]; ?>" 
 	vlink="<?php print $colors["links"]["visual"]; ?>" 

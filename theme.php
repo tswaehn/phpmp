@@ -1,5 +1,9 @@
 <?php
 global $colors;
+global $fonts;
+
+// Font
+$fonts["all"] = "sans";
 
 // Background Color
 $colors["background"] = "#ffffff";
