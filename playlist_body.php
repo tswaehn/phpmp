@@ -128,10 +128,15 @@ else {
 			print songInfo2Display($song_info[0]);
 			print "</a><br>\n";
 			print "($time_min:$time_sec)\n";
-			$time_min = (int)($time[1]/60);
-			$time_sec = (int)($time[1]-$time_min*60);
-			if($time_sec<10) $time_sec = "0$time_sec";
-			print "[$time_min:$time_sec]\n";
+			if($time[1] > 0) {
+				$time_min = (int)($time[1]/60);
+				$time_sec = (int)($time[1]-$time_min*60);
+				if($time_sec<10) $time_sec = "0$time_sec";
+				print "[$time_min:$time_sec]\n";
+			}
+			else {
+				print "[" . $status["bitrate"] . " kbs]\n";
+			}
 			if($time[1]>0)
 				$time_perc = $time[0]*100/$time[1];
 			else $time_perc = 100.0;
