@@ -16,6 +16,7 @@ function decodeHTML($string)
 function sanitizeForURL($str)
 {
 	$url = stripslashes($str);
+	$url = preg_replace("/\%/","%25",$url);
 	$url = preg_replace("/\&/","%26",$url);
 	$url = preg_replace("/ /","%20",$url);
 	$url = preg_replace("/-/","%2D",$url);
@@ -23,7 +24,6 @@ function sanitizeForURL($str)
 	$url = preg_replace("/#/","%23",$url);
 	$url = preg_replace("/\'/","%27",$url);
 	$url = preg_replace("/\"/","%22",$url);
-	$url = preg_replace("/\%/","%25",$url);
 	return $url;
 }
 
