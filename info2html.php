@@ -259,7 +259,10 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			if($addperm)
 			{
 				$mprint[$i] = "<tr bgcolor=$col><td width=0>$mprint[$i][";
-				$mprint[$i] .= "<a title=\"Add this song to the current playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=" . rawurlencode($full_filename) . "\">add</a>]</td>";
+				$mprint[$i].= "<a title=\"Add this song to the current playlist\" ";
+				$mprint[$i].= "target=\"playlist\" ";
+				$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=";
+				$mprint[$i].= rawurlencode($full_filename) . "\">add</a>]</td>";
 			}
 			else
 			{
@@ -270,14 +273,18 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				$mprint[$i] .= "<td>";
 
-				/* If it's an Album, Artist, Date or Genre make the HTML anchored to a mpd 'find' command so the user can click anything in the Album
-				 * Artist, Date or Genre fields and it will automatically search for them case sensitively
+				/* 
+				 * If $config["display_fields"][$x] an Album, Artist, Date or Genre make the HTML anchored to a mpd 'find' command so the 
+				 * user can click anything in the Album Artist, Date or Genre fields and it will automatically search for them case sensitively
+				 * Sort the known remaining tags by just echoing the sting, otherwise print config error.
 				 */
-				if ( strcmp($config["display_fields"][$x],"Album")==0 ||
-				     strcmp($config["display_fields"][$x],"Artist")==0 ||
-				     strcmp($config["display_fields"][$x],"Date")==0 ||
-				     strcmp($config["display_fields"][$x],"Genre")==0 )
+
+				switch ($config["display_fields"][$x])
 				{
+					case 'Album':
+					case 'Artist':
+					case 'Date':
+					case 'Genre':
 						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
 						{
 							$url = rawurlencode($lsinfo["music"][$i][$config["display_fields"][$x]]);
@@ -290,45 +297,42 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 						{
 							$mprint[$i].= $config["unknown_string"];
 						}
-				}
-
-				// Sort the known remaining tags by just echoing the sting, otherwise print config error.
-
-				else
-				{
-					switch ($config["display_fields"][$x])
-					{
-						case 'Title':
+						break;
+					case 'Title':
+						$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
+						break;
+					case 'Track':
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						{
 							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
-							break;
-						case 'Track':
-							if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
-							{
-								$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
-							}
-							else
-							{
-								$mprint[$i].= $config["unknown_string"];
-							}
-							break;
-						case 'Time':
-							if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
-							{
-								$mprint[$i].= display_time($lsinfo["music"][$i][$config["display_fields"][$x]]);
-							}
-							else
-							{
-								$mprint[$i].= $config["unknown_string"];
-							}
-							break;
-						default:
-							$mprint[$i] .= "Config Error";
-							break;
-					}
-					$mprint[$i] .= "</td>";
+						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
+						}
+						break;
+					case 'Time':
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						{
+							$mprint[$i].= display_time($lsinfo["music"][$i][$config["display_fields"][$x]]);
+						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
+						}
+						break;
+					default:
+						$mprint[$i] .= "Config Error";
+						break;
 				}
+				$mprint[$i] .= "</td>";
 			}
 		}
+
+		/*
+		 * If the filename's going to be displayed
+		 */
+
 		else
 		{
 			if ($mic==0 || $mindex[$mic-1]!=strtoupper($split_filename[0][0]))
@@ -346,7 +350,10 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				if($addperm)
 				{
-					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td><td colspan=" . (sizeof($config["display_fields"]) - 1) . ">$split_filename[0]</td><td>";
+					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
+					$mprint[$i].= "target=\"playlist\" ";
+					$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
+					$mprint[$i].= "<td width=\"100%\" colspan=" . (sizeof($config["display_fields"]) - 1) . ">$split_filename[0]</td><td>";
 				}
 				else
 				{
@@ -368,7 +375,11 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				if($addperm)
 				{
-					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td><td colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
+					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][";
+					$mprint[$i].= "<a title=\"Add this song to the active playlist\" ";
+					$mprint[$i].= "target=\"playlist\" ";
+					$mprint[$i].= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
+					$mprint[$i].= "<td width=\"100%\" colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
 				}
 				else
 				{
