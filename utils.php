@@ -50,6 +50,7 @@ function displayDirectory($dir,$sort,$title,$music,$playlists) {
 		print "Logout</a>]\n";
 	else
 		print "Login</a>]\n";
+	print "[<a href=\"stream.php?dir=$dir_url&sort=$sort\">Stream</a>]\n";
 	print "[<a href=\"search.php?dir=$dir_url&sort=$sort\">";
 	print "Search</a>]</td></tr>\n";
 	print "<tr bgcolor=\"";
@@ -99,5 +100,40 @@ function mbFirstChar($str) {
 		$i++;
 	}
 	return $ret;
+}
+
+function readM3uFile($fp) {
+	$add = array();
+	$i = 0;
+
+	while(!feof($fp)) {
+		$url = fgets($fp,4096);
+		$url = preg_replace("/\n$/","",$url);
+		if(preg_match("/^[a-z]*:\/\//",$url)) {
+			$add[$i] = $url;
+			$i++;
+		}
+	}
+
+	return $add;
+}
+
+function readPlsFile($fp) {
+	$add = array();
+	$i = 0;
+
+	while(!feof($fp)) {
+		$line = fgets($fp,4096);
+		if(preg_match("/File[0-9]*=/",$line)) {
+			$url = preg_replace("/^File[0-9]*=/","",$line);
+			$url = preg_replace("/\n$/","",$url);
+			if(preg_match("/^[a-z]*:\/\//",$url)) {
+				$add[$i] = $url;
+				$i++;
+			}
+		}
+	}
+
+	return $add;
 }
 ?>

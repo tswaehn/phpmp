@@ -206,8 +206,13 @@ function printPlaylistTable($pprint,$pindex) {
 
 function songInfo2Display($song_info) {
 	global $song_display_conf, $filenames_only;
-	$song_array = split("/",$song_info["file"]);
-	$song = $song_array[count($song_array)-1];
+	if(preg_match("/^[a-z]*:\/\//",$song_info["file"])) {
+		$song = $song_info["file"];
+	}
+	else {
+		$song_array = split("/",$song_info["file"]);
+		$song = $song_array[count($song_array)-1];
+	}
 	if($filenames_only!="yes" && isset($song_info["Title"]) && $song_info["Title"]) {
 		if(isset($song_info["Artist"])) $artist = $song_info["Artist"];
 		else $artist = "";

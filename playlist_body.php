@@ -45,6 +45,25 @@ else {
 				break;
 		}
 	}
+	if(isset($HTTP_POST_FILES['playlist_file']['name'])) {
+		$name = $HTTP_POST_FILES['playlist_file']['name'];
+		$file = $HTTP_POST_FILES['playlist_file']['tmp_name'];
+		if(!is_uploaded_file($file)) {
+			print "Problems uploading file<br>";
+		}
+		else if(!($pls_fp = fopen($file, "r"))) {
+			print "Problems opening file<br>";
+		}
+		else if(preg_match("/\.m3u/",$name)) {
+			$add = readM3uFile($pls_fp);
+		}
+		else if(preg_match("/\.pls/",$name)) {
+			$add = readPlsFile($pls_fp);
+                }
+		else {
+			print "NOT a m3u or pls file!<br>";
+		}
+	}
 	if(isset($command)) {
 		$arg = preg_replace("/\"/","\\\"",$arg);
 		if(strlen($arg)>0)
