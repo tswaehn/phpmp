@@ -27,13 +27,13 @@ function outputs( $fp, $host, $color, $server, $commands )
 		$outputs[$i]["$val"] = preg_replace( "/^ /", "", $arg );
 	}	
 	echo "<br>";
-	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td nowrap><b>Sound outputs for $host</b></td></tr>";
 	echo "<tr><td>";
-	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][$i%2] ."\" width=\"100%\">";
+	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"{$color["body"][$i%2]}\" width=\"100%\">";
 	for( $i = "0"; $i < sizeOf( $outputs ); $i++ )
 	{
-		echo "<tr bgcolor=" . $color["body"][$i%2] . "><td nowrap>";
+		echo "<tr bgcolor=\"{$color["body"][$i%2]}\"><td nowrap>";
 		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] == "1" )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
@@ -42,7 +42,7 @@ function outputs( $fp, $host, $color, $server, $commands )
 		{
 			echo "[<a title=\"Disable this output\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disableoutput&amp;arg=$i>disable</a>]</td>";
 		}
-		echo "<td width=\"100%\">&nbsp;" . $outputs[$i]["outputname"] . "</td></tr>";
+		echo "<td width=\"100%\">&nbsp;{$outputs[$i]["outputname"]}</td></tr>";
 	}
 
 	echo "</table>";
@@ -56,11 +56,11 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 
 	echo "<br>";
 	echo "<form target=_top action=\"index.php\" method=post>";
-	echo "<table summary=\"Login\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Login\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Password</b></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"] . "\"><td>";
+	echo "<tr bgcolor=\"{$color["body"]}\"><td>";
 	echo "<input type=hidden value=\"$server\" name=server>";
-	echo "<input type=password name=passarg value=\"" . $arg . "\" size=20>";
+	echo "<input type=password name=passarg value=\"{$arg}\" size=20>";
 	echo "<input type=hidden value=\"$dir_url\" name=dir>";
 	echo "<input type=hidden value=\"$default_sort\" name=sort>";
 	echo "<input type=submit value=login name=foo>";
@@ -113,17 +113,17 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 
 	/* Begin Stats Form */
 	echo "<br>";
-	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td nowrap><b>Statistics for $host:$port</b></td></tr>";
 	echo "<tr><td>";
-	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
+	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
 
 	$j=0;
 	foreach( $statistics as $key => $value )
 	{
 		for( $i = "0"; $i < sizeof( $statistics ); $i++ )
 		{
-			echo "<tr bgcolor=\"" . $color["body"][$j%2] . "\"><td><b>$key:</b>&nbsp;$value</td></tr>";
+			echo "<tr bgcolor=\"{$color["body"][$j%2]}\"><td><b>$key:</b>&nbsp;$value</td></tr>";
 			break;
 		}
 		$j++;
@@ -137,9 +137,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 	echo "<br>";
 
 	echo "<form action=index.php? target=playlist method=get>";
-	echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Add Stream</b></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
 	echo "<input type=hidden value=\"playlist\" name=body>";
 	echo "<input type=hidden value=$server name=server>";
 	echo "<input type=input name=stream size=40>";
@@ -149,9 +149,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 	echo "<br>";
 
 	echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
-	echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
 	echo "<input type=\"hidden\" value=\"playlist\" name=\"body\">";
 	echo "<input type=\"hidden\" value=\"$server\" name=\"server\">";
 	echo "<input type=\"file\" name=\"playlist_file[]\" size=30>";
@@ -174,9 +174,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 				}
 			}
 		}
-		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		if( strcmp( $feature, "stream-icy" ) == "0" )
 		{ 
 			echo "<tr><td><b>Icecast / Oddcast Streams</b>";
@@ -190,13 +190,13 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
-		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][1] ."\" width=\"100%\">";
+		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
 
 		$j=2;
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
-			echo "<tr bgcolor=\"" . $color["body"][$k%2]  . "\"><td>";
+			echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td>";
 			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
 			echo rawurlencode( $server_data[$i]["listen_url"] );
 
@@ -212,18 +212,18 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 	}
 	else
 	{
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td><b>Icecast / Oddcast Streams</b>";
 		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
 		echo "</tr></table></td></tr></table>";
 
 		echo "<br>";
 
-		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td>";
-		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td><b>Shoutcast Streams</b>";
 		echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
 		echo "</tr></table></td></tr></table>";
@@ -233,9 +233,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator )
 function server( $servers, $host, $port, $color, $config )
 {
 	echo "<br>";
-	echo "<table summary=\"Server Selection\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Server Selection\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Servers</b></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"] . "\"><td>";
+	echo "<tr bgcolor=\"{$color["body"]}\"><td>";
 
 	// This is for those who utilize multiple MPD servers setup in phpMp's config
  	echo '<form method=post action="index.php" target=_top>';
@@ -248,11 +248,12 @@ function server( $servers, $host, $port, $color, $config )
 		// If the host is the current host, place it at the top, otherwise put it under that
 		if( strcmp( $servers[$x][0], $host ) == "0" && strcmp( $servers[$x][1], $port ) == "0" )
 		{
-			$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
+			$sel1 .= "<option selected value=\"$x\">{$servers[$x][2]}</option>";
+#			$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
 		}
 		else
 		{
-			$sel2 .= '<option value=' . $x . '>' . ( ( $servers[$x][2] != '' ) ? $servers[$x][2] : $servers[$x][0] ) . '</option>';
+			$sel2 .= "<option value=\"{$x}\">" . ( ( $servers[$x][2] != '' ) ? $servers[$x][2] : $servers[$x][0] ) . "</option>";
 		}
 	}
 	$sel2.= '</select>&nbsp';
@@ -267,10 +268,9 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
-	echo "<table summary=\"Search\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+	echo "<table summary=\"Search\" border=0 cellspacing=1 bgcolor=\"{$color["meta"]["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Search</b></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"][1] . "\">";
-	echo "<td>";
+	echo "<tr bgcolor=\"{$color["meta"]["body"][1]}\"><td>";
 	echo "<select name=search>";
 	function localPrintFileNameOption( $search, $find )
 	{
@@ -358,11 +358,11 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "</form>";
 	if( isset( $search ) && ! empty( $search ) && ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n");
+		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
 	}
 	else if( isset( $find ) && ! empty( $find ) &&  ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n");
+		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
 	}
 
 	$arg_url = rawurlencode( $arg );
@@ -391,8 +391,8 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 			$tagged_info["title"] = "Music";
 		}
 
-		printMusicTable( $add_all, $config, $color, $tagged_info, $sort_array, $server, $dir, $addperm, $feature, $ordered );
-		printMusicTable( $add_all, $config, $color, $file_info, $sort_array, $server, $dir, $addperm, $feature, 0 );
+		printMusicTable( $add_all, $config, $color["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $addperm, $feature, $ordered );
+		printMusicTable( $add_all, $config, $color["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $addperm, $feature, 0 );
 	}
 }
 ?>

@@ -9,9 +9,6 @@
 	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
 	   have the zlib dependency, for example (even though I couldn't imagine a php system that doesn't have it).
 
-*) [Streams Menu]
-	*) Need to sort and put a index in this menu, should be trivial now that printMusicTable
-
 Future (doesn't have to be before release)
 ------------------------------------------
 
@@ -29,6 +26,9 @@ Future (doesn't have to be before release)
 
 *) [Streams functions]
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
+
+*) [Streams Menu]
+	*) Need to sort and put a index in this menu, it would be best if printMusicTable gets rewritten first
 
 *) [XML Parser]
 	*) Rid of duplicate code in the XML Parser functions

@@ -2,10 +2,10 @@
 include "theme.php";
 $phpMpVersion="0.12.0-svn";
 
- /*
-  *	$vars => An array of the get variables to be checked
-  *	$num => How many variables there are (so extras aren't added for security)
-  */
+ /**************************************************************************************#
+ #	$vars => An array of the get variables to be checked				#
+ #	$num => How many variables there are (so extras aren't added for security)	#
+ #**************************************************************************************/
 function setupReceivedVars( $vars, $num )
 {
 	$i = 0;
@@ -32,16 +32,19 @@ function setupReceivedVars( $vars, $num )
 	}
 }
 
-/*
-   The crop function deletes all but the currently playing song
-   from the current playlist
+/***********************************************************************************************#
+#												#
+#	crop: deletes all but the currently playing song from the current playlist		#
+#												#
+#***********************************************************************************************#
+#												#
+#   $fp => connection										#
+#   $current => value of the current song (starts at '0')					#
+#   $playlistlength => value of the number of songs in the current playlst (starts at '1')	#
+#												#
+#***********************************************************************************************/
 
-   $fp => connection
-   $current => value of the current song (starts at '0')
-   $playlistlength => value of the number of songs in the
-      current playlst (starts at '1')
-*/
-function crop($fp,$current,$playlistlength)
+function crop( $fp, $current, $playlistlength )
 {
         $playlistlength -= 1;
 
@@ -66,16 +69,13 @@ function initialConnect( $fp )
 		$got =  fgets( $fp, "1024" );
 		if( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
-		        $MPDversion = preg_replace( "/^OK MPD /", "", $got );
-			break;
+		        return preg_replace( "/^OK MPD /", "", $got );
 		}
 		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
-			echo "$got<br>";
-			break;
+			return $got;
 		}
 	}
-	return $MPDversion;
 }
 
 function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
@@ -109,7 +109,7 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 
         // By the time you read this the 'kill' command will hopefully be a non-default compile time 
 	// option. $arg is also used here, so to make sure someone doesn't kill your MPD leave it.
-	if (strncmp("kill",$command,strlen("kill")) || (! isset($command) && strncmp("kill",$arg,strlen("kill"))))
+	if( strncmp( "kill", $command, strlen( "kill" )) || ( ! isset( $command ) && strncmp( "kill", $arg, strlen( "kill" ))))
 	{
 	          fputs( $fp, "$command\n" );
 	}
@@ -136,38 +136,38 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 	}
 }
 
-function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp, $passarg, $ordered )
+function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $pcount, $dcount, $has_password, $commands, $color, $server, $servers, $fp, $passarg, $ordered )
 {
 	echo "<!-- Begin displayDirectory  -->";
 	// The next line needs a cellspacing value of 2 since the other tables have 2 tables, and this one only has one
-	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"" . $color["title"] . "\">";
-	echo "<tr><td><b>$title</b>";
-	echo "&nbsp;";
+	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"{$color["title"]}\">";
+	echo "<tr><td><b>$title</b>&nbsp;";
 
 	if( $dcount > "0" )
 	{
-		if( count( $music["file"] ) > "0" && count( $music["tag"] ) > "0" )
+		if( $mfcount > "0" && $mtcount > "0" )
 		{
- 		        echo "<small>(<a href=\"#tagged\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
+ 		        echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 		}
-		else if( count( $music["file"] ) > "0" || count( $music["tag"] ) > "0" )
+		else if( $mfcount > "0" || $mtcount > "0" )
 		{
-			if( count( $music["file"] ) == "0" || count( $music["tag"] ) == "0" )
+			if( $mfcount > "0" )
 			{
-		 	        echo "<small>(<a href=\"#music\">Music</a>)</small>&nbsp;";
+		 	        echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 			}
-			else
+			if( $mtcount > "0" )
 			{
-		 	        echo "<small>(<a href=\"#tagged\">Tagged</a>)</small>&nbsp;<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
+		 	        echo "<small>(<a href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
 			}
 		}
+
 	}
-	else if( count( $music["file"] ) > "0" && count( $music["tag"] ) > "0" )
+	else if( $mfcount > "0" && $mtcount > "0" )
 	{
-		echo "<small>(<a href=\"#untagged\">Untagged</a>)</small>&nbsp;";
+		echo "<small>(<a href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 	}
 
-	if ( isset( $playlists ) && $playlists > "0" )
+	if ( $pcount > "0" )
 	{
 	        echo "<small>(<a title=\"Jump to Saved Playlists\" href=\"#playlists\">Saved Playlists</a>)</small>&nbsp;";
 	}
@@ -242,7 +242,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 
 	echo "&nbsp";
 	echo "</small></td></tr>";
-	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td colspan=2>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td colspan=2>";
 	$dirs = split( "/", $dir );
 	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered\">Music</a>";
 	$build_dir = "";
@@ -255,7 +255,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 		$dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir.="$dirs[$i]";
 		echo " / ";
-		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	if ( $i > "0" )
@@ -269,7 +269,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $music, $playlists, $h
 		$build_dir.=$dirs[$i];
 		$build_dir = rawurlencode( $build_dir );
 		echo " / ";
-		echo "<a title=\"Jump to " . $dirs[$i]  . "\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
+		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	$status = getStatusInfo( $fp );
@@ -384,7 +384,6 @@ function characterDataHandler( $parser , $data )
 	{
 		return;
 	}
-
 
 	if( $xml_current_tag_state == "SERVER_NAME" )
 	{

@@ -167,11 +167,11 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		$id = $ret["Id"];
 		if( isset($num) && ( $num == $count ))
 		{
-			echo "<tr bgcolor=\"". $color["current"] . "\">";
+			echo "<tr bgcolor=\"{$color["current"]}\">";
 		}
 		else
 		{
-		        echo "<tr bgcolor=\"" . $color["body"][($count%2)] . "\">";
+		        echo "<tr bgcolor=\"{$color["body"][($count%2)]}\">";
 		}
 		echo "<td valign=top><a name=$count></a><small>";
 		if( $commands["delete"] == "0" )
@@ -240,7 +240,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		//  Else show the beginning ... string
 		if( $start > "0" )
 		{
-			echo "<tr bgcolor=\"" . $color["body"][($start-1)%2] . "\">";
+			echo "<tr bgcolor=\"{$color["body"][($start-1)%2]}\">";
 			echo "<td colspan=2 align=center><small>";
 			echo "<a title=\"Unhide the playlist\"  href=\"index.php?body=playlist&amp;server=$server&amp;hide=0&amp;show_options=$show_options\">...</a>";
 			echo "</small></td></tr>";
@@ -257,7 +257,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	{
 		if( $length > ($spread+1) )
 		{
-			echo "<tr bgcolor=\"" . $color["body"][1] . "\">";
+			echo "<tr bgcolor=\"{$color["body"][1]}\">";
 			echo "<td colspan=2 align=center><small>";
 			echo "(<a title=\"Hide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=1&amp;show_options=$show_options\">condense</a>)";
 			echo "</small></td></tr>";
@@ -297,7 +297,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	}
 	if ( $hide > 0 && $end < ($length-1) )
 	{
-		echo "<tr bgcolor=\"" . $color["body"][(($end+1)%2)] . "\">";
+		echo "<tr bgcolor=\"{$color["body"][(($end+1)%2)]}\">";
 		echo "<td colspan=2 align=center><small>";
 		echo "<a title=\"Unhide the playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=0&amp;show_options=$show_options\">...</a>";
 		echo "</small></td></tr>";

@@ -1,17 +1,114 @@
-Fri Dec 17 13:46:31 PST 2004  avuton@gmail.com
-  * Fix find'ing/sorting
+Mon Dec 20 18:43:18 PST 2004  avuton@gmail.com
+  * Fix for addall in single music menu
 
-Fri Dec 17 12:30:25 PST 2004  avuton@gmail.com
-  * tag/file separation & printMusicTable() rewrite completion
-  
-  This concludes about 2 weeks of work to get printMusicTable whipped into a shape that I can deal with, that should be able to be better used with the stream() feature and future features. This also simplifies some things that were being done in one function are being done in two now, with minimal code duplication, but it really is necessary for both simplifications purpose and for completely correct sorting.
-  
-  There are for sure a few bugs here, I know, for example, that there are no anchors in the displayDirectory. This should be rectified very soon, I need to get this out due mostly to major issues with the old trunk.
+Mon Dec 20 18:39:26 PST 2004  avuton@gmail.com
+  * Changelog update
 
-Mon Nov 19 09:18:46 PST 2007  avuton@gmail.com
-  * Breaking down lsinfo2musicTable: Snapshot 2
+Mon Dec 20 18:35:58 PST 2004  avuton@gmail.com
+  * This fixes the issues with the anchors in displayDirectory(), more of a temporary ugly fix, but works for the moment
+
+Mon Dec 20 18:22:48 PST 2004  avuton@gmail.com
+  * Transformation to being able to pick shown metadata: Part 1
+  Rewrote pickSort() and part of msort to:
+  	*) Get rid of the old filename code in msort()
+  	*) Make pickSort be smarter about what's in display_fields config field. 
   
-  This prints most of the information we split up before, it's not perfect at the moment, but it's getting better. I expect maybe one more snapshot and we'll be ready to commit.
+  Still have much more code to write but this is a good beginning.
+  
+
+Mon Dec 20 16:50:49 PST 2004  avuton@gmail.com
+  * spacing...
+
+Mon Dec 20 16:18:19 PST 2004  avuton@gmail.com
+  * Remove more cruft from the msort() function from when filenames were sorted with it
+
+Mon Dec 20 16:14:32 PST 2004  avuton@gmail.com
+  * More spacing
+
+Sun Dec 19 18:27:45 PST 2004  avuton@gmail.com
+  * Fix anchor count in displayDirectory
+
+Sun Dec 19 18:25:38 PST 2004  avuton@gmail.com
+  * Fix singular music title
+
+Sun Dec 19 16:43:43 PST 2004  avuton@gmail.com
+  * Temporarily comment out the anchors at the top
+
+Sun Dec 19 16:43:16 PST 2004  avuton@gmail.com
+  * More simplification
+
+Sun Dec 19 16:42:17 PST 2004  avuton@gmail.com
+  * More moving to an array type from the dprint/etc..
+
+Sun Dec 19 16:29:00 PST 2004  avuton@gmail.com
+  * Simplify the addall function
+
+Sun Dec 19 16:26:42 PST 2004  avuton@gmail.com
+  * Fix the spacing & keep from getting the value into the array every loop in taginfo2musicTable()
+
+Sun Dec 19 16:23:55 PST 2004  avuton@gmail.com
+  * Spacing
+
+Sun Dec 19 16:05:52 PST 2004  avuton@gmail.com
+  * Make playlist/directory info into an array, group it all together in a nice package
+
+Sun Dec 19 14:29:21 PST 2004  avuton@gmail.com
+  * Change array html integration in index.php
+
+Sun Dec 19 14:24:34 PST 2004  avuton@gmail.com
+  * Change array html integration in info.php
+
+Sun Dec 19 14:23:15 PST 2004  avuton@gmail.com
+  * Change array html integration in utils.php
+
+Sun Dec 19 14:21:41 PST 2004  avuton@gmail.com
+  * Change array html integration in playlist.php
+
+Sun Dec 19 14:15:46 PST 2004  avuton@gmail.com
+  * Change array html integration in info2html.php
+
+Sun Dec 19 14:05:31 PST 2004  avuton@gmail.com
+  * Change array html integration in features.php
+  
+  This is just a cosmetic change to change all arrays from
+  
+  from: " . $blah["music"] . "
+  to: {$blah["music"]}
+  
+  it integrates right into the HTML this way
+
+Sun Dec 19 12:42:30 PST 2004  avuton@gmail.com
+  * Separate the colors of printMusicTable() meta/file
+
+Sun Dec 19 12:26:30 PST 2004  avuton@gmail.com
+  * Simplify InitalConnect()
+
+Sun Dec 19 12:26:17 PST 2004  avuton@gmail.com
+  * Spacing
+
+Sun Dec 19 12:25:29 PST 2004  avuton@gmail.com
+  * Remove more unneeded vars from lsinfo2directoryTable() / printSavePlaylistTable()
+
+Sun Dec 19 12:24:54 PST 2004  avuton@gmail.com
+  * Commenting
+
+Sun Dec 19 12:24:26 PST 2004  avuton@gmail.com
+  * Fix the fucked svn merge
+
+Fri Dec 17 21:13:43 PST 2004  avuton@gmail.com
+  * Make printMusicTable() more generic, Add more commenting
+
+Fri Dec 17 21:12:46 PST 2004  avuton@gmail.com
+  * This will make [add] take as little cell space as possible
+
+Fri Dec 17 20:54:03 PST 2004  avuton@gmail.com
+  * printMusicTable update/commenting
+  
+  This cuts down the splitTagFile() and updates printMusicTable() 
+  
+
+Fri Dec 17 20:02:56 PST 2004  avuton@gmail.com
+  * This completes the printMusicTable rewrite tag/file separation
 
 Thu Dec 16 03:00:20 PST 2004  avuton@gmail.com
   * Breaking down lsinfo2musicTable: Snapshot 1

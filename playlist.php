@@ -81,7 +81,7 @@ if( isset( $add ) && count( $add ) > "0" )
 	$str = "command_list_begin\n";
 	for( $i=0; $i < count( $add ); $i++ )
 	{
-		$str .= "add \"" . $add[$i] . "\"\n";
+		$str .= "add \"{$add[$i]}\"\n";
 	}
 	fputs( $fp, $str . "command_list_end\n" );
 	initialConnect( $fp );
@@ -95,7 +95,7 @@ $status = getStatusInfo( $fp );
 
 if( isset( $status["error"] ))
 {
-	echo "Error: " . $status["error"] . "<br>\n";
+	echo "Error:&nbsp;{$status["error"]}<br>\n";
 }
 if( isset( $crop ) && strcmp( $crop, "yes" ) == "0" )
 {
@@ -112,11 +112,11 @@ if( isset( $status["state"] ))
 
 	// STATUSBAR Begin: Top playlist_body
 	echo "<!-- Begin the Top of the first table, Should only display the status and refresh -->";
-        echo "<table summary=\"Status &amp; Refresh\" cellspacing=2 bgcolor=\"" . $colors["playing"]["title"] . "\">";
+        echo "<table summary=\"Status &amp; Refresh\" cellspacing=2 bgcolor=\"{$colors["playing"]["title"]}\">";
 	echo "<tr valign=\"middle\"><td>";
 
  	// The global table tags begin here. This is code to make the border, this really is a hack but improves looks quite a bit
-	echo "<table summary=\"Border Table Hack\" align=\"center\" bgcolor=\"" . $colors["playing"]["title"] . "\">";
+	echo "<table summary=\"Border Table Hack\" align=\"center\" bgcolor=\"{$colors["playing"]["title"]}\">";
 	echo "<tr>";#<td width=\"100%\">";
 
 	echo "<b>";
@@ -155,9 +155,9 @@ if( isset( $status["state"] ))
 
 		// SONG INFO Begin: Second table from top
 		$song_info = getPlaylistInfo( $fp, $num );
-		echo "<table summary=\"Current Song Information\" cellspacing=0 bgcolor=\"" . $colors["playing"]["body"] . "\" cellpadding=0>";
+		echo "<table summary=\"Current Song Information\" cellspacing=0 bgcolor=\"{$colors["playing"]["body"]}\" cellpadding=0>";
 		echo "<tr>";
-		echo "<td align=\"" . $config["playlist_align"] ."\">";
+		echo "<td align=\"{$config["playlist_align"]}\">";
 		echo "<a title=\"Jump to the Current Song\" href=#$num>";
 
 		// This is in info2html.php
@@ -205,13 +205,13 @@ if( isset( $status["state"] ))
 		// We don't wanna hear if a bitrate is at 0 kbps
 		if( $status["bitrate"] > "0" )
 		{
-		          echo "[" . $status["bitrate"] . " kbps]";
+		          echo "[{$status["bitrate"]} kbps]";
 		}
 
 		echo "</td></tr></table>";
 
 		echo "<!-- Begin Seek Bar -->";
-		echo "<table summary=\"Seek Bar\" align=\"center\" cellspacing=0 bgcolor=\"" . $colors["playing"]["body"] . "\" cellpadding=0>";
+		echo "<table summary=\"Seek Bar\" align=\"center\" cellspacing=0 bgcolor=\"{$colors["playing"]["body"]}\" cellpadding=0>";
 		echo "<tr><td align=\"left\" width=\"5%\"></td>";
 
 		$col=$colors["time"]["background"];
@@ -238,7 +238,7 @@ if( isset( $status["state"] ))
 					$sec = "0" . $sec;
 				}
 
-				echo "<td border=0 width=8 height=8 bgcolor=\"" . $col . "\">";
+				echo "<td border=0 width=8 height=8 bgcolor=\"$col\">";
 				if( $commands["seekid"] == "1" )
 				{
 					echo "<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=seekid&amp;arg=$songid&amp;arg2=$seek\" title=\"$min:$sec\">";
@@ -264,14 +264,14 @@ if( isset( $status["state"] ))
 }
 
 // crossfade | random | repeat (at bottom of file)
-echo "<table summary=\"Crosfade | random | repeat\"  align=\"" . $config["playlist_align"] . "\" cellspacing=0 bgcolor=\"" . $colors["playing"]["body"] . "\" cellpadding=0>";
-echo "<tr><td align=\"" . $config["playlist_align"]  . "\"><small>";
+echo "<table summary=\"Crosfade | random | repeat\"  align=\"{$config["playlist_align"]}\" cellspacing=0 bgcolor=\"{$colors["playing"]["body"]}\" cellpadding=0>";
+echo "<tr><td align=\"{$config["playlist_align"]}\"><small>";
 
 if( $commands["crossfade"] == "1" )
 {
 	if( $xfade == "0" )
 	{
-		echo "<a title=\"Set Crossfade to " . $config["crossfade_seconds"] . " Seconds\" ";
+		echo "<a title=\"Set Crossfade to {$config["crossfade_seconds"]} Seconds\" ";
 		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=crossfade&amp;arg=" . $config["crossfade_seconds"]*(int)(!$xfade) . "\">crossfade</a>";
 	}
 	else
@@ -347,10 +347,10 @@ echo "</td></tr></table>";
 echo "</td></tr></table>";
 
 // Begin [<<][Play][>>][| |][Stop] Table
-echo "<table summary=\"[<<][Play][>>][| |][Stop]\" align=\"" . $config["playlist_align"] . "\" cellspacing=1 bgcolor=\"" . $colors["playing"]["title"] . "\" cellpadding=0>";
+echo "<table summary=\"[<<][Play][>>][| |][Stop]\" align=\"{$config["playlist_align"]}\" cellspacing=1 bgcolor=\"{$colors["playing"]["title"]}\" cellpadding=0>";
 echo "<tr>";
 echo "<!-- Cannot correctly space 'nowrap' td's -->";
-echo "<td align=\"" . $config["playlist_align"]  ."\" nowrap>";
+echo "<td align=\"{$config["playlist_align"]}\" nowrap>";
 
 if( ( strcmp( $status["state"], "play" ) == "0" && $commands["play"] == "1" ) || strcmp( $status["state"], "pause" ) == "0" && $commands["pause"] == "1" )
 {
@@ -439,7 +439,7 @@ if( strcmp( $config["playlist_align"], "center" ))
 if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0" )
 {
 
-	echo "<table summary=\"Volume\" cellspacing=2 bgcolor=\"" . $colors["volume"]["title"] . "\">";
+	echo "<table summary=\"Volume\" cellspacing=2 bgcolor=\"{$colors["volume"]["title"]}\">";
 	echo "<tr>";
 	echo "<!-- Cannot correctly space 'nowrap' td's -->";
 	echo "<td align=\"center\"><b>Volume</b></td>";
@@ -453,7 +453,7 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	}
 	else if ( $commands["setvol"] == "1")
 	{
-		echo "<a title=\"Decrease Volume by ".$config["volume_incr"]."%\" ";
+		echo "<a title=\"Decrease Volume by {$config["volume_incr"]}%\" ";
 		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"] - $config["volume_incr"]) . "\"><</a>";
 	}
 	echo "</td>";
@@ -465,18 +465,18 @@ if( $status["volume"] >= "0" && strcmp( $config["display_volume"], "yes") == "0"
 	echo "<table summary=\"Volume Hack\" cellspacing=0 cellpadding=0>";
 	for( $i=0; $i < round( $status["volume"]/$vol_div ); $i++ )
 	{
-		echo "<td width=5 bgcolor=\"" . $colors["volume"]["foreground"]  . "\" height=8></td>";
+		echo "<td width=5 bgcolor=\"{$colors["volume"]["foreground"]}\" height=8></td>";
 	}
 	for (; $i < round( 100/$vol_div ); $i++ )
 	{
-		echo "<td width=5 bgcolor=\"" . $colors["volume"]["background"] . "\"></td>";
+		echo "<td width=5 bgcolor=\"{$colors["volume"]["background"]}\"></td>";
 	}
 	echo "<!-- End Seek Bar -->";
 	echo "</table></td>";
 	echo "<td valign=\"middle\" align=\"center\">";
 	if( $status["volume"] != "100" && $commands["setvol"] == "1")
 	{
-		echo "<a  title=\"Increase Volume by " . $config["volume_incr"] . "%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
+		echo "<a  title=\"Increase Volume by {$config["volume_incr"]}%\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=" . ($status["volume"]+$config["volume_incr"]) . "\">></a>";
 	}
 	else if( $status["volume"]=="100" )
 	{
@@ -490,7 +490,7 @@ echo "<br>";
 
 if( ! $status["playlistlength"] == 0 )
 {
-	echo "<table summary=\"Playlist Table (Border)\" cellspacing=1 bgcolor=\"" . $colors["playlist"]["title"] . "\">";
+	echo "<table summary=\"Playlist Table (Border)\" cellspacing=1 bgcolor=\"{$colors["playlist"]["title"]}\">";
 	echo "<tr><td>";
 
 	// This is for the border table
@@ -507,8 +507,8 @@ if( ! $status["playlistlength"] == 0 )
 			echo "<small>(<a href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=0\">hide</a>)</small></td></tr>";
 		}
 	}
-	echo "<tr align=\"" . $config["playlist_align"] . "\">";
-	echo "<td nowrap align=\"" . $config["playlist_align"] . "\">";
+	echo "<tr align=\"{$config["playlist_align"]}\">";
+	echo "<td nowrap align=\"{$config["playlist_align"]}\">";
 	if( strcmp( $config["playlist_option_hide"], "yes" ) || $show_options == "1" )
 	{
 		echo "<small>";

@@ -31,11 +31,17 @@ $colors["directories"]["title"] = "#bbbbff";
 $colors["directories"]["body"][0] = "#eeeeff";
 $colors["directories"]["body"][1] = "#ddddff";
 
-// Colors for Music
-$colors["music"]["title"] = "#88ff88";
-$colors["music"]["body"][0] = "#eeffee";
-$colors["music"]["body"][1] = "#ccffcc";
-$colors["music"]["sort"] = "#aaffaa";
+// Colors for Music Table, with metadata
+$colors["music"]["meta"]["title"] = "#88ff88";
+$colors["music"]["meta"]["body"][0] = "#eeffee";
+$colors["music"]["meta"]["body"][1] = "#ccffcc";
+$colors["music"]["meta"]["sort"] = "#aaffaa";
+
+// Colors for the Music Table, without metadata 
+$colors["music"]["file"]["title"] = "#88ff88";
+$colors["music"]["file"]["body"][0] = "#eeffee";
+$colors["music"]["file"]["body"][1] = "#ccffcc";
+$colors["music"]["file"]["sort"] = "#aaffaa";
 
 // Colors for Playlist Table
 $colors["playlist"]["title"] = "#ffaaaa";
@@ -57,17 +63,18 @@ $colors["outputs"]["title"] = "#aaffaa";
 $colors["outputs"]["body"][0] = "#ccffcc";
 $colors["outputs"]["body"][1] = "#eeffee";
 
-// Colors for Search
-$colors["search"]["title"] = "#88ff88";
-$colors["search"]["body"][0] = "#ccffcc";
-$colors["search"]["body"][1] = "#eeffee";
-$colors["search"]["sort"] = "#aaffaa";
+// Colors for Search Music Table without metadata
+$colors["search"]["file"]["title"] = "#88ff88";
+$colors["search"]["file"]["body"][0] = "#ccffcc";
+$colors["search"]["file"]["body"][1] = "#eeffee";
+$colors["search"]["file"]["sort"] = "#aaffaa";
 
-// Colors for Music
-$colors["music"]["title"] = "#88ff88";
-$colors["music"]["body"][0] = "#eeffee";
-$colors["music"]["body"][1] = "#ccffcc";
-$colors["music"]["sort"] = "#aaffaa";
+// Colors for Search Music Table with metadata
+$colors["search"]["meta"]["title"] = "#88ff88";
+$colors["search"]["meta"]["body"][0] = "#ccffcc";
+$colors["search"]["meta"]["body"][1] = "#eeffee";
+$colors["search"]["meta"]["sort"] = "#aaffaa";
+
 // Colors for Server Table
 $colors["server"]["title"] = "#cccccc";
 $colors["server"]["body"] = "#eeeeee";

@@ -6,12 +6,12 @@ function fsort( $a, $b )
 
 function msort( $a, $b )
 {
-	global $sort_array, $config, $ordered;
+	global $sort_array, $ordered;
 	$i = "0";
 	$ret = "0";
 
 	// While not filenames_only, while in the first 7 sort_arrays and if ret is 0
-	while( strcmp( $config["filenames_only"], "yes" ) && $i < "7" && $ret == "0" )
+	while( $i < count( $sort_array ) && $ret == "0" )
 	{
 		if( ! isset( $a[ ($sort_array[$i]) ] ) && isset( $b[ ($sort_array[$i]) ] ))
 		{
@@ -46,39 +46,25 @@ function msort( $a, $b )
 		}
 		$i++;
 	}
-	if ( $ret == "0" )
-	{
-		$ret = strcasecmp( basename( $a["file"] ), basename( $b["file"] ) );
-	}
 	return $ret;
 }
-
+/***********************************************************************************************************************#
+#															#
+#	pickSort(): Simply this takes $pick and makes it the first value in a string containing array $sort_array	#
+#															#
+#***********************************************************************************************************************/
 function pickSort( $pick )
 {
 	global $sort_array;
-	switch( $pick )
+
+	$ret = $pick;
+	foreach( $sort_array as $value )
 	{
-		case $sort_array[0]:
-			return "$pick,$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[4],$sort_array[5],$sort_array[6]";
-			break;
-		case $sort_array[1]:
-			return "$pick,$sort_array[0],$sort_array[2],$sort_array[3],$sort_array[4],$sort_array[5],$sort_array[6]";
-			break;
-		case $sort_array[2]:
-			return "$pick,$sort_array[0],$sort_array[1],$sort_array[3],$sort_array[4],$sort_array[5],$sort_array[6]";
-			break;
-		case $sort_array[3]:
-			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[4],$sort_array[5],$sort_array[6]";
-			break;
-		case $sort_array[4]:
-			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[5],$sort_array[6]";
-			break;
-		case $sort_array[5]:
-			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[4],$sort_array[6]";
-			break;
-		case $sort_array[6]:
-			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[4],$sort_array[5]";
-			break;
+		if( strncmp( $pick, $value, strlen( $pick )))
+		{
+			$ret .= "," . $value;
+		}
 	}
+	return $ret;
 }
 ?>

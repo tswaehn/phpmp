@@ -11,9 +11,8 @@ if( ! isset( $sort ))
 
 $sort_array = split( ",", $sort );
 $lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );
-
-list( $dprint, $dindex, $dcount ) = lsinfo2directoryTable( $lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"] );
-list( $pprint, $pindex ) = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );
+$dinfo = lsinfo2directoryTable( $lsinfo, $server, $sort, $commands["add"], $colors["directories"]["body"] );
+$pinfo = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );
 
 if( ! empty( $lsinfo["music"] ))
 {
@@ -24,19 +23,39 @@ if( ! empty( $lsinfo["music"] ))
 	unset( $tagged, $untagged );
 }
 
+if( isset( $file_info["count"] ))
+{
+	$fcount = $file_info["count"];
+}
+else
+{
+	$fcount = "0";
+}
+
+if( isset( $tagged_info["count"] ))
+{
+	$tcount = $tagged_info["count"];
+}
+else 
+{
+	$tcount = "0";
+}
+
 /* This is the features section, just throw a new feature in features.php, make a link in utils and edit below and you have a new feature */
 if( isset( $feature ))
 {
 	require "features.php";
 
 	// This is probably an ugly (quick) solution to an easy problem, but this makes sure that if 'search' is clicked (Tagged) & (Untagged) don't show in the displayDirectory. 
-	if( strcmp( $feature, "search" ) == "0" && ! empty( $arg ))
+	if( strcmp( $feature, "search" ) == "0" && strlen( $arg ) > "0" )
 	{
-		displayDirectory( $dir, $dir_url, $sort, "Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+		displayDirectory( $dir, $dir_url, $sort, "Current Directory", $fcount, $tcount, 0, 0,
+			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 	}
 	else
 	{
-		displayDirectory( $dir, $dir_url, $sort, "Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+		displayDirectory( $dir, $dir_url, $sort, "Current Directory", 0, 0, 0, 0,
+			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 	}
 
 	if( ! isset ( $arg ))
@@ -85,29 +104,24 @@ if( isset( $feature ))
 else
 {
 	$feature = "";
-	displayDirectory( $dir, $dir_url, $sort, "Current Directory", 0, count( $pprint ), $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+	displayDirectory( $dir, $dir_url, $sort, "Current Directory", $fcount, $tcount, $pinfo["count"], $dinfo["count"],
+		$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
 
 	// The next few are targeted from URLs
 	if( isset( $save ) && strcmp( $save, "yes" ) == "0" )
 	{
-		printSavePlaylistTable( $save, $server, $colors["playlist"] );
+		printSavePlaylistTable( $server, $colors["playlist"] );
 	}
-	printDirectoryTable( $dcount, $dprint, $dindex, $dir, $sort, $server, $commands["add"], $colors["directories"] );
+	printDirectoryTable( $dinfo, $dir, $sort, $server, $commands["add"], $colors["directories"] );
 
-	if( ! empty( $lsinfo["music"] ))
+	if( ! empty( $tagged_info ) > "0" || ! empty ( $file_info ) > "0" )
 	{
-		if( empty( $tagged_info["print"] ))
-		{
-			$file_info["title"] = "Music";
-		}
-		if( empty( $file_info["print"] ))
-		{
-			$tagged_info["title"] = "Music";
-		}
-		printMusicTable( $add_all, $config, $colors["music"], $tagged_info, $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
-		printMusicTable( $add_all, $config, $colors["music"], $file_info, $sort_array, $server, $dir, $commands["add"], $feature, 0 );
+
+		printMusicTable( $add_all, $config, $colors["music"]["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
+		printMusicTable( $add_all, $config, $colors["music"]["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, 0 );
+
 	}
 
-	printPlaylistTable( $colors["playlist"], $server, $pprint, $pindex, $delete, $commands["rm"] );
+	printPlaylistTable( $colors["playlist"], $server, $pinfo, $delete, $commands["rm"] );
 }
 ?>

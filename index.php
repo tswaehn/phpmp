@@ -14,16 +14,15 @@ else
 {
 	$server = 0;
 }
-
 if ( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
 {
 	if ( $servers[$server][2] != '' )
 	{
-		$config["title"] .= " (" . $servers[$server][2] . ")";
+		$config["title"] .= " ({$servers[$server][2]})";
 	}
 	else
 	{
-		$config["title"] .= " (" . $servers[$server][0] . ")";
+		$config["title"] .= " ({$servers[$server][0]})";
 	}
 }
 
@@ -292,11 +291,11 @@ if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["play
 else if( ! isset( $body ) && ! isset( $feature ))
 {
 	unset( $hostport );
-	echo "<title>" . $config["title"] ."</title>";
+	echo "<title>{$config["title"]}</title>";
 	echo "</head>";
 
-	echo "<frameset " . $config["frames_layout"] . ">";
-	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder= " . $config["frame_border_size"] . ">";
+	echo "<frameset {$config["frames_layout"]}>";
+	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder= {$config["frame_border_size"]}>";
 	echo "<frame name=\"playlist\" src=\"index.php?body=playlist&amp;server=$server\" frameborder=0>";
 	echo "<noframes>NO FRAMES ... try phpMp+</noframes>";
 	echo "</frameset>";
@@ -306,7 +305,7 @@ else
 	unset( $hostport );
 	if( strcmp( $body, "playlist" ) == "0" )
 	{
-		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;hide=$hide&amp;show_options=$show_options&amp;server=" . $server . "\">";
+		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"{$config["refresh_freq"]};URL=index.php?body=playlist&amp;hide=$hide&amp;show_options=$show_options&amp;server=$server\">";
 	}
 	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
 	{
@@ -314,24 +313,24 @@ else
 		{
 			$sort = $config["default_sort"];
 		}
-		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=main&amp;sort=$sort&amp;dir=$dir&amp;ordered=$ordered&amp;server=" . $server . "\">";
+		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"{$config["refresh_freq"]};URL=index.php?body=main&amp;sort=$sort&amp;dir=$dir&amp;ordered=$ordered&amp;server=$server\">";
 	}
-	echo "<title>" . $config["title"] . " - " . $body . "</title>";
+	echo "<title>{$config["title"]} - $body</title>";
 
 	// I would _much_ rather have a php generated stylesheet
 	echo "<style type=\"text/css\">";
-	echo "* { font-family: " . $fonts["all"] . "; }";
+	echo "* { font-family: {$fonts["all"]}; }";
 	echo "A:link, A:visited, A:active { text-decoration: none; border-style: none none none none; }";
-	echo "a.green:link, a.green:active, a.green:visited, a.green:hover {background: " . $colors["playing"]["on"] . "}";
+	echo "a.green:link, a.green:active, a.green:visited, a.green:hover {background: {$colors["playing"]["on"]}}";
 	echo "table { width: 100%; border-style: none }";
 	echo "form { padding: 0; margin: 0 }";
 	echo "</style>";
 	echo "</head>";
 
-	echo "<body link=" . $colors["links"]["link"] . " ";
-	echo "vlink=" . $colors["links"]["visual"] . " "; 
-	echo "alink=" . $colors["links"]["active"] . " ";
-	echo "bgcolor=" . $colors["background"] . ">";
+	echo "<body link={$colors["links"]["link"]} ";
+	echo "vlink={$colors["links"]["visual"]} "; 
+	echo "alink={$colors["links"]["active"]} ";
+	echo "bgcolor={$colors["background"]}>";
 
 	echo "<!-- The Header (index.php) Ends Here, Body begins here -->";
 
