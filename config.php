@@ -136,7 +136,6 @@ $config = array(
 		
 		/****************************************************************************
 		/ Remove any of the following to get rid of the field in the music tables.  /
-		/ Please don't (re)move 'Time' from the end slot, it will break things atm. /
 		/***************************************************************************/
 		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 

@@ -335,46 +335,29 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 			{
 				$mprint[$i] = "";
 			}
-			if ( $config["display_fields"][ (sizeof($config["display_fields"]) - 1) ] == 'Time')
+
+			if( $addperm == "1" )
 			{
-				if( $addperm == "1" )
-				{
-					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
-					$mprint[$i] .= "target=\"playlist\" ";
-					$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-					$mprint[$i] .= "<td width=\"100%\" colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
-				}
-				else
-				{
-					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . ( sizeof( $config["display_fields"] ) - 1 ) . ">$split_filename</td><td>";
-				}
-
-				if ( isset($lsinfo["music"][$i]['Time'] ))
-				{
-					$mprint[$i] .= display_time($lsinfo["music"][$i]['Time']);
-				}
-				else
-				{
-					$mprint[$i] .= $config["unknown_string"];
-				}
-
-				$mprint[$i] .= "</td></tr>";
+				$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
+				$mprint[$i] .= "target=\"playlist\" ";
+				$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
+				$mprint[$i] .= "<td width=\"100%\" colspan=" . sizeof( $config["display_fields"] ) . ">$split_filename</td><td>";
 			}
 			else
 			{
-				if( $addperm == "1" )
-				{
-					$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][";
-					$mprint[$i] .= "<a title=\"Add this song to the active playlist\" ";
-					$mprint[$i] .= "target=\"playlist\" ";
-					$mprint[$i] .= "href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_filename\">add</a>]</td>";
-					$mprint[$i] .= "<td width=\"100%\" colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
-				}
-				else
-				{
-					$mprint[$i] = "<tr bgcolor=$col><td colspan=" . sizeof($config["display_fields"]) . ">$split_filename[0]</td></tr>";
-				}
+				$mprint[$i] = "<tr bgcolor=$col><td colspan=" . sizeof( $config["display_fields"] ) . ">$split_filename</td><td>";
 			}
+
+			if ( isset( $lsinfo["music"][$i]['Time'] ) && array_search( 'Time', $config["display_fields"] ))
+			{
+				$mprint[$i] .= display_time($lsinfo["music"][$i]['Time']);
+			}
+			else
+			{
+				$mprint[$i] .= $config["unknown_string"];
+			}
+
+			$mprint[$i] .= "</td></tr>";
 		}
 	}
 	if ( ! isset( $mprint ))

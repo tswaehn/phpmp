@@ -1,3 +1,9 @@
+Fri Dec 10 15:04:31 PST 2004  avuton@gmail.com
+  * Fix issue with double encoding url
+
+Fri Dec 10 15:00:25 PST 2004  avuton@gmail.com
+  * Fix core phpMp issue with moving time around in $config["display_fields"] or removing it completely even.
+
 Fri Dec 10 14:00:27 PST 2004  avuton@gmail.com
   * Fix problems with special chars and 'find'ing
 
