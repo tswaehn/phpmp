@@ -67,7 +67,7 @@ else {
 		print "</td></tr></table></form>\n";
 	}
 	else {
-		print "<form style=\"padding:0;margin:0;\" action=login.php? method=get>\n";
+		print "<form style=\"padding:0;margin:0;\" action=login.php? method=post>\n";
 		print "<table border=0 cellspacing=1 bgcolor=\"";
 		print $colors["password"]["title"];
 		print "\" width=\"100%\">\n";
