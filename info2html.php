@@ -65,7 +65,7 @@ function printSavePlaylistTable( $server, $color )
 	echo "<table summary=\"Save Playlist\" cellspacing=1 bgcolor=\"{$color["title"]}\">";
 	echo "<tr><td><b>Save Playlist</b></td></tr>";
 	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-	echo "<input name=arg size=40>";
+	echo "<input name=arg size=40 autocomplete=on>";
 	echo "<input type=hidden name=body value=main>";
 	echo "<input type=hidden name=server value=\"$server\">";
 	echo "<input type=hidden value=save name=command>";
@@ -194,6 +194,7 @@ function display_time( $seconds )
 
 function splitTagFile( $lsinfo, $config )
 {
+	$stats = array();
 	$tagged = array();
 	$untagged = array();
 
@@ -205,11 +206,25 @@ function splitTagFile( $lsinfo, $config )
 		}
 		else
 		{
+			for( $j = "0"; $j < count( $config["display_fields"] ); $j++ )
+			{
+				if( ! empty( $lsinfo[$i][ $config["display_fields"][$j] ] ) && ! in_array( $config["display_fields"][$j], $stats ))
+				{
+					$stats[$j] =  $config["display_fields"][$j];
+				}
+			}
 			$tagged[] = $lsinfo[$i];
 		}
 	}
 
-	return( array( $tagged, $untagged ));
+	for( $i = "0"; $i < count( $config["display_fields"] ); $i++ )
+	{
+		if( isset( $stats[$i] ))
+		{
+			$ret[] = $stats[$i];
+		}
+	}
+	return( array( $tagged, $untagged, $ret ));
 }
 
 function streamxml2musicTable( )
@@ -309,11 +324,6 @@ function fileinfo2musicTable( $info, $dir_url, $config, $color, $server, $addper
 function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url )
 {
 	$count = count( $info );
-	if( count( $info ) == "0" )
-	{
-		return 0;
-	}
-
 	$dir_url = rawurlencode( $dir_url );
 	$index = array();
 	$index_key = "mt";

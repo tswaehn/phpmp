@@ -1,3 +1,13 @@
+Fri Dec 24 23:27:42 PST 2004  avuton@gmail.com
+  * Turn autocomplete on for printSaveTable()
+
+Fri Dec 24 23:23:18 PST 2004  avuton@gmail.com
+  * Remove fields that are not in use from printMusicTable
+  This is a patch to taginfo2musicTable() to remove the metadata fields in which tags don't exist in the current music list/table.
+
+Fri Dec 24 23:22:54 PST 2004  avuton@gmail.com
+  * TODO update
+
 Fri Dec 24 13:34:08 PST 2004  avuton@gmail.com
   * Enable swap = "yes" by default. See how the people like it.
 

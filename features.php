@@ -316,8 +316,6 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	$dir_url = rawurlencode( $dir );
 	$sort_array = split( ",", $sort );
 
-	if( is_array( $untagged ) || is_array( $tagged ))
-	{
 		if( empty( $search ))
 		{
 			$url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
@@ -327,6 +325,9 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 			$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
 		}
 
+
+	if( is_array( $untagged ) || is_array( $tagged ))
+	{
 		$add_all = createAddAll( $lsinfo, $config["song_separator"] );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $ordered, $url );
 		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $color, $server, $addperm, $sort_array, $sort, $url );

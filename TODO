@@ -21,7 +21,7 @@ Future (doesn't have to be before release)
 *) [printMusicTable]
 	*) Try to remove columns that go unused from printMusicTable
 
-*) [printPlaylistTable]
+*) [printPlaylistInfo]
 	*) This table should have never gotten this big and complex. Needs to be broken down to pieces that are a page or less optimally
 
 *) [Search Feature]
@@ -37,7 +37,7 @@ Future (doesn't have to be before release)
 	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
 
 *) [Streams Menu]
-	*) Need to sort and put a index in this menu, it would be best if printMusicTable gets rewritten first
+	*) Need to sort and put a index in this menu, make it similar to all the other tables if possible
 
 *) [XML Parser]
 	*) Rid of duplicate code in the XML Parser functions

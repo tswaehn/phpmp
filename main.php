@@ -16,7 +16,7 @@ if( empty( $feature ))
 	if( ! empty( $lsinfo["music"] ))
 	{
 		$add_all = createAddAll( $lsinfo["music"], $config["song_separator"] );
-		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
+		list( $tagged, $untagged, $config["display_fields"] ) = splitTagFile( $lsinfo["music"], $config );
 		$tagged_info = taginfo2musicTable( $tagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $ordered, $url );
 		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config, $colors["music"], $server, $commands["add"], $sort_array, $sort, $url );
 		unset( $tagged, $untagged );
@@ -62,7 +62,7 @@ else
 		{
 			$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n", $config["display_fields"] );
 		}
-		list( $tagged, $untagged ) = splitTagFile( $lsinfo["music"], $config );
+		list( $tagged, $untagged, $config["display_fields"] ) = splitTagFile( $lsinfo["music"], $config );
 	}
 
 	displayDirectory( $dir, $dir_url, $sort, "Current Directory", count( $untagged ), count( $tagged ), 0, 0,

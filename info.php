@@ -329,6 +329,10 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 
 function getLsInfo( $conn, $command, $display_fields )
 {
+	$dir = array();
+	$music = array();
+	$playlist = array();
+
 	$mcount = -1;
 	$dcount = 0;
 	$pcount = 0;
@@ -347,7 +351,7 @@ function getLsInfo( $conn, $command, $display_fields )
 			echo "$got<br>";
 			break;
 		}
-		$el = strtok($got,":");
+		$el = strtok( $got, ":" );
 		if( strcmp( $el, "directory" ) == "0" )
 		{
 			$dir[$dcount] = str_replace( "$el: " , "", $got );
@@ -370,18 +374,7 @@ function getLsInfo( $conn, $command, $display_fields )
 		}
 		$music[$mcount]["$el"] = str_replace( "$el: ", "", $got);
 	}
-	if ( ! isset( $dir ))
-	{
-	        $dir = array();
-	}
-	if ( ! isset( $music ))
-	{
-	        $music = array();
-	}
-	if ( ! isset( $playlist ))
-	{
-	        $playlist = array();
-	}
+
 	$ret["dir"] = $dir;
 	$ret["music"] = $music;
 	$ret["playlist"] = $playlist;
