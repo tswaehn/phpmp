@@ -39,11 +39,8 @@ else {
 			break;
 		}
 		if(strncmp("updating_db",$got,strlen("updating_db"))==0) {
-			strtok($got,":");
-			$update_id = strtok("\0");
+			$update_id = preg_replace("/^updating_db: /","",$got);
 			$update_id = preg_replace("/\n/","",$update_id);
-			$update_id = preg_replace("/^ /","",$update_id);
-			$update_id = $got;
 			continue;
 		}
 		print "$got<br>";
@@ -59,6 +56,7 @@ else {
 		print ".";
 		flush();
 		sleep(1);
+		$status = getStatusInfo($fp);
 	}
 	print "<br>\n";
 	print "Update Succesful<br>\n";
