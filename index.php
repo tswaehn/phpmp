@@ -3,13 +3,6 @@ include "config.php";
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
-<head>
-<title><?php print $title?></title>
-</head>
-<?php
 
 if (!isset($_REQUEST['server']))
 {
@@ -19,8 +12,26 @@ else
 {
 	$server = $_REQUEST['server'];
 }
+if (sizeof($servers) > 1)
+{
+	if ($servers[$server][2] != '')
+	{
+		$title .= " (" . $servers[$server][2] . ")";
+	}
+	else
+	{
+		$title .= " (" . $servers[$server][0] . ")";
+	}
+}
 $host = $servers[$server][0];
 $port = $servers[$server][1];
+
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+<html>
+<head>
+<title>' . $title . '</title>
+</head>
+';
 
 if(0==strcmp($frames,"yes")) {
 	print "<frameset $frames_layout>\n";
