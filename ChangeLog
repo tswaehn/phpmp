@@ -1,3 +1,6 @@
+Fri Dec 17 13:46:31 PST 2004  avuton@gmail.com
+  * Fix find'ing/sorting
+
 Fri Dec 17 12:30:25 PST 2004  avuton@gmail.com
   * tag/file separation & printMusicTable() rewrite completion
   

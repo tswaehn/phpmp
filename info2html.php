@@ -386,10 +386,10 @@ function taginfo2musicTable( $info, $dir_url, $config, $color, $server, $addperm
 				{
 					if( isset( $info[$i][ $config["display_fields"][$x] ] ))
 					{
-						#$url = rawurlencode( $info[$i][ $config["display_fields"][$x] ] );
-						$mprint[$i] .= "<a title=\"Find by this keyword\" href=\"$url&amp;server=$server&amp;find=";
+						$local_url = rawurlencode( $info[$i][ $config["display_fields"][$x] ] );
+						$mprint[$i] .= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
 						$mprint[$i] .= strtolower( $config["display_fields"][$x] );
-						$mprint[$i] .= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
+						$mprint[$i] .= "&amp;arg=$local_url&amp;sort=$sort&amp;dir=$dir_url\">";
 						$mprint[$i] .= $info[$i][ $config["display_fields"][$x] ] . "</a>";
 					}
 					else
