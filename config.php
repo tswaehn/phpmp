@@ -1,46 +1,149 @@
 <?php
 
-// this is a list of your MusicDB (MDB) servers
-// if you only have one then only have one line, otherwise have a seperate line
-// for each of your servers you want to be able to control via the web interface
-// the fields in the array are:  hostname, port, description
-// the description field is only really useful if you have multiple servers
-$servers[] = array('localhost', 6600, 'Stereo');
-//$servers[] = array('192.168.0.40', 6600, 'Livingroom');
+// Required
 
-// OPTIONAL
-$title = "phpMp";
-global $song_display_conf;
-$song_display_conf = "(artist) title";
-$use_images = "no";
-$refresh_freq = 60;
-$default_sort = "Artist,Album,Track,Title,Time";
-// music list fields
-// can be any combination of 1 or more of the following fields in any order:
-// Artist, Title, Album, Track, Time
-$display_fields = array('Artist', 'Title', 'Album', 'Track', 'Time');
-global $unknown_string;
-$unknown_string = "";
-$frames_layout = "cols=\"1*,250\"";
-global $filenames_only;
-$filenames_only = "no";
-global $use_javascript_add_all;
-$use_javascript_add_all = "yes";
-$hide_threshold = 20;
-$use_cookies = "yes";
+/****************************************************
+/ This is a list of your MPD servers, one per line. /
+/ (host,port,alias)                                 /
+****************************************************/
+$servers[] = array('localhost', 6600, 'Shapeshifter');
+$servers[] = array('rocket', 6600, 'Rocket');
+$servers[] = array('micromachine', 6600, 'Micromachine');
 
-// VOLUME OPTIONS
-$display_volume = "yes";
-$volume_incr = "10";
+// Optional
+$config = array(
+		/*************************************************************
+		/ Change phpMp behaviour to where a button changes from play /
+		/ to pause and visa-versa, instead of showing all buttons    /
+		/************************************************************/
+		"play_pause" => "yes",
 
-// SHOULDN'T NEED TO TOUCH THIS
-global $song_seperator;
-$song_seperator = "rqqqrqqqr";
 
-// EXPERIMENTAL
-//no frames doesn't work!
-$frames = "yes"; // yes or no
+		/*************************************************************
+		/ Display the server in the title? (if more than one server) /
+		/************************************************************/
+                "server_in_title" => "yes",
+                
+		/***********************************************
+		/ The order your music files will be sorted in /
+		/**********************************************/
+		"default_sort" => "Artist,Album,Track,Title,Time",
 
-//include colors
-include "theme.php";
+		/******************************************************************
+		/ Use this to change the width of either the main/playlist window /
+		/*****************************************************************/
+		"frames_layout" => "cols=\"1*,250\"",
+
+		/******************************************
+		/ Set the value of crossfade (in seconds) /
+		/*****************************************/
+		"crossfade_seconds" => "10",
+
+		/*******************************************************************
+		/ The value of this +1 is how much of the active playlist is shown /
+		/ Set to 0 to disable                                              /
+		/******************************************************************/
+		"hide_threshold" => "15",
+
+		/***********************************************************
+		/ If "yes" this will replace your playlist without prompt. /
+		/**********************************************************/
+		"overwrite_playlists" => "yes",
+
+		/*************************************************
+		/ How often to refresh the active playlist frame /
+		/************************************************/
+		"refresh_freq" => "30",
+
+		/*******************************************
+		/ Yes to this to see the time left instead / 
+		/******************************************/
+		"time_left" => "no",
+
+		/************************************************************************
+		/ Playlist Align (this is useful for making the frame bigger)           /
+		/ Valid values are left, right, and center (center is good for scaling) /
+		/***********************************************************************/
+		"playlist_align" => "center",
+
+		/***************************************************************************
+		/ This is required for doing an addall                                     /
+		/ Without javascript this will try to addall through a URL and it will not /
+		/ work with default Apache values                                          /
+		***************************************************************************/
+		"use_javascript" => "yes",
+
+
+		/*******************************************************************
+		/ Right now this affects being able to change servers, remembering / 
+		/ your MPD password and weather the playlist is hidden or not      /
+		/******************************************************************/ 
+		"use_cookies" => "yes",
+
+		/*************************************************************
+		/ Use user-supplied images (see theme.php for more details). /
+		/************************************************************/
+		"use_images" => "no",
+
+		// Don't Edit!
+		"display_conf" => array(
+
+		/******************************************************************
+		/ These change the way your song is displayed above the playlist. /
+		/*****************************************************************/
+					"artist" => "(artist)",
+					"seperator" => " ",
+					"title" => "title"),
+
+		/**************************************************************************
+		/ This will wrap your words at count's characters if there are no spaces, /
+		/ the count is adjustable in case you change your font. This only affects /
+		/ the playlist frame. 0 to disable.                                       /
+ 		/*************************************************************************/
+		"wordwrap" => "0",
+
+		/*********************************************************
+		/ If you prefer not to have metadata (id3/vorbis) shown. /
+		/********************************************************/
+		"filenames_only" => "no",
+
+			// Don't Edit!
+			"regex" => array(
+
+			/****************************************************************
+			/ If "filenames_only" is set to yes configure the next options. /
+			/***************************************************************/
+				/************************************************************************
+				/ You can set some things to remove from your filenames easier to read. /
+				/***********************************************************************/
+				"remove" => array('.mp3', '.ogg', '.flac', '.aac', '.mod'),
+
+				/*************************
+				/ Replace _ with a space /
+				/************************/
+				"space" => "yes",
+
+				/*******************************************
+				/ Uppercase the first letter after a space /
+				/******************************************/
+				"uppercase_first" => "yes"),
+		
+		/***************************************************************************
+		/ Remove any of the following to get rid of the field in the music tables. /
+		/**************************************************************************/
+		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Time'),
+
+		/*****************
+		/ Volume Options /
+		/****************/
+		"display_volume" => "yes",
+		"volume_incr"    => "10",
+
+		/**************************
+		/ No need to change these /
+		/*************************/
+		"title" => "phpMp",
+		"unknown_string" => "",
+		"song_separator" => "rqqqrqqqr"
+		 );
 ?>

@@ -1,53 +1,65 @@
 <?php
-global $has_password;
-$has_password = 0;
-if (isset($_COOKIE["phpMp_password"]))
-{
-	$password = $_COOKIE["phpMp_password"];
-	$has_password = 1;
-}
-include "config.php";
+// This will extract the needed GET/POST variables
+extract(setupReceivedVars(array("delete", "feature", "save", "server", "sort"),5));
 
-if (!isset($_REQUEST['server']))
+if(!isset($sort))
 {
-	$server = 0;
+	$sort = $config["default_sort"];
+}
+
+$dir_url = rawurlencode($dir);
+$lsinfo = getLsInfo($fp,"lsinfo \"$dir\"\n");
+$sort_array = split(",",$sort);
+
+list($dprint, $dindex, $dcount) = lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"]);
+list($pprint, $pindex) = lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $commands["load"]);
+list($mprint, $mindex, $add_all) = lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colors["music"]["body"], $server, $commands["add"]);
+
+/* This is the features section, just throw a new feature in features.php, make a link in
+utils and edit below and you have a new feature */
+
+if(isset($feature))
+{
+	require "features.php";
+	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
+
+	echo "<!-- Begin $feature -->";
+	switch($feature)
+	{
+		case 'login':
+			login($fp, $config["default_sort"], $colors["login"], $server, $arg, $dir, $remember);
+			break;
+		case 'outputs':
+			outputs($fp, $host, $colors["outputs"], $server);
+			break;
+		case 'search':
+			search($fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"]);
+			break;
+		case 'server':
+			server($servers, $host, $colors["server"], $config);
+			break;
+		case 'stats':
+			stats($fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port);
+			break;
+		case 'stream':
+			stream($server, $colors["stream"], $feature);
+			break;
+		/*
+		case 'stream-icy':
+			stream($server, $colors["stream"], $feature);
+			break;
+		*/
+	}
+	echo "<!-- End $feature -->";
 }
 else
 {
-	$server = $_REQUEST['server'];
-}
-$host = $servers[$server][0];
-$port = $servers[$server][1];
+	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers);
 
-include "theme.php";
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Cache-Control: no-cache, must-revalidate");
-header("Pragma: no-cache");
-header("Content-Type: text/html; charset=UTF-8");
+	// The next few are targeted from URLs
+	printSavePlaylistTable($save, $server, $colors["playlist"]);
+	printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $commands["add"], $colors["directories"]);
+	printMusicTable($config, $colors["music"], $sort_array, $server, $mprint, "index.php?body=main&amp;dir=$dir_url", $add_all, $mindex, $dir, $commands["add"]);
+	printPlaylistTable($colors["playlist"], $server, $pprint, $pindex, $delete, $commands["rm"]);
+}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-<head>
-<META HTTP-EQUIV="Expires" CONTENT="Thu, 01 Dec 1994 16:00:00 GMT">
-<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<link rel=stylesheet href="style.css" type="text/css">
-<title></title>
-<?php
-// php won't interpret inside of the style block
-print "<style type=\"text/css\">\n";
-print "* {\n";
-print "  font-family: " . $fonts["all"] . ";\n";
-print "}\n";
-print "</style>\n";
-?>
-</head>
-<body   link="<?php print $colors["links"]["link"]; ?>" 
-vlink="<?php print $colors["links"]["visual"]; ?>" 
-alink="<?php print $colors["links"]["active"]; ?>" 
-bgcolor="<?php print $colors["background"]; ?>">
-<?php
-include "main_body.php";
-?>
-</body>
-</html>

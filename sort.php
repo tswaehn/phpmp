@@ -1,17 +1,14 @@
 <?php
 function msort($a,$b)
 {
-	global $sort_array,$filenames_only;
+	global $sort_array, $config;
 	$i=0;
 	$ret = 0;
-	while ($filenames_only != "yes" && $i < 5 && $ret == 0)
+	while ($config["filenames_only"] != "yes" && $i < 5 && $ret == 0)
 	{
-		if (!isset($a[$sort_array[$i]]))
+		if (!isset($a[$sort_array[$i]]) && isset($b[$sort_array[$i]]))
 		{
-			if (isset($b[$sort_array[$i]]))
-			{
-				$ret = -1;
-			}
+			$ret = -1;
 		}
 		else if (!isset($b[$sort_array[$i]]))
 		{
@@ -37,25 +34,23 @@ function msort($a,$b)
 function pickSort($pick)
 {
 	global $sort_array;
-	if (0==strcmp($pick,$sort_array[0]))
+	switch($pick)
 	{
-		return "$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[4]";
-	}
-	else if (0==strcmp($pick,$sort_array[1]))
-	{
-		return "$pick,$sort_array[0],$sort_array[2],$sort_array[3],$sort_array[4]";
-	}
-	else if (0==strcmp($pick,$sort_array[2]))
-	{
-		return "$pick,$sort_array[0],$sort_array[1],$sort_array[3],$sort_array[4]";
-	}
-	else if (0==strcmp($pick,$sort_array[3]))
-	{
-		return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[4]";
-	}
-	else if (0==strcmp($pick,$sort_array[4]))
-	{
-		return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3]";
+		case $sort_array[0]:
+			return "$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3],$sort_array[4]";
+			break;
+		case $sort_array[1]:
+			return "$pick,$sort_array[0],$sort_array[2],$sort_array[3],$sort_array[4]";
+			break;
+		case $sort_array[2]:
+			return "$pick,$sort_array[0],$sort_array[1],$sort_array[3],$sort_array[4]";
+			break;
+		case $sort_array[3]:
+			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[4]";
+			break;
+		case $sort_array[4]:
+			return "$pick,$sort_array[0],$sort_array[1],$sort_array[2],$sort_array[3]";
+			break;
 	}
 }
 ?>

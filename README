@@ -2,9 +2,18 @@
                                     phpMp
                         http://www.musicpd.org
 
-phpMp is a web interface (written in PHP 4) for the Music Player Daemon (MPD).
+phpMp is a web interface (written in PHP) for the Music Player Daemon (MPD).
 
 To install phpMp, see INSTALL.
+
+MiniFAQ
+-------
+
+Q. Can you put the Playing Song or the Status in the Topic?
+
+A. Yes and no, Of course, it's possible. It won't happen here because
+   it would require the full page to reload rather than just the playlist,
+   or javascript.
 
 phpMp is released under the GNU Public License.
 You should have received a copy of the GNU General Public License

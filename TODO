@@ -1,1 +1,4 @@
-1) add phpMp and MPD version somewhere
+- Try to fix the sort issue with filename_only files
+- Need to fix password support, will happen as soon as there is permissions support in status (bug 310), this has been prototyped in index.php, to test it out just change the 1's to 0's
+- Try to remove columns that go unused from printMusicTable
+- Try to find out issue with konqueror highlighting the playlist in red, this is probably a konqueror bug, as it looks fine with the gecko engine.
