@@ -32,6 +32,7 @@ $colors["playing"]["on"] = "#88ff88";
 
 // Colors for Volume
 $colors["volume"]["body"] = "#cccccc";
+$colors["volume"]["unselected"] = "#eeeeee";
 $colors["volume"]["background"] = "#ffffff";
 $colors["volume"]["foreground"] = "#000000";
 

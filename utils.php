@@ -45,6 +45,8 @@ function displayDirectory($dir,$sort,$title,$music,$playlists) {
 	if($music) print "(<a href=\"#music\">Music</a>) ";
 	if($playlists) print "(<a href=\"#playlists\">Playlists</a>) ";
 	print "</td><td align=right>";
+	print "[<a href=\"login.php?dir=$dir_url&sort=$sort\">";
+	print "Login</a>]\n";
 	print "[<a href=\"search.php?dir=$dir_url&sort=$sort\">";
 	print "Search</a>]</td></tr>\n";
 	print "<tr bgcolor=\"";

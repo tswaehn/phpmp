@@ -223,6 +223,13 @@ else {
 		print "<table width=\"100%\" border=0 cellspacing=0 bgcolor=\"";
 		print $colors["volume"]["body"];
 		print "\"><tr><td>\n";
+		print "<small>[Volume]</small></td><td bgcolor=\"";
+		print $colors["volume"]["unselected"];
+		print "\"><small>[Crossfade]</small></td>";
+		print "<td width=\"100%\" bgcolor=\"";
+		print $colors["background"];
+		print "\"></td>";
+		print "</tr><tr><td colspan=3>\n";
 		print "<table border=0 cellspacing=0><tr><td nowrap><b>Volume</b> ";
 		$vol_div = 5;
 		$do = round($vol/$vol_div);
