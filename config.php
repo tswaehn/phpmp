@@ -5,10 +5,6 @@
 / This is a list of your MPD servers, one per line. (host,port,alias) /                                 /
 **********************************************************************/
 $servers[] = array('localhost', 6600, 'My MusicBox');
-$servers[] = array('localhost', 6601, 'Webusers1');
-$servers[] = array('localhost', 6602, 'Webusers2');
-$servers[] = array('rocket', 6600, 'Rocket');
-$servers[] = array('micromachine', 6600, 'Micromachine');
 
 // Optional
 $config = array(
