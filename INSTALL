@@ -1,0 +1,48 @@
+                                phpMp - INSTALL
+
+Requirements
+------------
+
+1) Music Player Daemon (MPD) - http://www.musicpd.org
+2) Web server such as apache (included with many distributions)
+3) PHP for your webserver (included with many distributions)
+
+Download
+--------
+
+Get the latest release of phpMp from http://www.musicpd.org
+
+Requirements
+------------
+
+MPD >= 0.8.0
+PHP >= 4
+
+Install
+-------
+
+1) move phpMp archive to a directory accessible by the web server
+
+$ cp phpMp-x.x.x.tar.gz public_html/
+
+2) cd to where you copied the phpMp archive
+
+$ cd public_html
+
+3) untar and unzip archive
+
+$ tar zxvf phpMp-x.x.x.tar.gz
+
+4) configure options (such as port MPD listens to and host MPD is running on)
+using your favorite text editor, edit config.php
+
+example:
+$ vi phpMp-x.x.x/config.php
+
+Using phpMp
+---------
+
+Point your favorite web browser at the location of phpMp on your web server
+
+example:
+http://my.webserver.com/~myusername/phpMp-x.x.x

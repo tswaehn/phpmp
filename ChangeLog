@@ -1,0 +1,56 @@
+ver 0.9.1 (2003/10/30)
+1) Fix flush() bugs with z-compression
+2) Check for each metadata element for songs
+
+ver 0.9.0 (2003/9/30)
+1) Add seeking support
+2) Add random mode support
+3) Add "condense" mode, so that it doesn't show all songs in the playlist for
+faster playlist processing and rendering in a browser.
+
+ver 0.8.3 (2003/8/12)
+1) Fix a bug in display playlist if some songs contain tags and some don't
+2) Fix a bug with +
+3) Fix a bug with #
+
+ver 0.8.2 (2003/7/22)
+1) Added no-cache to html headers
+2) Added nowrap on playlist title buttons
+3) Put unix time in URL to workaround metaflag refresh not works for delete
+4) refresh not working correctly
+
+ver 0.8.1 (2003/7/11)
+1) Fix \ and " bug for adding directories to playlist
+2) Fix bug for indexing music with filenames_only
+3) Rewrite playlist display, so it doesn't put songs in array, just print them
+out immediatly, should consume less ram and be faster
+
+ver 0.8.0 (2003/7/6)
+1) Remove index table, put index with corresponding table
+2) Use listall to queue all files in a directory
+3) Add frames_layout config option
+4) Fix " bug
+
+ver 0.6.0 (2003/6/19)
+1) add volume control
+2) add repeate mode
+3) bug fix in dealing with '
+
+ver 0.5.5 (2003/6/11)
+1) add "prev" and "next"
+2) new "| |" symbol for pause
+3) search by filename
+4) option to use post/js method for add_all, to handle huge numbers of songs, and avoid too long uri errors
+5) $unknown_string option to modify how unknow tag info is displayed
+
+ver 0.5.4 (2003/5/29)
+1) Fix notices/warrnings about uninitizlaed/undefined variables when
+E_NOTICE is set in php.ini (thanks to Aschwin)
+
+0.5.3
+-----
+Added theme.php, and filenames_only option
+
+0.5.0-0.5.2
+-----------
+Initial releases, not sure what changed other than bug fixes.

@@ -1,0 +1,24 @@
+<?php
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+header("Content-Type: text/html; charset=UTF-8");
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<META HTTP-EQUIV="Expires" CONTENT="Thu, 01 Dec 1994 16:00:00 GMT">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+</head>
+<?php include "config.php"; ?>
+<?php include "theme.php"; ?>
+<body 	link="<?php print $colors["links"]["link"]; ?>" 
+	vlink="<?php print $colors["links"]["visual"]; ?>" 
+	alink="<?php print $colors["links"]["active"]; ?>" 
+	bgcolor="<?php print $colors["background"]; ?>">
+<?php
+include "main_body.php";
+?>
+</body>
+</html>
