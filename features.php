@@ -173,7 +173,8 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 		echo "<tr><td>";
 		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
 		echo "<tr><td><b>Icecast Streams</b>";
-		echo "&nbsp;<small>(<a title=\"Refresh Icecast Streams Table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
+		echo "&nbsp;<small>(<a title=\"Hide the Icecast streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
+		echo "&nbsp;(<a title=\"Refresh Icecast streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>refresh</a>)</small></td>";
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
@@ -198,7 +199,12 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	}
 	else
 	{
-		echo "<a title=\"Open the table of Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>Load a table of icecast streams</a>";
+		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td>";
+		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
+		echo "<tr><td><b>Icecast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
+		echo "</tr></table>";
 	}
 }
 

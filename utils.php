@@ -210,7 +210,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
-		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\" href=\"index.php?body=main&amp;server=$server&amp;displayStream=yes&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
+		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
 	}
 
 	if(isset($feature_bar))
