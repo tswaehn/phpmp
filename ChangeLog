@@ -46,7 +46,7 @@ machine with MPD, Apache & phpMp serving.
 30) Removed $_GET & $_POST from extract() due to known security problems.
 31) Moved connection, connection detection, command execution, includes, login stuff, cookies to the index, so we don't duplicate over frames.
 32) Added option to the config to add the current server to the browser display.
-33) Added a icecast browser to the streams feature (thanks goto QballCow for the idea!)
+33) Added a icecast/shoutcast browser to the streams feature (thanks goto QballCow for the idea!)
 34) Made cookies per-server so when servers are changed the cookies for one server don't conflict with another servers'
 35) Status is now shown, rather than just printing 'Playing'
 36) Changed use_javascript_add_all to use_javascript
@@ -68,6 +68,7 @@ machine with MPD, Apache & phpMp serving.
 52) Added an 'Outputs' menu for enabling/disabling different outputs in MPD
 53) When MPD is updating it's visible on the main page now, also 	
 54) Prevent updates from colliding
+55) Completely implemented commands/notcommands support across the client, this will make things be much more predictable.
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

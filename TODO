@@ -1,11 +1,25 @@
-0.12.0 Release - A good 0.12.0 release could be done today if needed.
+0.12.0 Release - A good 0.12.0 release could be done today if needed, but these would be useful if implemented, if not by 0.12.0>
 --------------
+
+*) [* Browser]
+	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
+
+*) [Error handling]
+	*) There's very few errors that will be hit now (hopefully) but when it's possible we need to setup a better system 
+	   for informing the use of exactly what exactly went wrong. There's probably some good ways to tell if we have/don't
+	   have the zlib dependency, for example (even though I couldn't imagine a php system that doesn't have it).
 
 Future (doesn't have to be before release)
 ------------------------------------------
 
+*) [* Browser]
+	*) Probably should make the XML files user configurable.
+
 *) [Index]
 	*) Need to make an effort to cut more fat from the index
+
+*) [i18n]
+	*) Need to look into the gettext/i18n stuff
 
 *) [printMusicTable] These tell me that we need to rewrite printMusicTable from scratch, to be more flexiable and scalable
 	*) Try to fix the sort issue with filename_only files
