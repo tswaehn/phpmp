@@ -97,15 +97,15 @@ function doCommand($fp, $arg, $arg2, $command, $overwrite, $status)
 		fgets($fp,1024);
 	}
 
-	if (! empty($arg2))
+	// Cannot use empty() here because when the argument == 0 it returns false.
+	if ( strlen($arg2)>0 )
 	{
 		$command.= " \"$arg\" \"$arg2\"";
 	}
-	else if(! empty($arg))
+	else if( strlen($arg)>0 )
 	{
 	        $command.= " \"$arg\"";
         }
-
 
         // By the time you read this the 'kill' command will hopefully be a non-default compile time 
 	// option. $arg is also used here, so to make sure someone doesn't kill your MPD leave it.

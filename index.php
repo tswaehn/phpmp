@@ -67,15 +67,16 @@ else
 }
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Cache-Control: no-cache, must-revalidate");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 header("Content-Type: text/html; charset=UTF-8");
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
 echo "<html><head>";
-echo "<META HTTP-EQUIV=\"Expires\" CONTENT=\"Thu, 01 Dec 1994 16:00:00 GMT\">";
-echo "<META HTTP-EQUIV=\"Pragma\" CONTENT=\"no-cache\">";
-echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">";
+#echo "<META HTTP-EQUIV=\"Expires\" CONTENT=\"Thu, 01 Dec 1994 16:00:00 GMT\">";
+#echo "<META HTTP-EQUIV=\"Pragma\" CONTENT=\"no-cache\">";
+#echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">";
 
 // Open thee connection
 $fp = fsockopen($host,$port,$errno,$errstr,10);
@@ -200,6 +201,7 @@ include "theme.php";
 
 unset($hostport);
 $commands = getCommandInfo($fp);
+#print_r($commands);
 if(! ($commands["listall"] || $commands["lsinfo"] || $commands["playlist"] || $commands["playlistinfo"] || $commands["stats"]))
 {
 	include "features.php";

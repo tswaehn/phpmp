@@ -31,23 +31,41 @@ function getStatusInfo($conn)
 
 function getCommandInfo($conn)
 {
-	fputs($conn,"commands\n");
-	while(!feof($conn))
+	fputs( $conn,"commands\n");
+	while( ! feof( $conn ))
 	{
-		$got = fgets($conn,1024);
-		$got = str_replace("\n","",$got);
-		if (strncmp("OK",$got,strlen("OK"))==0)
+		$got = fgets( $conn,1024 );
+		$got = str_replace( "\n", "", $got );
+		if (strncmp( "OK", $got, strlen( "OK" ))==0)
 		{
 			break;
 		}
-		if (strncmp("ACK",$got,strlen("ACK"))==0)
+		if (strncmp( "ACK", $got, strlen( "ACK" ))==0)
 		{
 			echo "$got<br>";
 			break;
 		}
 
-		$el = str_replace("command: ","",$got);
+		$el = str_replace( "command: ", "", $got);
 		$ret[$el] = "1";
+	}
+	fputs( $conn, "notcommands\n" );
+	while( ! feof( $conn ))
+	{
+		$got = fgets( $conn,1024 );
+		$got = str_replace( "\n", "", $got );
+		if (strncmp( "OK", $got, strlen( "OK" ))==0)
+		{
+			break;
+		}
+		if (strncmp( "ACK", $got, strlen( "ACK" ))==0)
+		{
+			echo "$got<br>";
+			break;
+		}
+
+		$el = str_replace( "command: ", "", $got);
+		$ret[$el] = "0";
 	}
 	return $ret;
 }
