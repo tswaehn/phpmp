@@ -70,12 +70,44 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 
 function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 {
+	// Used to use mktime() until it became too combersome
 	function secondsToDHMS( $seconds )
 	{
-		$days = floor( $seconds/86400 );
-		$date = date( "H:i:s", mktime( 0, 0, $seconds )); 
+		$ret = "";
+		$years = floor ($seconds / 31536000);
+		if( $years > 1 )
+		{
+			$seconds -= $years * 31536000;
+			$ret .= "$years years ";
+		}
 
-		return "$days days, $date";
+		$days = floor ($seconds / 86400);
+		if( $days > 1)
+		{
+			$seconds -= $days * 86400;
+			$ret .= "$days days ";
+		}
+  
+		$hours = floor ($seconds / 3600);
+		if ($hours > 1)
+		{
+			$seconds -= $hours * 3600;
+			$ret .= "$hours hours ";
+		}
+
+		$minutes = floor ($seconds / 60);   
+		if ($minutes > 1)
+		{
+			$seconds -= $minutes * 60;
+			$ret .= "$minutes minutes ";
+		}
+
+		if( ! empty( $seconds ))
+		{
+			$ret .= "$seconds seconds";
+		}
+
+		return $ret;
 	}
 
 	fputs( $fp, "stats\n" );
