@@ -19,8 +19,8 @@ function getStatusInfo( $conn )
 		}
 
 		$el = strtok( $got, ":" );
-		$ret["$el"] = strtok( "\0" );
-		$ret["$el"] = preg_replace( "/^ /", "", $ret["$el"] );
+		$ret[$el] = strtok( "\0" );
+		$ret[$el] = ltrim( $ret[$el] );
 	}
 	if( ! isset( $ret ))
 	{
@@ -77,37 +77,24 @@ function getCommandInfo( $conn )
 	return $ret;
 }
 
-function setNotSetSongFields($song)
+function setNotSetSongFields( $song, $display_fields )
 {
 
 	if( isset( $song["Title"] ))
 	{
-		if( ! isset( $song["Track"] ))
+		for( $i = "0"; $i < count( $display_fields ); $i++ )
 		{
-		        $song["Track"] = "";
-		}
-		if( ! isset( $song["Album"] ))
-		{
-		        $song["Album"] = "";
-		}
-		if( ! isset ( $song["Artist"] ))
-		{
-		        $song["Artist"] = "";
-		}
-		if ( ! isset( $song["Genre"] ))
-		{
-			$song["Genre"] = "";
-		}
-		if ( ! isset( $song["Date"] ))
-		{
-			$song["Date"] = "";
+			if( ! isset( $song[ $display_fields[$i] ] ))
+			{
+				$song[ $config["display_fields"][$i] ] = "";
+			}
 		}
 	}
 
 	return $song;
 }
 
-function getPlaylistInfo( $conn, $song )
+function getPlaylistInfo( $conn, $song, $display_fields )
 {
 	fputs( $conn, "playlistinfo $song\n" );
 	$count = -1;
@@ -128,12 +115,12 @@ function getPlaylistInfo( $conn, $song )
 		{
 			if( $count >= "0" )
 			{
-			        $ret[$count] = setNotSetSongFields($ret[$count]);
+			        $ret[$count] = setNotSetSongFields( $ret[$count], $display_fields );
 			}
 			$count++;
 		}
-		$ret[$count]["$el"] = strtok( "\0" );
-		$ret[$count]["$el"] = preg_replace( "/^ /", "", $ret[$count]["$el"] );
+		$ret[$count][$el] = strtok( "\0" );
+		$ret[$count][$el] = ltrim( $ret[$count][$el] );
 	}
 	if ( ! isset( $ret ))
 	{
@@ -161,7 +148,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		}
 		else 
 		{
-			$display = songInfo2Display($ret, $config);
+			$display = songInfo2Display($ret, $config, $config["playlist_display_conf"]);
 		}
 
 		$id = $ret["Id"];
@@ -315,13 +302,14 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 			}
 			$count++;
 		}
-		$ret["$el"] = preg_replace( "/^ /", "", strtok( "\0" ));
+		$ret[$el] = strtok( "\0" );
+		$ret[$el] = ltrim( $ret[$el] );
 	}
 	if ( $count >= $start )
 	{
 		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $tm, $config, $length );
 	}
-	if ( $hide > 0 && $end < ($length-1) )
+	if ( $hide > 0 && $end < ( $length - 1) )
 	{
 		echo "<tr bgcolor=\"{$color["body"][ ( ( $end + 1 ) %2 ) ]}\">";
 		echo "<td colspan=2 align=center><small>";
@@ -331,7 +319,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 	echo "<!-- End printPlaylistInfo Here -->";
 }
 
-function getLsInfo( $conn, $command )
+function getLsInfo( $conn, $command, $display_fields )
 {
 	fputs( $conn, $command );
 	$mcount = -1;
@@ -367,7 +355,7 @@ function getLsInfo( $conn, $command )
 		{
 			if ( $mcount >= 0 )
 			{
-			        $music[$mcount] = setNotSetSongFields($music[$mcount]);
+			        $music[$mcount] = setNotSetSongFields( $music[$mcount], $display_fields );
 			}
 			$mcount++;
 			$music[$mcount] = array( 'file' => '', 'Title' => '', 'Time' => '', 'Track' => '', 'Track' => '', 'Album' => '', 'Artist' => '', 'Genre' => '', 'Date' => '' );

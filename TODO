@@ -21,6 +21,12 @@ Future (doesn't have to be before release)
 *) [printMusicTable]
 	*) Try to remove columns that go unused from printMusicTable
 
+*) [Search Feature]
+	*) Continue to add new features added for 0.12.0 in search menu
+	*) Add a few new search types
+		*) Playlist
+		*) Streams
+
 *) [Stream Browser]
 	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
 
@@ -32,5 +38,3 @@ Future (doesn't have to be before release)
 
 *) [XML Parser]
 	*) Rid of duplicate code in the XML Parser functions
-
-

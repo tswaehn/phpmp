@@ -5,7 +5,6 @@
 / This is a list of your MPD servers, one per line. (host,port,alias) /
 **********************************************************************/
 $servers[] = array('localhost', 6600, 'My MusicBox');
-$servers[] = array('localhost', 6601, 'My MusicBoxx');
 
 // Optional
 $config = array(
@@ -98,9 +97,13 @@ $config = array(
 		/************************************************************/
 		"use_images" => "no",
 
-		/****************************************************************************
-		/ Remove any of the following to get rid of the field in the music tables.  /
-		/***************************************************************************/
+		/********************************************************************************************************
+		/ Remove any of the following to get rid of the field in the music tables.  				/
+		/ Add any fields you would like that you have added to the metadata_to_use option in your mpd.conf	/
+		/ This field is extremely important to be setup correctly, type the field exactly as you did in mpd.conf/
+		/ capitolize the first letter.										/
+		/ Title is absolutely required for this phpMp to function						/
+		/*******************************************************************************************************/
 		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
 		/*************************************************************************************
@@ -108,7 +111,8 @@ $config = array(
 		/ You can add any values here that are in your display_fields value. You should add  /
 		/ one value per set of quotes, that way the lines will be broken properly	     /
 		/************************************************************************************/
-		"display_conf" => array( "(Artist)", "Title" ),
+		"song_display_conf" => array( "(Artist)", "Title" ),
+		"playlist_display_conf" => array( "(Artist)", "Title" ),
 
 		/**************************************************************************
 		/ This will wrap your words at count's characters if there are no spaces, /

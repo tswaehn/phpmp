@@ -7,7 +7,7 @@ $sort =	isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"]
 $sort_array = split( ",", $sort );
 $url = "index.php?body=main&amp;dir=$dir_url";
 
-$lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n" );
+$lsinfo = getLsInfo( $fp, "lsinfo \"$dir\"\n", $config["display_fields"] );
 $dinfo = lsinfo2directoryTable( $lsinfo, $server, $sort, $commands["add"], $colors["directories"]["body"] );
 $pinfo = lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $commands["load"] );
 
@@ -20,23 +20,8 @@ if( ! empty( $lsinfo["music"] ))
 	unset( $tagged, $untagged );
 }
 
-if( isset( $file_info["count"] ))
-{
-	$fcount = $file_info["count"];
-}
-else
-{
-	$fcount = "0";
-}
-
-if( isset( $tagged_info["count"] ))
-{
-	$tcount = $tagged_info["count"];
-}
-else 
-{
-	$tcount = "0";
-}
+$fcount = isset( $file_info["count"] ) ? $file_info["count"] : "0";
+$tcount = isset( $tagged_info["count"] ) ? $file_info["count"] : "0";
 
 /* This is the features section, just throw a new feature in features.php, make a link in utils and edit below and you have a new feature */
 if( ! empty( $feature ))

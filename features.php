@@ -66,10 +66,6 @@ function login($fp, $default_sort, $color, $server, $arg, $dir, $remember)
 	echo "<small><input type=checkbox name=remember value=true>remember password</small>";
 	echo "</td></tr></table>";
 	echo "</form>";
-
-	echo "<br>";
-
-#	if( $SERVER[
 }
 
 function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
@@ -264,109 +260,71 @@ function server( $servers, $host, $port, $color, $config )
 
 function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered )
 {
-	$sort_array = split( ",", $sort );
-	$dir_url = rawurlencode( $dir );
-
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
 	echo "<table summary=\"Search\" border=0 cellspacing=1 bgcolor=\"{$color["meta"]["title"]}\" width=\"100%\">";
 	echo "<tr><td><b>Search</b></td></tr>";
 	echo "<tr bgcolor=\"{$color["meta"]["body"][1]}\"><td>";
 	echo "<select name=search>";
-	function localPrintFileNameOption( $search, $find )
+
+	if( strcmp( $search, "filename" ) == "0" || strcmp( $find, "filename" ) == "0" )
 	{
-		if( ! empty( $search ))
-		{
-			$which_search = $search;
-		}
-		else if( ! empty( $find ))
-		{
-			$which_search = $find;
-		}
-		if( strcmp( $which_search, "filename" ) == "0" )
-		{
-			echo "<option value=\"filename\" selected>file name</option>";
-		}
-		else
-		{
-		        echo "<option value=\"filename\">file name</option>";
-		}
+		$filename = "<option value=\"filename\" selected>Filename</option>";
+	}
+	else
+	{
+	        $filename = "<option value=\"filename\">Filename</option>";
 	}
 
 	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
 	{
-		localPrintFileNameOption( $search, $find );
+		echo $filename;
 	}
 
-	if( strcmp( $search, "title" ) == "0" || strcmp( $find, "title" ) == "0" )
+	for( $i = "0"; $i < count( $config["display_fields"] ); $i++ )
 	{
-		echo "<option selected>title</option>";
-	}
-	else
-	{
-	        echo "<option>title</option>";
-	}
-
-	if( strcmp( $search, "date" ) =="0" || strcmp( $find, "date" ) == "0" )
-	{
-		echo "<option selected>date</option>";
-	}
-	else
-	{
-	        echo "<option>date</option>";
-	}
-
-	if( strcmp( $search, "genre" ) == "0" || strcmp( $find, "genre" ) == "0" )
-	{
-		echo "<option selected>genre</option>";
-	}
-	else
-	{
-	        echo "<option>genre</option>";
-	}
-
-	if( strcmp( $search, "album" ) == "0" || strcmp( $find, "album" ) == "0" )
-	{
-		echo "<option selected>album</option>";
-	}
-	else
-	{
-		echo "<option>album</option>";
-	}
-
-	if ( strcmp( $search, "artist") == "0" || strcmp( $find, "artist" ) == "0" )
-	{
-		echo "<option selected>artist</option>";
-	}
-	else
-	{
-	        echo "<option>artist</option>";
+		// Don't echo 'Time' or 'Track' as they don't make sense to search for.
+		if( strcmp( "Time", $config["display_fields"][$i] ) && strcmp( "Track", $config["display_fields"][$i] ))
+		{
+			if( strcmp( $search, $config["display_fields"][$i] ) == "0" || strcmp( $find, $config["display_fields"][$i] ) == "0" )
+			{
+				echo "<option selected>{$config["display_fields"][$i]}</option>";
+			}
+			else
+			{
+				echo "<option>{$config["display_fields"][$i]}</option>";
+			}
+		}
 	}
 
 	if( strcmp( $config["filenames_only"], "yes" ))
 	{
-	        localPrintFileNameOption( $search, $find );
+		echo $filename;
 	}
 	echo "</select>";
 	echo "<input type=hidden value=\"main\" name=body>";
 	echo "<input type=hidden value=\"search\" name=feature>";
 	echo "<input type=hidden value=\"$server\" name=server>";
-	echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=40>";
+	echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=40 autocomplete=on>";
 	echo "<input type=hidden value=\"$dir\" name=dir>";
 	echo "<input type=hidden value=\"$sort\" name=sort>";
 	echo "<input type=submit value=Search name=foo>";
 	echo "</td></tr></table>";
 	echo "</form>";
+
 	if( ! empty( $search ) && ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n" );
+		$lsinfo = getLsInfo( $fp, "search $search \"$arg\"\n", $config["display_fields"] );
 	}
 	else if( ! empty( $find ) &&  ! empty( $arg ))
 	{
-		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n" );
+		$lsinfo = getLsInfo( $fp, "find $find \"$arg\"\n", $config["display_fields"] );
 	}
 
 	$arg_url = rawurlencode( $arg );
+	$dir_url = rawurlencode( $dir );
+	$sort_array = split( ",", $sort );
+
 	if( ! empty( $lsinfo["music"] ))
 	{
 		if( empty( $search ))

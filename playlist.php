@@ -159,14 +159,14 @@ if( isset( $status["state"] ))
 		$time = split( ":", $status["time"] );
 
 		// SONG INFO Begin: Second table from top
-		$song_info = getPlaylistInfo( $fp, $num );
+		$song_info = getPlaylistInfo( $fp, $num, $config["display_fields"] );
 		echo "<table summary=\"Current Song Information\" cellspacing=0 bgcolor=\"{$colors["playing"]["body"]}\" cellpadding=0>";
 		echo "<tr>";
 		echo "<td align=\"{$config["playlist_align"]}\">";
 		echo "<a title=\"Jump to the Current Song\" href=#$num>";
 
 		// This is in info2html.php
-		echo songInfo2Display( $song_info[0], $config );
+		echo songInfo2Display( $song_info[0], $config, $config["song_display_conf"] );
 		echo "</a><br>";
 
 	        // Begin The Time Remaining/Time Elapsed

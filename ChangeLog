@@ -1,3 +1,28 @@
+Fri Dec 24 00:44:02 PST 2004  avuton@gmail.com
+  * Change some obvious if() else()s to tenerary operators
+
+Fri Dec 24 00:43:05 PST 2004  avuton@gmail.com
+  * The last (hopefully) of the genericizing of metadata information pulled from the server
+
+Fri Dec 24 00:41:44 PST 2004  avuton@gmail.com
+  * Make search generic to what's in display_fields[]
+  Also, add autocomplete=on to the text search box, suprised this wasn't there before.
+
+Fri Dec 24 00:40:01 PST 2004  avuton@gmail.com
+  * TODO update
+
+Thu Dec 23 14:52:07 PST 2004  avuton@gmail.com
+  * Fix songInfo breaking issue
+
+Thu Dec 23 07:36:12 PST 2004  avuton@gmail.com
+  * Replace preg_replace() with ltrim() where applicable in info.php
+
+Thu Dec 23 07:20:41 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
+Thu Dec 23 07:01:54 PST 2004  avuton@gmail.com
+  * Split song_display_conf into song_display_conf / playlist_display_conf
+
 Thu Dec 23 06:20:49 PST 2004  avuton@gmail.com
   * Make variable requests more specific, improving security.
 
@@ -17,9 +42,6 @@ Thu Dec 23 05:17:47 PST 2004  avuton@gmail.com
 
 Thu Dec 23 04:34:32 PST 2004  avuton@gmail.com
   * Get rid of all references to specific metadata tags.
-
-Wed Dec 22 21:35:58 PST 2004  avuton@gmail.com
-  * ChangeLog update
 
 Wed Dec 22 21:35:34 PST 2004  avuton@gmail.com
   * Fix E_NOTICE warnings

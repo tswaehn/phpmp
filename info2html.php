@@ -670,7 +670,7 @@ function printPlaylistTable( $color, $server, $info, $delete, $rmperm )
 	}
 }
 
-function songInfo2Display( $song_info, $config )
+function songInfo2Display( $song_info, $config, $display )
 {
 	// If it's a URL don't grab it's basename
 	if( preg_match( "/^[a-z]*:\/\//", $song_info["file"] ))
@@ -684,11 +684,11 @@ function songInfo2Display( $song_info, $config )
 
 	if( strcmp( $config["filenames_only"],"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
-		$song_display_conf = $config["display_conf"][0];
+		$song_display_conf = $display[0];
 
-		for( $i = "1"; $i < count( $config["display_conf"] ); $i++ )
+		for( $i = "1"; $i < count( $display ); $i++ )
 		{
-			$song_display_conf .= "&nbsp;" . $config["display_conf"][$i];
+			$song_display_conf .= " " . $display[$i];
 		}
 
 		// This will replace all song_display_conf stuff with the actual value
