@@ -31,6 +31,7 @@ header("Content-Type: text/html; charset=UTF-8");
 <META HTTP-EQUIV="Expires" CONTENT="Thu, 01 Dec 1994 16:00:00 GMT">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link rel=stylesheet href="style.css" type="text/css">
 <title></title>
 <?php
 // php won't interpret inside of the style block

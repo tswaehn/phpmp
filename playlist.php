@@ -46,6 +46,7 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="REFRESH" CONTENT="' . $refresh_freq . ';URL=playlist.php?server=' . $server . '">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link rel=stylesheet href="style.css" type="text/css">
 <title></title>
 ';
 
