@@ -1,7 +1,14 @@
 <?php
 // Initialize these variables to avoid E_NOTICE warnings
-$server = 0;
-$hide = 0;
+if( ! isset( $server ))
+{
+	$server = 0;
+}
+
+if( ! isset( $hide ))
+{
+	$hide = 0;
+}
 
 // Font
 $fonts["all"] = "sans";
