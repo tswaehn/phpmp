@@ -211,44 +211,23 @@ function server($servers, $host, $color, $config)
 
 	// This is for those who utilize multiple MPD servers setup in phpMp's config
  	echo '<form method=post action="index.php" target=_top>';
-/*
-	if(strcmp($config["use_javascript"],"yes")==0)
+	$sel1 = '<select name=server>';
+	for ($x = 0; $x < sizeof($servers); $x++)
 	{
-		for ($x = 0; $x < sizeof($servers); $x++)
+		// add the server to select box, if the 3rd field is not blank use that,
+		// otherwise default to the host name as the displayed server
+		// If the host is the current host, place it at the top, otherwise put it under that
+		if(strcmp($servers[$x][0],$host)==0 && strcmp($servers[$x][1],$port)==0)
 		{
-			$server = $servers[$x];
-			if(strcmp($servers[$x][0],$host)==0)
-			{
-				$print .= "&nbsp;" . $servers[$x][0] . "<br>";
-			}
-			else if($servers[$x][2] != '')
-			{
-				$print .= "&nbsp;<a href=\"javascript:document.server.submit()\">" . $servers[$x][0] . "</a><br>";
-			}
+			$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
 		}
-		echo $print;
+		else
+		{
+			$sel2 .= '<option value=' . $x . '>' . (($servers[$x][2] != '') ? $servers[$x][2] : $servers[$x][0]) . '</option>';
+		}
 	}
-	else
-	{
-*/
-		$sel1 = '<select name=server>';
-		for ($x = 0; $x < sizeof($servers); $x++)
-		{
-			// add the server to select box, if the 3rd field is not blank use that,
-			// otherwise default to the host name as the displayed server
-			// If the host is the current host, place it at the top, otherwise put it under that
-			if(strcmp($servers[$x][0],$host)==0)
-			{
-				$sel1 .= '<option selected' . ' value=' . $x . ">" . $servers[$x][2] . "</option>";
-			}
-			else
-			{
-				$sel2 .= '<option value=' . $x . '>' . (($servers[$x][2] != '') ? $servers[$x][2] : $servers[$x][0]) . '</option>';
-			}
-		}
-		$sel2.= '</select>&nbsp';
-		echo $sel1 . $sel2 . '<input align=\"right\" type=submit value="Switch Server">';
-//	}
+	$sel2.= '</select>&nbsp';
+	echo $sel1 . $sel2 . '<input align=\"right\" type=submit value="Switch Server">';
 	echo "</form></td></tr></table>";
 }
 

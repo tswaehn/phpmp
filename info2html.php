@@ -429,7 +429,7 @@ function printMusicTable($config, $color, $sort_array, $server, $mprint, $url, $
 		$add_all = rawurlencode($add_all);
 		if (strcmp($config["use_javascript"],"yes")==0)
 		{
-			echo "<form name=\"add_all\" method=\"post\" action=\"index.php\" target=\"playlist\">";
+			echo '<form name="add_all" method="post" action="index.php" target="playlist">';
 			echo "<input type=hidden name=\"add_all\" value=\"$add_all\">";
 			echo "<input type=hidden name=\"body\" value=\"playlist\">";
 			echo "<input type=hidden name=\"server\" value=\"$server\">";

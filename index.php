@@ -41,7 +41,7 @@ if (strcmp($config["use_cookies"],"yes")==0 && isset($_COOKIE["phpMp_playlist_hi
 }
 
 // This will extract the needed GET/POST variables
-extract(setupReceivedVars(array("add_all", "arg", "body", "command", "dir", "feature", "find", "hide", "logout", "password", "search", "server", "stream"),13));
+extract(setupReceivedVars(array("add_all", "arg", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream"),13));
 
 if (isset($hide) && strcmp($config["use_cookies"],"yes")==0)
 {
@@ -158,6 +158,10 @@ $commands = getCommandInfo($fp);
 if(! ($commands["listall"] || $commands["lsinfo"] || $commands["playlist"] || $commands["playlistinfo"] || $commands["stats"]))
 {
 	include "features.php";
+	setcookie("phpMp_password[$hostport]","");
+	unset($has_password);
+
+	print_r($commands);
 	echo "<b>Error:</b> Can't load phpMp due to not having permission to the following commands: ";
 	if(! $commands["listall"])
 	{

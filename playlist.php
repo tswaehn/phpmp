@@ -370,7 +370,7 @@ if (strcmp($config["play_pause"],"yes")==0)
 	}
 	else
 	{
-		if($commands["play"])
+		if($commands["play"] && $status["playlistlength"]>0)
 		{
 			echo $display["playing"]["play"]["active"];
 		}
@@ -382,15 +382,20 @@ if (strcmp($config["play_pause"],"yes")==0)
 }
 else
 {
-	if(strcmp($status["state"],"play")==0)
+	if($commands["pause"] && strcmp($status["state"],"play")==0)
 	{
-			echo $display["playing"]["play"]["inactive"];
-			echo $display["playing"]["pause"]["active"];
+		echo $display["playing"]["play"]["inactive"];
+		echo $display["playing"]["pause"]["active"];
 	}
-	else if(strcmp($status["state"],"pause")==0)
+	else if($commands["play"] && (strcmp($status["state"],"pause")==0 || (strcmp($status["state"],"stop")==0 && $status["playlistlength"]>0)))
 	{
-			echo $display["playing"]["play"]["active"];
-			echo $display["playing"]["pause"]["inactive"];
+		echo $display["playing"]["play"]["active"];
+		echo $display["playing"]["pause"]["inactive"];
+	}
+	else
+	{
+		echo $display["playing"]["play"]["inactive"];
+		echo $display["playing"]["pause"]["inactive"];
 	}
 }
 
@@ -403,7 +408,7 @@ else
 	echo $display["playing"]["next"]["inactive"];
 }
 
-if((strcmp($status["state"],"play")==0 || strcmp($status["state"],"pause")==0) && $commands["stop"])
+if((strcmp($status["state"],"play")==0 || strcmp($status["state"],"pause")==0) && $commands["stop"] && $status["playlistlength"]>0)
 {
 	echo $display["playing"]["stop"]["active"];
 }

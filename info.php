@@ -31,7 +31,6 @@ function getStatusInfo($conn)
 
 function getCommandInfo($conn)
 {
-	$i=0;
 	fputs($conn,"commands\n");
 	while(!feof($conn))
 	{
@@ -49,11 +48,6 @@ function getCommandInfo($conn)
 
 		$el = str_replace("command: ","",$got);
 		$ret[$el] = "1";
-		$i++;
-	}
-	if(sizeOf($ret)==$i)
-	{
-		$ret["all"] = "1";
 	}
 	return $ret;
 }
