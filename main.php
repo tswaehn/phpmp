@@ -13,7 +13,7 @@ $sort_array = split(",",$sort);
 
 list($dprint, $dindex, $dcount) = lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $commands["add"], $colors["directories"]["body"]);
 list($pprint, $pindex) = lsinfo2playlistTable($lsinfo, $sort, $delete, $server, $commands["load"]);
-list($mprint, $mindex, $add_all) = lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colors["music"]["body"], $server, $commands["add"]);
+list($mprint, $mindex, $add_all) = lsinfo2musicTable($lsinfo, $sort, $dir, $sort_array, $config, $colors["music"]["body"], $server, $commands["add"]);
 
 /* This is the features section, just throw a new feature in features.php, make a link in
 utils and edit below and you have a new feature */

@@ -75,6 +75,14 @@ function setNotSetSongFields($song)
 		{
 		        $song["Artist"] = "";
 		}
+		if (!isset($song["Genre"]))
+		{
+			$song["Genre"] = "";
+		}
+		if (!isset($song["Date"]))
+		{
+			$song["Date"] = "";
+		}
 	}
 
 	return $song;
@@ -317,7 +325,7 @@ function getLsInfo($conn,$command)
 			        $music[$mcount] = setNotSetSongFields($music[$mcount]);
 			}
 			$mcount++;
-			$music[$mcount] = array('file' => '', 'Title' => '', 'Time' => '', 'Track' => '', 'Track' => '', 'Album' => '', 'Artist' => '');
+			$music[$mcount] = array('file' => '', 'Title' => '', 'Time' => '', 'Track' => '', 'Track' => '', 'Album' => '', 'Artist' => '', 'Genre' => '', 'Date' => '');
 		}
 		$music[$mcount]["$el"] = preg_replace("/^$el: /","",$got);
 	}

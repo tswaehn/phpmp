@@ -146,7 +146,7 @@ else if(! isset($body))
 	echo "</head>";
 
 	echo "<frameset " . $config["frames_layout"] . ">";
-	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder=0>";
+	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder= " . $config["frame_border_size"] . ">";
 	echo "<frame name=\"playlist\" src=\"index.php?body=playlist&amp;server=$server\" frameborder=0>";
 	echo "<noframes>NO FRAMES ... try phpMp+</noframes>";
 	echo "</frameset>";

@@ -1,23 +1,23 @@
 <?php
 
 // Required
-
-/****************************************************
-/ This is a list of your MPD servers, one per line. /
-/ (host,port,alias)                                 /
-****************************************************/
-$servers[] = array('localhost', 6600, 'Shapeshifter');
-$servers[] = array('rocket', 6600, 'Rocket');
-$servers[] = array('micromachine', 6600, 'Micromachine');
+/**********************************************************************
+/ This is a list of your MPD servers, one per line. (host,port,alias) /                                 /
+**********************************************************************/
+$servers[] = array('localhost', 6600, 'My MusicBox');
 
 // Optional
 $config = array(
+		/***************************************************************
+		/ Frame border size, set this to 0 for usability, 1 for looks. /
+		/**************************************************************/
+		"frame_border_size" => "0",
+
 		/*************************************************************
 		/ Change phpMp behaviour to where a button changes from play /
 		/ to pause and visa-versa, instead of showing all buttons    /
 		/************************************************************/
 		"play_pause" => "yes",
-
 
 		/*************************************************************
 		/ Display the server in the title? (if more than one server) /
@@ -27,7 +27,7 @@ $config = array(
 		/***********************************************
 		/ The order your music files will be sorted in /
 		/**********************************************/
-		"default_sort" => "Artist,Album,Track,Title,Time",
+		"default_sort" => "Artist,Album,Track,Title,Time,Date,Genre",
 
 		/******************************************************************
 		/ Use this to change the width of either the main/playlist window /
@@ -50,14 +50,14 @@ $config = array(
 		/**********************************************************/
 		"overwrite_playlists" => "yes",
 
-		/*************************************************
-		/ How often to refresh the active playlist frame /
-		/************************************************/
+		/**************************************************
+		/ How often to refresh the active playlist frame. /
+		/*************************************************/
 		"refresh_freq" => "30",
 
-		/*******************************************
-		/ Yes to this to see the time left instead / 
-		/******************************************/
+		/***********************************************************************
+		/ Yes to this to see the time left instead rather than the time so far /
+		/**********************************************************************/
 		"time_left" => "no",
 
 		/************************************************************************
@@ -67,12 +67,11 @@ $config = array(
 		"playlist_align" => "center",
 
 		/***************************************************************************
-		/ This is required for doing an addall                                     /
+		/ This is required for doing an addall.                                    /
 		/ Without javascript this will try to addall through a URL and it will not /
 		/ work with default Apache values                                          /
 		***************************************************************************/
 		"use_javascript" => "yes",
-
 
 		/*******************************************************************
 		/ Right now this affects being able to change servers, remembering / 
@@ -131,7 +130,7 @@ $config = array(
 		/***************************************************************************
 		/ Remove any of the following to get rid of the field in the music tables. /
 		/**************************************************************************/
-		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Time'),
+		"display_fields" => array('Artist', 'Title', 'Album', 'Track', 'Genre', 'Date', 'Time'),
 
 		/*****************
 		/ Volume Options /
@@ -145,5 +144,5 @@ $config = array(
 		"title" => "phpMp",
 		"unknown_string" => "",
 		"song_separator" => "rqqqrqqqr"
-		 );
+);
 ?>

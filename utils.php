@@ -165,7 +165,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		}
 	}
 
-	if($commands["enabledevice"] && $commands["disabledevice"] && $commands["devices"])
+	if($commands["enableoutputs"] && $commands["disableoutputs"] && $commands["outputs"])
 	{
 		if(isset($feature_bar))
 		{
@@ -202,7 +202,6 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 		$feature_bar .= "<a title=\"View MPD/phpMp Statistics\" target=main href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stats\">Stats</a>";
 	}
 
-	// Please rewrite me, this is extemely ugly, and there's probably a better way to do this
 	if($commands["load"])
 	{
 		if(isset($feature_bar))
@@ -225,12 +224,13 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 	$build_dir = "";
 	for ($i=0;$i<count($dirs)-1;$i++)
 	{
-		if ($i>0)
+		if ($i>0 && $i<(count($dirs)-1))
 		{
 		        $build_dir.="/";
 		}
 		$dirs[$i] = stripslashes($dirs[$i]);
-		$build_dir.= rawurlencode($dirs[$i]);
+		$build_dir.="$dirs[$i]";
+		$build_dir = rawurlencode($build_dir);
 		echo " / ";
 		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
@@ -243,7 +243,8 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 	if (strlen($dir)>0)
 	{
 		$dirs[$i] = stripslashes($dirs[$i]);
-		$build_dir.= rawurlencode($dirs[$i]);
+		$build_dir.="$dirs[$i]";
+		$build_dir = rawurlencode($build_dir);
 		echo " / ";
 		echo "<a href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}

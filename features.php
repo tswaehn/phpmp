@@ -290,6 +290,24 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	        echo "<option>title</option>";
 	}
 
+	if (0==strcmp($search,"date") || strcmp($find,"date")==0)
+	{
+		echo "<option selected>date</option>";
+	}
+	else
+	{
+	        echo "<option>date</option>";
+	}
+
+	if (0==strcmp($search,"genre") || strcmp($find,"genre")==0)
+	{
+		echo "<option selected>genre</option>";
+	}
+	else
+	{
+	        echo "<option>genre</option>";
+	}
+
 	if (0==strcmp($search,"album") || strcmp($find,"album")==0)
 	{
 		echo "<option selected>album</option>";

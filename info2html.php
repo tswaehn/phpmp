@@ -273,11 +273,7 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 				{
 					case 'Album':
 					case 'Artist':
-						if (!isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
-						{
-							$mprint[$i].= $config["unknown_string"];
-						}
-						else
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
 						{
 							$url = rawurlencode($lsinfo["music"][$i][$config["display_fields"][$x]]);
 							$mprint[$i].= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
@@ -285,28 +281,60 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 							$mprint[$i].= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
 							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]] . "</a>";
 						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
+						}
+						break;
+					case 'Date':
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						{
+							$url = rawurlencode($lsinfo["music"][$i][$config["display_fields"][$x]]);
+							$mprint[$i].= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
+							$mprint[$i].= strtolower($config["display_fields"][$x]);
+							$mprint[$i].= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
+							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]] . "</a>";
+						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
+						}
+						break;
+					case 'Genre':
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						{
+							$url = rawurlencode($lsinfo["music"][$i][$config["display_fields"][$x]]);
+							$mprint[$i].= "<a title=\"Find by this keyword\" href=\"index.php?body=main&amp;feature=search&amp;server=$server&amp;find=";
+							$mprint[$i].= strtolower($config["display_fields"][$x]);
+							$mprint[$i].= "&amp;arg=$url&amp;sort=$sort&amp;dir=$dir_url\">";
+							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]] . "</a>";
+						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
+						}
 						break;
 					case 'Title':
 						$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
 						break;
 					case 'Track':
-						if (!isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
-						{
-							$mprint[$i].= $config["unknown_string"];
-						}
-						else
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
 						{
 							$mprint[$i].= $lsinfo["music"][$i][$config["display_fields"][$x]];
 						}
-						break;
-					case 'Time':
-						if (!isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
+						else
 						{
 							$mprint[$i].= $config["unknown_string"];
 						}
-						else
+						break;
+					case 'Time':
+						if (isset($lsinfo["music"][$i][$config["display_fields"][$x]]))
 						{
 							$mprint[$i].= display_time($lsinfo["music"][$i][$config["display_fields"][$x]]);
+						}
+						else
+						{
+							$mprint[$i].= $config["unknown_string"];
 						}
 						break;
 					default:
@@ -533,6 +561,24 @@ function songInfo2Display($song_info)
 		        $album = "";
 		}
 
+		if (isset($song_info["Genre"]))
+		{
+			$genre = $song_info["Genre"];
+		}
+		else
+		{
+			$genre = "";
+		}
+
+		if (isset($song_info["Date"]))
+		{
+			$date = $song_info["Date"];
+		}
+		else
+		{
+			$date = "";
+		}
+
 		if (isset($song_info["Track"]))
 		{
 		        $track = $song_info["Track"];
@@ -542,7 +588,7 @@ function songInfo2Display($song_info)
 		        $track = "";
 		}
 
-		$trans = array("artist" => $artist, "title" => $title, "album" => $album, "track" => $track);
+		$trans = array("artist" => $artist, "title" => $title, "album" => $album, "track" => $track, "genre" => $genre, "date" => $date);
 		
 		// If it doesn't exist don't print it, stupid
 		if (strlen($artist)==0 && ! strlen($title)==0)
@@ -565,17 +611,21 @@ function songInfo2Display($song_info)
 	}
 	else
 	{
-		for($i=0;$i<sizeOf($config["regex"]["remove"]);$i++)
+		// Let's not regex urls
+		if (! preg_match("/^(http|ftp|https):\/\/.*/",$song))
 		{
-			$song = str_replace($config["regex"]["remove"][$i],'',$song);
-		}
-		if(strcmp($config["regex"]["space"],"yes")==0)
-		{
-			$song = str_replace('_',' ',$song);
-		}
-		if(strcmp($config["regex"]["uppercase_first"],"yes")==0)
-		{
-			$song = ucwords($song);
+			for($i=0;$i<sizeOf($config["regex"]["remove"]);$i++)
+			{
+				$song = str_replace($config["regex"]["remove"][$i],'',$song);
+			}
+			if(strcmp($config["regex"]["space"],"yes")==0)
+			{
+				$song = str_replace('_',' ',$song);
+			}
+			if(strcmp($config["regex"]["uppercase_first"],"yes")==0)
+			{
+				$song = ucwords($song);
+			}
 		}
 		$song_display = $song;
 	}
