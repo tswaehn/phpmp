@@ -179,7 +179,8 @@ function lsinfo2musicTable($lsinfo, $sort, $dir_url, $sort_array, $config, $colo
 	$mic = 0;
 	$mcount = count( $lsinfo["music"] );
 
-	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
+	// Generate short names, mostly for the purposes of sorting by filename
+	for( $i = "0"; $i < $mcount; $i++ )
 	{
 		$split = split( "/", $lsinfo["music"][$i]["file"] );
 		$lsinfo["music"][$i]["key"] = $split[sizeOf($split)-1];
