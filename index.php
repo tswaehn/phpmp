@@ -56,6 +56,19 @@ if (! isset($delete))
 {
 	$delete = "no";
 }
+if(! isset ( $arg ))
+{
+	$arg = "";
+}
+if(! isset ( $arg2 ))
+{
+	$arg2 = "";
+}
+if( ! isset ( $remember ))
+{
+	$remember = "";
+}
+
 
 if (isset($hide) && strcmp($config["use_cookies"],"yes")==0)
 {
@@ -136,17 +149,13 @@ if( ! isset( $has_password ))
 	$has_password = 0;
 } 
 
-$status = getStatusInfo($fp); 
+$commands = getCommandInfo($fp);
+if( $commands["status"] == "1" )
+{
+	$status = getStatusInfo($fp); 
+}
 if(isset($command))
 {
-	if(! isset ( $arg ))
-	{
-		$arg = "";
-	}
-	if(! isset ( $arg2 ))
-	{
-		$arg2 = "";
-	}
 	doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status);
 }
 
@@ -199,9 +208,6 @@ if(isset($feature))
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
 
-unset($hostport);
-$commands = getCommandInfo($fp);
-
 if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==0 || $commands["playlistinfo"]==0 || $commands["stats"]==0 )
 {
 	include "features.php";
@@ -225,12 +231,16 @@ if( $commands["listall"]==0 || $commands["lsinfo"]==0 || $commands["playlist"]==
 	{
 		echo "playlistinfo";
 	}
+
+	echo "<br>";
+
 	login($fp, $config, $colors["login"], $server, $arg, $dir, $remember);
-	server($servers, $host, $colors["server"], $config);
+	server($servers, $host, $port, $colors["server"], $config);
 }
 // This will serve as our front page if called w/o $body
 else if(! isset($body) && ! isset($feature))
 {
+	unset($hostport);
 	echo "<title>" . $config["title"] ."</title>";
 	echo "</head>";
 
@@ -242,6 +252,7 @@ else if(! isset($body) && ! isset($feature))
 }
 else
 {
+	unset($hostport);
 	if(strcmp($body,"playlist")==0)
 	{
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . $config["refresh_freq"] . ";URL=index.php?body=playlist&amp;server=" . $server . "\">";

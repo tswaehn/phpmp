@@ -180,7 +180,7 @@ function printPlaylistInfo($conn, $num, $hide, $spread, $length, $filenames_only
 		}
 		else
 		{
-			echo "d</small></td>";
+			echo "<small>d</small></td>";
 		}
 
 		if( $commands["play"]==1 )

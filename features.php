@@ -32,9 +32,9 @@ function outputs($fp, $host, $color, $server)
 	echo "<tr><td>";
 	echo "<table summary=\"Outputs\" border=0 cellspacing=1 bgcolor=\"" . $color["body"][$i%2] ."\" width=\"100%\">";
 	for($i=0;$i<sizeOf($outputs);$i++)
-	{ $commands["enableoutput"] == "1" && $commands["disableoutput"] == "1" && 
+	{
 		echo "<tr bgcolor=" . $color["body"][$i%2] . "><td nowrap>";
-		if( ( ($outputs[$i]["outputenabled"]%2)-1) && $commands["enableoutput"] == "1" )
+		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] == "1" )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
@@ -214,7 +214,7 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 	}
 }
 
-function server($servers, $host, $color, $config)
+function server($servers, $host, $port, $color, $config)
 {
 	echo "<br>";
 	echo "<table summary=\"Server Selection\" border=0 cellspacing=1 bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
@@ -224,6 +224,7 @@ function server($servers, $host, $color, $config)
 	// This is for those who utilize multiple MPD servers setup in phpMp's config
  	echo '<form method=post action="index.php" target=_top>';
 	$sel1 = '<select name=server>';
+	$sel2 = "";
 	for ($x = 0; $x < sizeof($servers); $x++)
 	{
 		// add the server to select box, if the 3rd field is not blank use that,

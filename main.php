@@ -53,7 +53,7 @@ if(isset($feature))
 			search($fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"]);
 			break;
 		case 'server':
-			server($servers, $host, $colors["server"], $config);
+			server($servers, $host, $port, $colors["server"], $config);
 			break;
 		case 'stats':
 			stats($fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port);
