@@ -121,7 +121,8 @@ if (isset($status["state"]))
 	echo "<tr><td width=\"100%\">";
 
 	echo "<b>";
- 	if($status["updating_db"])
+
+ 	if(isset($status["updating_db"]))
 	{
 	        echo "Updating";
 	}
@@ -255,6 +256,10 @@ if (isset($status["state"]))
 		echo "</tr>";
 		echo "</table>";
 		echo "<!-- End Seek Bar -->";
+	}
+	else
+	{
+		$num = "-1";
 	}
 }
 

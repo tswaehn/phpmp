@@ -43,6 +43,19 @@ if (strcmp($config["use_cookies"],"yes")==0 && isset($_COOKIE["phpMp_playlist_hi
 // This will extract the needed GET/POST variables
 extract(setupReceivedVars(array("add_all", "arg", "arg2", "body", "command", "dir", "feature", "find", "hide", "logout", "passarg", "search", "server", "stream"),14));
 
+if (! isset($server))
+{
+	$server = 0;
+}
+if (! isset($dir))
+{
+	$dir = "";
+}
+if (! isset($delete))
+{
+	$delete = "no";
+}
+
 if (isset($hide) && strcmp($config["use_cookies"],"yes")==0)
 {
 	setcookie("phpMp_playlist_hide[$hostport]", $hide);
@@ -63,7 +76,7 @@ echo "<META HTTP-EQUIV=\"Expires\" CONTENT=\"Thu, 01 Dec 1994 16:00:00 GMT\">";
 echo "<META HTTP-EQUIV=\"Pragma\" CONTENT=\"no-cache\">";
 echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">";
 
-// Open the connection
+// Open thee connection
 $fp = fsockopen($host,$port,$errno,$errstr,10);
 
 // If there's no connection, and servers exist goto the server menu
@@ -117,49 +130,68 @@ if (isset($passarg))
 	}
 }
 
-doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"]);
-
-if(strcmp($feature,"stream-icy")==0)
+if( ! isset( $has_password ) )
 {
-	if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )))
+	$has_password = 1;
+} 
+
+if(isset($command))
+{
+	if(! isset ( $arg ))
 	{
-		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
+		$arg = "";
 	}
-	if( ! ($fh2 = fopen( "http://oddsock.org/yp.xml" , "r" )))
+	if(! isset ( $arg2 ))
 	{
-		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-	}
+		$arg2 = "";
+	} 
+	doCommand($fp, $arg, $arg2, $command, $config["overwrite_playlists"]);
+}
 
-	$server_count = 0;
-	$server_data = array();
-	$xml_current_tag_state = '';
-
-
-	if( !($xml_parser = xml_parser_create()) )
+if(isset($feature))
+{
+	if(strcmp($feature,"stream-icy")==0)
 	{
-		die("Couldn't create XML parser!");
-	}
-
-	xml_set_element_handler($xml_parser, "startElementHandler", "endElementHandler");
-	xml_set_character_data_handler($xml_parser, "characterDataHandler");
-
-	while( $data = fread($fh, 4096) )
-	{
-		if( !xml_parse($xml_parser, $data, feof($fh)) )
+		if( ! ($fh = fopen( "http://dir.xiph.org/yp.xml" , "r" )))
 		{
-			break; // get out of while loop if we're done with the file
+			die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 		}
-	}
-
-	while( $data = fread($fh2, 4096) )
-	{
-		if( !xml_parse($xml_parser, $data, feof($fh2)) )
+		if( ! ($fh2 = fopen( "http://oddsock.org/yp.xml" , "r" )))
 		{
-			break; // get out of while loop if we're done with the file
+			die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
 		}
-	}
 
-	xml_parser_free($xml_parser);
+		$server_count = 0;
+		$server_data = array();
+		$xml_current_tag_state = '';
+
+
+		if( !($xml_parser = xml_parser_create()) )
+		{
+			die("Couldn't create XML parser!");
+		}
+
+		xml_set_element_handler($xml_parser, "startElementHandler", "endElementHandler");
+		xml_set_character_data_handler($xml_parser, "characterDataHandler");
+
+		while( $data = fread($fh, 4096) )
+		{
+			if( !xml_parse($xml_parser, $data, feof($fh)) )
+			{
+				break; // get out of while loop if we're done with the file
+			}
+		}
+
+		while( $data = fread($fh2, 4096) )
+		{
+			if( !xml_parse($xml_parser, $data, feof($fh2)) )
+			{
+				break; // get out of while loop if we're done with the file
+			}
+		}
+
+		xml_parser_free($xml_parser);
+	}
 }
 
 // This needs to go down here to give the cookies, server time to load

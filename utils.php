@@ -136,7 +136,7 @@ function doCommand($fp, $arg, $arg2, $command, $overwrite)
 	}
 }
 
-function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServers, $has_password, $dcount, $commands, $color, $server, $servers, $fp)
+function displayDirectory($dir, $sort, $title, $music, $playlists, $has_password, $dcount, $commands, $color, $server, $servers, $fp)
 {
 	$dir_url = stripslashes($dir);
 	$dir_url = rawurlencode($dir_url);
@@ -252,7 +252,7 @@ function displayDirectory($dir, $sort, $title, $music, $playlists, $displayServe
 	}
 
 	$status = getStatusInfo($fp);
-	if($status["updating_db"])
+	if(isset($status["updating_db"]))
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
 	}
@@ -327,7 +327,7 @@ function startElementHandler( $parser, $element_name, $element_attribs )
 	global $server_count;
 	global $server_data;
 	global $xml_current_tag_state;
-	if( $element_name == "ENTRY" )
+	if( $element_name == "ENTRY" && isset ( $element_attribs["ALIGNMENT"] ))
 	{
 		$server_data[$server_count]["alignment"] = $element_attribs["ALIGNMENT"];
 	}

@@ -1,4 +1,8 @@
 <?php
+// Initialize these variables to avoid notice warnings
+$server = 0;
+$hide = 0;
+
 // Font
 $fonts["all"] = "sans";
 

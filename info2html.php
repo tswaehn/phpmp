@@ -40,31 +40,32 @@ function lsinfo2directoryTable($lsinfo, $server, $sort, $dir, $addperm, $color)
 		}
 		$dprint[$i].= "<a title=\"Browse the " . $dirss[0] . " Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$dirstr\">$dirss[0]</a></td></tr>";
 	}
-	if(!isset($dindex))
+	if(! isset( $dindex ))
 	{
 		$dindex = array();
+	}
+	if(! isset( $dprint ))
+	{
+		$dprint = array();
 	}
 	return array($dprint, $dindex, $dcount);
 }
 
 function printSavePlaylistTable($save, $server, $color)
 {
-	if (isset($save) && strcmp($save,"yes")==0)
-	{
-		echo "<!-- Begin printSavePlaylistTable -->";
-		echo "<br>";
-		echo "<form action=index.php method=get>";
-		echo "<table summary=\"Save Playlist\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
-		echo "<tr><td><b>Save Playlist</b></td></tr>";
-		echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td>";
-		echo "<input name=arg size=40>";
-		echo "<input type=hidden name=body value=main>";
-		echo "<input type=hidden name=server value=\"$server\">";
-		echo "<input type=hidden value=save name=command>";
-		echo "<input type=submit value=save name=foo>";
-		echo "</td></tr></table></form>";
-		echo "<!-- End printSavePlaylistTable -->";
-	}
+	echo "<!-- Begin printSavePlaylistTable -->";
+	echo "<br>";
+	echo "<form action=index.php method=get>";
+	echo "<table summary=\"Save Playlist\" cellspacing=1 bgcolor=\"" . $color["title"] . "\">";
+	echo "<tr><td><b>Save Playlist</b></td></tr>";
+	echo "<tr bgcolor=\"" . $color["body"][0] . "\"><td>";
+	echo "<input name=arg size=40>";
+	echo "<input type=hidden name=body value=main>";
+	echo "<input type=hidden name=server value=\"$server\">";
+	echo "<input type=hidden value=save name=command>";
+	echo "<input type=submit value=save name=foo>";
+	echo "</td></tr></table></form>";
+	echo "<!-- End printSavePlaylistTable -->";
 }
 
 /*

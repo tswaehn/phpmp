@@ -124,7 +124,7 @@ function stats($fp, $color, $MPDversion, $phpMpVersion, $host, $port)
 	{
 		for($i=0; $i < sizeof($statistics); $i++)
 		{
-			echo "<tr bgcolor=\"" . $color["body"][$j%2-1] . "\"><td><b>$key:</b>&nbsp;$value</td></tr>";
+			echo "<tr bgcolor=\"" . $color["body"][$j%2] . "\"><td><b>$key:</b>&nbsp;$value</td></tr>";
 			break;
 		}
 		$j++;
@@ -164,9 +164,12 @@ function stream($server, $color, $feature, $server_data, $song_seperator)
 		$k=0;
 		for($i=0;$i<sizeOf($server_data);$i++)
 		{
-			if(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"]))
+			if( isset ( $server_data[($i+1)]["server_name"] ))
 			{
-				$k++;
+				if(strcmp($server_data[$i]["server_name"],$server_data[($i+1)]["server_name"]))
+				{
+					$k++;
+				}
 			}
 		}
 		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"" . $color["title"] . "\" width=\"100%\">";
@@ -252,11 +255,11 @@ function search ($fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	echo "<select name=search>";
 	function localPrintFileNameOption($which_search)
 	{
-		if(isset($search))
+		if(! empty($search))
 		{
 			$which_search=$search;
 		}
-		else if(isset($find))
+		else if(! empty($find))
 		{
 			$which_search=$find;
 		}

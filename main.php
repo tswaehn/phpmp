@@ -8,6 +8,7 @@ if(!isset($sort))
 }
 
 $dir_url = rawurlencode($dir);
+
 $lsinfo = getLsInfo($fp,"lsinfo \"$dir\"\n");
 $sort_array = split(",",$sort);
 
@@ -21,7 +22,7 @@ utils and edit below and you have a new feature */
 if(isset($feature))
 {
 	require "features.php";
-	displayDirectory($dir, $sort,"Back to Directory", 0, 0, "no", $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
+	displayDirectory($dir, $sort,"Back to Directory", 0, 0, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
 
 	echo "<!-- Begin $feature -->";
 	switch($feature)
@@ -33,6 +34,18 @@ if(isset($feature))
 			outputs($fp, $host, $colors["outputs"], $server);
 			break;
 		case 'search':
+			if( ! isset ( $search ))
+			{
+				$search = "";
+			}
+			if( ! isset ( $find ))
+			{
+				$find = "";
+			}
+			if( ! isset ( $arg ))
+			{
+				$arg = "";
+			}
 			search($fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"]);
 			break;
 		case 'server':
@@ -52,10 +65,13 @@ if(isset($feature))
 }
 else
 {
-	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $displayServers, $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
+	displayDirectory($dir, $sort, "Current Directory", count($mprint), count($pprint), $has_password, $dcount, $commands, $colors["directories"], $server, $servers, $fp);
 
 	// The next few are targeted from URLs
-	printSavePlaylistTable($save, $server, $colors["playlist"]);
+	if (isset($save) && strcmp($save,"yes")==0)
+	{
+		printSavePlaylistTable($save, $server, $colors["playlist"]);
+	}
 	printDirectoryTable($dcount, $dprint, $dindex, $dir, $sort, $server, $commands["add"], $colors["directories"]);
 	printMusicTable($config, $colors["music"], $sort_array, $server, $mprint, "index.php?body=main&amp;dir=$dir_url", $add_all, $mindex, $dir, $commands["add"]);
 	printPlaylistTable($colors["playlist"], $server, $pprint, $pindex, $delete, $commands["rm"]);
