@@ -194,9 +194,10 @@ else {
 			else $time_perc = 100.0;
 			$time_div = 4;
 			$do = round($time_perc/$time_div);
-			print "<table border=0 cellspacing=0 cellpadding=0 height=\"8\"><tr>";
+			print "<table border=0 cellspacing=0 cellpadding=0><tr>";
 			$col = $colors["time"]["foreground"];
 			$col = $colors["time"]["background"];
+
 			for($i=0; $i<round(100/$time_div); $i++) {
 				if($i>=$do-1 && $i<=$do+1) {
 					$col = $colors["time"]["foreground"];
@@ -205,7 +206,7 @@ else {
 				$min = (int)($seek/60);
 				$sec= $seek-$min*60;
 				if($sec<10) $sec = "0$sec";
-				print "<td width=8 bgcolor=\"$col\"><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=seekid $songid $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
+				print "<td width=8 height=8 bgcolor=\"$col\"><a href=\"playlist.php?server=$server&amp;hide=$hide&amp;command=seekid $songid $seek\" title=\"$min:$sec\"><img border=0 width=8 height=8 src=transparent.gif></a></td>";
 				$col = $colors["time"]["background"];
 			}
 			print "</tr></table>\n";
@@ -259,7 +260,7 @@ else {
 			print "<tr><td colspan=6>";
 			print "<br><br>\n";
 			$col = $colors["time"]["background"];
-			print "<table border=0 cellspacing=0 cellpadding=0 width=200 bgcolor=\"$col\"><tr><td></td></tr></table>";
+			print "<table border=0 cellspacing=0 cellpadding=0 width=200 bgcolor=\"$col\"><tr><td height=8><img border=0 width=8 height=8 src=transparent.gif></td></tr></table>";
 			print "</td></tr><tr>";
 			if($repeat) {
 				print "<td bgcolor=\"";
