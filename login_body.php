@@ -52,11 +52,11 @@ else {
 	else if(!isset($logout) && isset($_COOKIE["phpMp_password"])) {
 		print "<form style=\"padding:0;margin:0;\" action=login.php? method=get>\n";
 		print "<table border=0 cellspacing=1 bgcolor=\"";
-		print $colors["music"]["title"];
+		print $colors["password"]["title"];
 		print "\" width=\"100%\">\n";
 		print "<tr><td><b>Logout</b></td></tr>\n";
 		print "<tr bgcolor=\"";
-		print $colors["music"]["body"][1];
+		print $colors["password"]["body"];
 		print "\"><td>\n";
 		$dir_url = sanitizeForURL($dir);
 		print "<input type=hidden value=\"logout\" name=logout>\n";
@@ -69,11 +69,11 @@ else {
 	else {
 		print "<form style=\"padding:0;margin:0;\" action=login.php? method=get>\n";
 		print "<table border=0 cellspacing=1 bgcolor=\"";
-		print $colors["music"]["title"];
+		print $colors["password"]["title"];
 		print "\" width=\"100%\">\n";
 		print "<tr><td><b>Password</b></td></tr>\n";
 		print "<tr bgcolor=\"";
-		print $colors["music"]["body"][1];
+		print $colors["password"]["body"];
 		print "\"><td>\n";
 		$dir_url = sanitizeForURL($dir);
 		print "<input type=password name=arg value=\"$arg\" size=20>\n";

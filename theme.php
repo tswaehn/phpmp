@@ -25,6 +25,10 @@ $colors["playlist"]["title"] = "#ffaaaa";
 $colors["playlist"]["body"] = "#ffdddd";
 $colors["playlist"]["current"] = "#88ff88";
 
+// Colors for Pssword
+$colors["password"]["title"] = "#cccccc";
+$colors["password"]["body"] = "#eeeeee";
+
 // Colors for Playing
 $colors["playing"]["title"] = "#cccccc";
 $colors["playing"]["body"] = "#eeeeee";
