@@ -1,4 +1,10 @@
 <?php
+global $has_password;
+$has_password = 0;
+if(isset($_COOKIE["phpMp_password"])) {
+	$password = $_COOKIE["phpMp_password"];
+	$has_password = 1;
+}
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");

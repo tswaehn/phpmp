@@ -20,6 +20,17 @@ else {
 		if(strncmp("ACK",$got,strlen("ACK"))==0) 
 			break;
 	}
+	if(isset($password)) {
+		fputs($fp,"password \"$password\"\n");
+		while(!feof($fp)) {
+			$got =  fgets($fp,1024);
+			if(strncmp("OK",$got,strlen("OK"))==0)
+				break;
+			print "$got<br>";
+			if(strncmp("ACK",$got,strlen("ACK"))==0) 
+				break;
+		}
+	}
 	if(isset($command)) {
 		if(strlen($arg)>0) $command.=" \"$arg\"";
 		fputs($fp,"$command\n");

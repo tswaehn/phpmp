@@ -1,4 +1,11 @@
 <?php
+ob_start();
+global $has_password;
+$has_password = 0;
+if(isset($_COOKIE["phpMp_password"])) {
+	$password = $_COOKIE["phpMp_password"];
+	$has_password = 1;
+}
 include "config.php";
 include "theme.php";
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");

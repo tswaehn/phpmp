@@ -6,6 +6,10 @@ if($use_cookies=="yes" && isset($_COOKIE["phpMp_playlist_hide"])) {
 	$hide = $_COOKIE["phpMp_playlist_hide"];
 }
 
+if(isset($_COOKIE["phpMp_password"])) {
+	$password = $_COOKIE["phpMp_password"];
+}
+
 extract($HTTP_GET_VARS);
 extract($HTTP_POST_VARS);
 

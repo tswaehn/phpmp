@@ -36,7 +36,7 @@ function sanitizeForPost($str) {
 }
 
 function displayDirectory($dir,$sort,$title,$music,$playlists) {
-	global $colors;
+	global $colors,$has_password;
 	$dir_url = sanitizeForURL($dir);
 	print "<table border=0 cellspacing=1 bgcolor=\"";
 	print $colors["directories"]["title"];
@@ -46,7 +46,10 @@ function displayDirectory($dir,$sort,$title,$music,$playlists) {
 	if($playlists) print "(<a href=\"#playlists\">Playlists</a>) ";
 	print "</td><td align=right>";
 	print "[<a href=\"login.php?dir=$dir_url&sort=$sort\">";
-	print "Login</a>]\n";
+	if($has_password) 
+		print "Logout</a>]\n";
+	else
+		print "Login</a>]\n";
 	print "[<a href=\"search.php?dir=$dir_url&sort=$sort\">";
 	print "Search</a>]</td></tr>\n";
 	print "<tr bgcolor=\"";
