@@ -12,7 +12,7 @@ $config = array(
 		/  If set to "yes" up and down swap buttons will appear in the active playlist	/
 		/  The only real downside is your playlist will take up more space if enabled	/
 		/*******************************************************************************/
-		"enable_swap" => "no",
+		"enable_swap" => "yes",
 
 		/***********************************************************
 		/ If set to yes, this will hide your playlist options, and / 

@@ -27,6 +27,7 @@ $command =	isset( $_REQUEST["command"] )	?	$_REQUEST["command"]	:	"";
 $feature =	isset( $_REQUEST["feature"] )	?	$_REQUEST["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
+$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
 
 if( ! empty( $body ))
 {
@@ -38,10 +39,6 @@ if( ! empty( $body ))
 			{
 				$search = isset( $_REQUEST["search"] ) ? $_REQUEST["search"] : "";
 				$find = isset( $_REQUEST["find"] ) ? $_REQUEST["find"] : "";
-			}
-			if( strcmp( $feature, "stream" ) == "0" )
-			{
-				$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
 			}
 		}
 		$delete = isset( $_REQUEST["delete"] ) ? $_REQUEST["delete"] : "no";

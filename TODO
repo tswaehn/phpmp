@@ -21,6 +21,9 @@ Future (doesn't have to be before release)
 *) [printMusicTable]
 	*) Try to remove columns that go unused from printMusicTable
 
+*) [printPlaylistTable]
+	*) This table should have never gotten this big and complex. Needs to be broken down to pieces that are a page or less optimally
+
 *) [Search Feature]
 	*) Continue to add new features added for 0.12.0 in search menu
 	*) Add a few new search types

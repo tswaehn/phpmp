@@ -1,3 +1,24 @@
+Fri Dec 24 13:34:08 PST 2004  avuton@gmail.com
+  * Enable swap = "yes" by default. See how the people like it.
+
+Fri Dec 24 13:33:29 PST 2004  avuton@gmail.com
+  * Fix stream support
+
+Fri Dec 24 13:07:45 PST 2004  avuton@gmail.com
+  * TODO update
+
+Fri Dec 24 12:13:55 PST 2004  avuton@gmail.com
+  * This centers vertically if enable_swap = yes
+
+Fri Dec 24 11:32:29 PST 2004  avuton@gmail.com
+  * main.php cleanup
+
+Fri Dec 24 10:39:22 PST 2004  avuton@gmail.com
+  * Don't pass the full $lsinfo, just pass what's required respective to the function being called
+
+Fri Dec 24 09:48:28 PST 2004  avuton@gmail.com
+  * ChangeLog update
+
 Fri Dec 24 09:41:58 PST 2004  avuton@gmail.com
   * Reorganize main.php to fix issues
   
@@ -12,9 +33,6 @@ Fri Dec 24 08:40:28 PST 2004  avuton@gmail.com
 Fri Dec 24 08:39:40 PST 2004  avuton@gmail.com
   * Fix for warnings
 
-Fri Dec 24 08:17:20 PST 2004  avuton@gmail.com
-  * ChangeLog update
-
 Fri Dec 24 00:44:02 PST 2004  avuton@gmail.com
   * Change some obvious if() else()s to tenerary operators
 
@@ -24,9 +42,6 @@ Fri Dec 24 00:43:05 PST 2004  avuton@gmail.com
 Fri Dec 24 00:41:44 PST 2004  avuton@gmail.com
   * Make search generic to what's in display_fields[]
   Also, add autocomplete=on to the text search box, suprised this wasn't there before.
-
-Fri Dec 24 00:40:01 PST 2004  avuton@gmail.com
-  * TODO update
 
 Thu Dec 23 14:52:07 PST 2004  avuton@gmail.com
   * Fix songInfo breaking issue

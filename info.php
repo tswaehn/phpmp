@@ -160,7 +160,15 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $spread, $length,
 		{
 		        echo "<tr bgcolor=\"{$color["body"][ ( $count % 2 ) ]}\">";
 		}
-		echo "<td valign=top><a name=$count></a><small>";
+
+		if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		{
+			echo "<td valign=middle><a name=$count></a><small>";
+		}
+		else
+		{
+			echo "<td valign=top><a name=$count></a><small>";
+		}
 
 		if( $commands["move"] == "0" || ( strcmp( $config["enable_swap"], "yes" ) == "0" && $ret["Pos"] == "0" ))
 		{
