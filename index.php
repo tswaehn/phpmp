@@ -38,6 +38,7 @@ if( ! empty( $body ))
 			{
 				$search = isset( $_REQUEST["search"] ) ? $_REQUEST["search"] : "";
 				$find = isset( $_REQUEST["find"] ) ? $_REQUEST["find"] : "";
+				$search_fields = $config["display_fields"];
 			}
 		}
 		$delete = isset( $_REQUEST["delete"] ) ? $_REQUEST["delete"] : "no";

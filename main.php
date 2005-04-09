@@ -76,7 +76,7 @@ else
 			outputs( $fp, $host, $colors["outputs"], $server, $commands );
 			break;
 		case 'search':
-			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered, $tagged, $untagged, $lsinfo["music"] );
+			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered, $tagged, $untagged, $lsinfo["music"], $search_fields );
 			break;
 		case 'server':
 			server( $servers, $host, $port, $colors["server"] );

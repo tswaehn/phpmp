@@ -288,7 +288,7 @@ function server( $servers, $host, $port, $color )
 	echo "</form></td></tr></table>";
 }
 
-function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered, $tagged, $untagged, $lsinfo )
+function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered, $tagged, $untagged, $lsinfo, $search_fields )
 {
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
@@ -312,23 +312,23 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		echo $filename;
 	}
 
-	for( $i = "0"; $i < count( $config["display_fields"] ); $i++ )
+	for( $i = "0"; $i < count( $search_fields ); $i++ )
 	{
 		// Don't echo 'Time' or 'Track' as they don't make sense to search for.
-		if( strcmp( "Time", $config["display_fields"][$i] ) && strcmp( "Track", $config["display_fields"][$i] ))
+		if( strcmp( "Time", $config["display_fields"] ) && strcmp( "Track", $config["display_fields"][$i] ))
 		{
-			if( strcmp( $search, $config["display_fields"][$i] ) == "0" || strcmp( $find, $config["display_fields"][$i] ) == "0" )
+			if( strcasecmp( $search, $search_fields[$i] ) == "0" || strcasecmp( $find, $search_fields[$i] ) == "0" )
 			{
-				echo "<option selected>{$config["display_fields"][$i]}</option>";
+				echo "<option selected>{$search_fields[$i]}</option>";
 			}
 			else
 			{
-				echo "<option>{$config["display_fields"][$i]}</option>";
+				echo "<option>{$search_fields[$i]}</option>";
 			}
 		}
 	}
 
-	if( strcmp( $search, "any" ) == "0" || strcmp( $find, "any" ) == "0")
+	if( strcasecmp( $search, "any" ) == "0" || strcasecmp( $find, "any" ) == "0")
 	{
 		echo "<option value=\"any\" selected>Any</option>";
 	}
@@ -357,15 +357,14 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	$dir_url = rawurlencode( $dir );
 	$sort_array = split( ",", $sort );
 
-		if( empty( $search ))
-		{
-			$url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
-		}
-		else
-		{
-			$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
-		}
-
+	if( empty( $search ))
+	{
+		$url = "index.php?body=main&amp;feature=search&amp;find=$find&amp;arg=$arg_url&amp;dir=$dir_url";
+	}
+	else
+	{
+		$url = "index.php?body=main&amp;feature=search&amp;search=$search&amp;arg=$arg_url&amp;dir=$dir_url";
+	}
 
 	if( is_array( $untagged ) || is_array( $tagged ))
 	{
