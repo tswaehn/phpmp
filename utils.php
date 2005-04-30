@@ -141,7 +141,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	{
 		if( $mfcount > "0" && $mtcount > "0" )
 		{
- 		        echo "<small>(<a title=\"Jump to the tagged music menu href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
+ 		        echo "<small>(<a title=\"Jump to the tagged music menu\" href=\"#Tagged Music\">Tagged</a>)</small>&nbsp;";
 			echo "<small>(<a title=\"Jump to the untagged music menu\" href=\"#Untagged Music\">Untagged</a>)</small>&nbsp;";
 		}
 		else if( $mfcount > "0" )
