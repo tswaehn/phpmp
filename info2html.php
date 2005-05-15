@@ -698,6 +698,7 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 		// This will replace all song_display_conf stuff with the actual value
 		foreach( $song_info as $key => $value )
 		{
+			#display is (Artist) $key is Artist, $value is Dave Matthews Band
 			for( $i = "0"; $i < count( $display ); $i++ )
 			{
 				if( strstr( $display[$i], $key ) && $value != NULL )
@@ -705,13 +706,15 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 					// Don't put the separator before the display
 					if( $i != 0 )
 					{
-						$song_display_conf .= $display_separator;
+						$song_display_conf[$i] .= $display_separator;
 					}
-					$song_display_conf .= str_replace( $key, $value, $display[$i] );
+					$song_display_conf[$i] .= str_replace( $key, $value, $display[$i] );
 				}
 			}
 		}
-		$song_display = $song_display_conf;
+		for( $i = "0"; $i < count( $display) ; $i++) {
+			$song_display .= $song_display_conf[$i];
+		}
 	}
 	else if( strcmp( $filenames_only, "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{
