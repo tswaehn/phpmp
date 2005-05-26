@@ -98,6 +98,9 @@ function printDirectoryTable( $info, $dir, $sort, $server, $addperm, $color )
 		$dir = rawurlencode($dir);
 		if( $addperm == "1" )
 		{
+			if(empty($dir)) {
+				$dir = '/';
+			}
 			echo "&nbsp;<small>(<a title=\"Add All Directories and Music\" target=playlist href=index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$dir>add all</a>)</small>";
 		}
 		echo "</td></tr>";  
