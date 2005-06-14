@@ -102,9 +102,9 @@ if(! is_resource( $fp ))
 
 // Lets go ahead and get the MPD version while we can
 $MPDversion = initialConnect($fp);
-
+$MPDversion = trim($MPDversion);
 // Password stuff
-if( isset( $logout ))
+if( !empty( $logout ))
 {
 	setcookie( "phpMp_password[$hostport]", "" );
 }
@@ -124,9 +124,9 @@ if( strlen( $passarg ) > "0" )
 		{
 			if( isset( $remember ) && strcmp( $remember, "true" ) == "0" )
 			{
-				setcookie( "phpMp_password[$hostport]", $passarg, time()+60*60*24*365 );
+				setcookie( "phpMp_password[$hostport]", $passarg, time()+60*60*24*30 );
 			}
-			else
+			else if( ! $_COOKIE["phpMp_password"][$hostport] )
 			{
 				setcookie( "phpMp_password[$hostport]", $passarg );
 			}
@@ -145,7 +145,7 @@ if( ! isset( $has_password ))
 	$has_password = 0;
 } 
 
-$commands = getCommandInfo( $fp );
+$commands = getCommandInfo( $fp, $MPDversion );
 if( $commands["status"] == "1" )
 {
 	$status = getStatusInfo( $fp );

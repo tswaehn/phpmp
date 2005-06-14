@@ -73,6 +73,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	// Used to use mktime() until it became too combersome
 	function secondsToDHMS( $seconds )
 	{
+		// Floor is not 100% accurate, patch anyone?
 		$ret = "";
 		$years = floor ($seconds / 31536000);
 		if( $years > 1 )
@@ -288,7 +289,7 @@ function server( $servers, $host, $port, $color )
 	echo "</form></td></tr></table>";
 }
 
-function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered, $tagged, $untagged, $lsinfo, $search_fields )
+function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $server, $addperm, $feature, $ordered, $tagged, $untagged, $lsinfo, $search_fields, $MPDversion )
 {
 	echo "<br>";
 	echo "<form action=index.php? method=get>";
@@ -311,11 +312,23 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	{
 		echo $filename;
 	}
-
-	for( $i = "0"; $i < count( $search_fields ); $i++ )
+        
+	// Default to Any if 0.12.x
+	if(( strcasecmp( $search, "any" ) == "0" || strcasecmp( $find, "any" ) == "0" ||
+	    ( strcmp($search,'') == 0 && strcmp($find,'') == 0 )) && strcmp( $MPDversion, "0.12.0" ) == 0 )
+	{
+		echo "<option value=\"any\" selected>Any</option>";
+	}
+	else if( strcmp( $MPDversion, "0.12.0") == 0 )
+	{
+		echo "<option value=\"any\">Any</option>";
+	}
+        
+        
+        for( $i = "0"; $i < count( $search_fields ); $i++ )
 	{
 		// Don't echo 'Time' or 'Track' as they don't make sense to search for.
-		if( strcmp( "Time", $config["display_fields"] ) && strcmp( "Track", $config["display_fields"][$i] ))
+                if( strcmp( "Time", $search_fields[$i]) && strcmp( "Track", $search_fields[$i] ))
 		{
 			if( strcasecmp( $search, $search_fields[$i] ) == "0" || strcasecmp( $find, $search_fields[$i] ) == "0" )
 			{
@@ -327,21 +340,12 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 			}
 		}
 	}
-
-	if( strcasecmp( $search, "any" ) == "0" || strcasecmp( $find, "any" ) == "0")
-	{
-		echo "<option value=\"any\" selected>Any</option>";
-	}
-	else
-	{
-		echo "<option value=\"any\">Any</option>";
-	}
-
-
+        
 	if( strcmp( $config["filenames_only"], "yes" ))
 	{
 		echo $filename;
 	}
+	
 	echo "</select>";
 	echo "<input type=hidden value=\"main\" name=body>";
 	echo "<input type=hidden value=\"search\" name=feature>";

@@ -19,12 +19,12 @@ if( empty( $feature ))
 		$file_info = fileinfo2musicTable( $untagged, $dir_url, $config["display_fields"], $colors["music"], $server, $commands["add"] );
 		unset( $tagged, $untagged );
 		displayDirectory( $dir, $dir_url, $sort, "Current Directory", $file_info["count"], $tagged_info["count"], $pinfo["count"], $dinfo["count"],
-			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered, NULL );
 	}
 	else
 	{
-		displayDirectory( $dir, $dir_url, $sort, "Current Directory", 0, 0, $pinfo["count"], $dinfo["count"],
-			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+		displayDirectory( $dir, $dir_url, $sort, "Current Directory", 0, 0, $pinfo["count"], $dinfo["count"], 
+			$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered, NULL );
 	}
 
 	if( strcmp( $save, "yes" ) == "0" )
@@ -64,7 +64,7 @@ else
 	}
 
 	displayDirectory( $dir, $dir_url, $sort, "Current Directory", count( $untagged ), count( $tagged ), 0, 0,
-		$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered );
+		$has_password, $commands, $colors["directories"], $server, $servers, $fp, $passarg, $ordered, $feature );
 
 	echo "<!-- Begin $feature -->";
 	switch( $feature )
@@ -76,7 +76,7 @@ else
 			outputs( $fp, $host, $colors["outputs"], $server, $commands );
 			break;
 		case 'search':
-			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered, $tagged, $untagged, $lsinfo["music"], $search_fields );
+			search( $fp, $colors["search"], $config, $dir, $search, $find, $arg, $sort, $server, $commands["add"], $feature, $ordered, $tagged, $untagged, $lsinfo["music"], $search_fields, $MPDversion );
 			break;
 		case 'server':
 			server( $servers, $host, $port, $colors["server"] );

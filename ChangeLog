@@ -78,6 +78,9 @@ machine with MPD, Apache & phpMp serving.
 62) Split up the metadata/non-metadata tables, this will fix searching and sorting.
 63) Added new search option 'Any'
 64) When 'find'ing do not assume the sort needs to be changed.
+65) Do not show update option when in the searching or finding feature, due to complications with the submission.
+66) Keep compatibiity with legacy MPD versions.
+67) If not filenames_only and not searching or finding default to 'Any' type of search if using MPD v12.
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

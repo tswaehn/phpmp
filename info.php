@@ -29,26 +29,82 @@ function getStatusInfo( $conn )
 	return $ret;
 }
 
-function getCommandInfo( $conn )
+function getCommandInfo( $conn, $MPDVersion )
 {
+    
 	fputs( $conn, "commands\n" );
 	while( ! feof( $conn ))
 	{
 		$got = fgets( $conn, "1024" );
 		$got = str_replace( "\n", "", $got );
+		
 		if( strncmp( "OK", $got, strlen( "OK" )) == "0")
 		{
 			break;
 		}
 		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
-			echo "$got<br>";
-			break;
+			
+			if(strcmp($MPDVersion,"0.11.0") == 0 ) {
+				$ret = array(
+					     // 0.11.x
+					     "clearerror" => 1,
+					     "deleteid" => 1,
+					     "move" => 1,
+					     "moveid" => 1,
+					     "playid" => 1,
+					     "playlistid" => 1,
+					     "plchanges" => 1,
+					     "seekid" => 1,
+					     "swapid" => 1,
+					     "update" => 1
+					     );
+			};
+			
+			// 0.10.x
+			$ret .=  array(
+					"add" => 1,
+					"clear" => 1,
+					"close" => 1,
+					"crossfade" => 1,
+					"close" => 1,
+					"crossfade" => 1,
+					"currentsong" => 1,
+					"delete" => 1,
+					"find" => 1,
+					"list" => 1,
+					"listall" => 1,
+					"listallinfo" => 1,
+					"load" => 1,
+					"lsinfo" => 1,
+					"next" => 1,
+					"pause" => 1,
+					"password" => 1,
+					"ping" => 1,
+					"play" => 1,
+					"playlist" => 1,
+					"playlistinfo" => 1,
+					"previous" => 1,
+					"random" => 1,
+					"repeat" => 1,
+					"rm" => 1,
+					"save" => 1,
+					"search" => 1,
+					"seek" => 1,
+					"setvol" => 1,
+					"shuffle" => 1,
+					"stats" => 1,
+					"status" => 1,
+					"stop" => 1,
+					"swap" => 1,
+					"volume" => 1
+					);
+			return $ret;
 		}
-
+	
 		$el = str_replace( "command: ", "", $got);
 		$ret[$el] = "1";
-	}
+        }
 	fputs( $conn, "notcommands\n" );
 	while( ! feof( $conn ))
 	{

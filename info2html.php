@@ -686,6 +686,8 @@ function printPlaylistTable( $color, $server, $info, $delete, $rmperm )
 
 function songInfo2Display( $song_info, $display, $display_separator, $filenames_only, $regex, $wordwrap )
 {
+	$song_display_conf = NULL;
+	$song_display = NULL;
 	// If it's a URL don't grab it's basename
 	if( preg_match( "/^[a-z]*:\/\//", $song_info["file"] ))
 	{
@@ -704,13 +706,17 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 			#display is (Artist) $key is Artist, $value is Dave Matthews Band
 			for( $i = "0"; $i < count( $display ); $i++ )
 			{
+				if( ! isset( $song_display_conf[$i] )) {
+					$song_display_conf[$i] = '';
+				}
+				
 				if( strstr( $display[$i], $key ) && $value != NULL )
 				{
 					// Don't put the separator before the display
 					if( $i != 0 )
 					{
 						$song_display_conf[$i] .= $display_separator;
-					}
+					}	
 					$song_display_conf[$i] .= str_replace( $key, $value, $display[$i] );
 				}
 			}

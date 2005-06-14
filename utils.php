@@ -130,7 +130,7 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 	}
 }
 
-function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $pcount, $dcount, $has_password, $commands, $color, $server, $servers, $fp, $passarg, $ordered )
+function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $pcount, $dcount, $has_password, $commands, $color, $server, $servers, $fp, $passarg, $ordered, $feature )
 {
 	echo "<!-- Begin displayDirectory  -->";
 	// The next line needs a cellspacing value of 2 since the other tables have 2 tables, and this one only has one
@@ -262,17 +262,21 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo " / ";
 		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
-
-	$status = getStatusInfo( $fp );
+	
+        // We don't allow update during search or find because 
+        // the search will not be re-submitted without some javascript magic.
+        // It would probably be best to compensate for the stream browsers too.
+        $status = getStatusInfo( $fp );
 	if( isset( $status["updating_db"] ))
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
-	}
-	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" )
+        }
+	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" &&
+                !( strcmp( $feature, "search" ) == "0"  || strcmp( $feature, "find" ) == "0" ))
 	{
 		$dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir = rawurlencode( $build_dir );
-		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;server=$server&amp;dir=$build_dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
+		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;feature=$feature&amp;server=$server&amp;dir=$build_dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
 		echo "target=\"main\" title=\"Update the Current Directory\">db update</a>)</small>";
 	}
 	echo "</td></tr></table>";
