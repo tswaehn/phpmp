@@ -243,9 +243,11 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		{
 		        $build_dir.="/";
 		}
-		$dirs[$i] = stripslashes( $dirs[$i] );
+		
+                $dirs[$i] = stripslashes( $dirs[$i] );
 		$build_dir.="$dirs[$i]";
-		echo " / ";
+		$build_dir = rawurlencode( $build_dir );
+                echo " / ";
 		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
