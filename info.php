@@ -44,8 +44,8 @@ function getCommandInfo( $conn, $MPDVersion )
 		}
 		if( strncmp( "ACK", $got, strlen( "ACK" )) == "0")
 		{
-			
-			if(strcmp($MPDVersion,"0.11.0") == 0 ) {
+			$ret = array();
+			if(strncmp($MPDVersion,"0.11.",strlen("0.11.") == 0 )) {
 				$ret = array(
 					     // 0.11.x
 					     "clearerror" => 1,
@@ -62,7 +62,7 @@ function getCommandInfo( $conn, $MPDVersion )
 			};
 			
 			// 0.10.x
-			$ret .=  array(
+			$ret = $ret + array(
 					"add" => 1,
 					"clear" => 1,
 					"close" => 1,
