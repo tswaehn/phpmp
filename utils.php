@@ -244,9 +244,13 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		        $build_dir.="/";
 		}
 		$dirs[$i] = stripslashes( $dirs[$i] );
-		$build_dir.="$dirs[$i]";
+		$build_dir .= $dirs[$i];
 		echo " / ";
-		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
+
+		// This is a workaround to prevent letters that shouldn't be in the title from getting there.
+		$nice = str_replace(array("\"","\'"), '', $dirs[$i]);
+
+		echo "<a title=\"Jump to '".$nice."'\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 
 	if ( $i > "0" )
@@ -260,7 +264,11 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		$build_dir.=$dirs[$i];
 		$build_dir = rawurlencode( $build_dir );
 		echo " / ";
-		echo "<a title=\"Jump to {$dirs[$i]}\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
+
+		// This is a workaround to prevent letters that shouldn't be in the title from getting there.
+		$nice = str_replace(array("\"","\'"), '', $dirs[$i]);
+
+		echo "<a title=\"Refresh the Current Directory '".$nice."'\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
 	
         // We don't allow update during search or find because 

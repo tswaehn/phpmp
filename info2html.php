@@ -40,7 +40,10 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 		{
 			$print[$i].= "[<a title=\"Add the $dirstr Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_dir\" target=playlist>add</a>]&nbsp";
 		}
-		$print[$i].= "<a title=\"Browse the $dirstr Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$full_dir\">$dirstr</a></td></tr>";
+		// This is a workaround to prevent letters that shouldn't be in the title from getting there.
+		$nice = str_replace(array("\"","\'"), '', $dirstr);
+
+		$print[$i].= "<a title=\"Browse the '".$nice."' Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$full_dir\">$dirstr</a></td></tr>";
 	}
 	if( ! isset( $index ))
 	{
