@@ -244,8 +244,12 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		        $build_dir.="/";
 		}
 		$dirs[$i] = stripslashes( $dirs[$i] );
-		$build_dir .= $dirs[$i];
 		echo " / ";
+
+		// A dirty fucking hack because for some reason the '&' doesn't get properly encoded.
+		// To see this bug in action goto a directory with '&' in the name, then go to a child directory, then click on the 
+		// directory with the '&' in the name again.
+		$build_dir .= str_replace('&','%26',$dirs[$i]);
 
 		// This is a workaround to prevent letters that shouldn't be in the title from getting there.
 		$nice = str_replace(array("\"","\'"), '', $dirs[$i]);
