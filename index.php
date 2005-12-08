@@ -215,7 +215,8 @@ if( $commands["status"] == "1" && $config["smart_updating"] == "yes") {
 	$var1 = strtok($status["time"],":");
 	$var2 = strrchr($status["time"],":");
 	$var2 = str_replace(":","",$var2);
-	if(($var2-$var1)<$config["refresh_freq"]) {
+	$sub = ($var2-$var1);
+	if($sub<$config["refresh_freq"] && $sub>0) {
 		$config["refresh_freq"] = ($var2-$var1);
 	}
 }
