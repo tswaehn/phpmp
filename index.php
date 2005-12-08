@@ -14,6 +14,9 @@ if( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" 
 $host = $servers[$server][0];
 $port = $servers[$server][1];
 
+// This should keep us from calling status a billion times
+global $status;
+
 // This variable is a argument to $_COOKIE[*] to make it where your cookies
 // won't go any old place, but only to the host/port that you are speaking to
 $hostport = $host . ":" . $port;
@@ -163,7 +166,7 @@ if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( 
 	if( strcmp( $feature, "stream-icy" ) == "0" )
 	{
 		$fh = fopen( "http://dir.xiph.org/yp.xml", "r" );
-		$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
+//		$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
 	}
 	else if( strcmp( $feature, "stream-shout" ) == "0" )
 	{
@@ -195,7 +198,8 @@ if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( 
 		}
 	}
 
-	while( is_resource( $fh2 ) && $data = fread( $fh2, "4096" ))
+//	is_resource( $fh2 );
+	while( $data = fread( $fh2, "4096" ))
 	{
 		if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
 		{
@@ -207,6 +211,14 @@ if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( 
 
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
+if( $commands["status"] == "1" && $config["smart_updating"] == "yes") { 
+	$var1 = strtok($status["time"],":");
+	$var2 = strrchr($status["time"],":");
+	$var2 = str_replace(":","",$var2);
+	if(($var2-$var1)<$config["refresh_freq"]) {
+		$config["refresh_freq"] = ($var2-$var1);
+	}
+}
 
 // There might be more that's would prevent phpMp from loading, rather than taking time to figure it out, we'll wait for reports.
 if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["playlist"] == "0" || $commands["playlistinfo"] == "0" || $commands["stats"] == "0" )

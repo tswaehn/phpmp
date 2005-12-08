@@ -54,7 +54,7 @@ $config = array(
 		/******************************************************************
 		/ Use this to change the width of either the main/playlist window /
 		/*****************************************************************/
-		"frames_layout" => "cols=\"1*,25%\"",
+		"frames_layout" => "cols=\"1*,22%\"",
 
 		/******************************************
 		/ Set the value of crossfade (in seconds) /
@@ -76,6 +76,11 @@ $config = array(
 		/ How often to refresh the active playlist frame. /
 		/*************************************************/
 		"refresh_freq" => "30",
+
+		/************************************************************************************
+		/ If the song ends before the next scheduled playlist reload, reload on song change /
+		/***********************************************************************************/
+		"smart_updating" => "yes",
 
 		/***********************************************************************
 		/ Yes to this to see the time left instead rather than the time so far /
