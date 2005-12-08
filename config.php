@@ -54,7 +54,7 @@ $config = array(
 		/******************************************************************
 		/ Use this to change the width of either the main/playlist window /
 		/*****************************************************************/
-		"frames_layout" => "cols=\"1*,250\"",
+		"frames_layout" => "cols=\"1*,25%\"",
 
 		/******************************************
 		/ Set the value of crossfade (in seconds) /
