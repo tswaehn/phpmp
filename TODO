@@ -15,7 +15,6 @@ Future - (doesn't have to be before release)
 	*) Need to look into the gettext/i18n stuff
 
 *) [printMusicTable]
-	*) Try to remove columns that go unused from printMusicTable
 	*) Need to make table element to take up a whole column, made specifically for metadata comments
 
 
@@ -30,9 +29,6 @@ Future - (doesn't have to be before release)
 
 *) [Stream Browser]
 	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
-
-*) [Streams functions]
-	*) Need to conglomerate all stream stuff, these are extremely touchy functions, they need thorough testing afterwards
 
 *) [Streams Menu]
 	*) Need to sort and put a index in this menu, make it similar to all the other tables if possible
