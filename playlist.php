@@ -573,7 +573,7 @@ if( ! $status["playlistlength"] == 0 )
 	/* Display Playlist if songs exist in the current playlist */
 	if( isset($status["playlistlength"] ))
 	{
-		printPlaylistInfo( $fp, $num, $hide, $show_options, $status["playlistlength"], $commands, $arg, $colors["playlist"], $server, &$config );
+		printPlaylistInfo( $fp, $num, $hide, $show_options, $status["playlistlength"], $commands, $arg, $colors["playlist"], $server, $config );
 	}
 	echo "</tr></table>";
 }

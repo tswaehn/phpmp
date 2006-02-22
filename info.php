@@ -356,7 +356,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 		{
 			if ( $count >= $start )
 			{
-				local( &$count, &$start, &$filenames_only, &$ret, &$num, &$color, &$server, &$hide, &$show_options, &$commands, &$config, &$length );
+				local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $config, $length );
 				unset ( $ret );
 			}
 			$count++;
@@ -366,7 +366,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 	}
 	if ( $count >= $start )
 	{
-		local( &$count, &$start, &$filenames_only, &$ret, &$num, &$color, &$server, &$hide, &$show_options, &$commands, &$config, &$length );
+		local( $count, $start, $filenames_only, $ret, $num, $color, $server, $hide, $show_options, $commands, $config, $length );
 	}
 	if ( $hide > 0 && $end < ( $length - 1) )
 	{

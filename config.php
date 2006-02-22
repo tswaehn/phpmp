@@ -22,6 +22,13 @@ $config = array(
 		/*******************************************************************************/
 		"enable_swap" => "yes",
 
+		/****************************************************************
+		/ This adds a handy "quick search" bar to the frontpage, this   /
+		/ will search the entire database for whatever is submitted     /
+		/ If javascript is enabled, it will automatically focus on this /
+		/***************************************************************/
+		"search_bar" => "yes",
+
 		/***********************************************************
 		/ If set to yes, this will hide your playlist options, and / 
 		/ leave you with an option to show it. Otherwise it will   /
@@ -44,7 +51,7 @@ $config = array(
 		/ Display the server in the title? (if more than one server) /
 		/************************************************************/
                 "server_in_title" => "yes",
-                
+
 		/***********************************************
 		/ The order your music files will be sorted in,/ 
 		/ metadata that doesn't exist will get skipped /

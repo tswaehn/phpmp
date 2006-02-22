@@ -86,9 +86,9 @@ header("Pragma: no-cache");
 header("Content-Type: text/html; charset=UTF-8");
 
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
-echo "<html><head>";
+echo "<html><head><link rel=\"shortcut icon\" href=\"mpd-favicon.ico\">";
 
-// Open thee connection
+// Open the connection
 $fp = fsockopen( $host, $port, $errno, $errstr, 10 );
 
 // If there's no connection, and servers exist goto the server menu
@@ -211,7 +211,7 @@ if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( 
 
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
-if( $commands["status"] == "1" && $config["smart_updating"] == "yes") { 
+if( $commands["status"] == "1" && $config["smart_updating"] == "yes" && ! empty($status["time"])) {
 	$var1 = strtok($status["time"],":");
 	$var2 = strrchr($status["time"],":");
 	$var2 = str_replace(":","",$var2);
@@ -259,7 +259,7 @@ else if( empty( $body ) && empty( $feature ))
 	echo "</head>";
 
 	echo "<frameset {$config["frames_layout"]}>";
-	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder= {$config["frame_border_size"]}>";
+	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder={$config["frame_border_size"]}>";
 	echo "<frame name=\"playlist\" src=\"index.php?body=playlist&amp;server=$server\" frameborder=0>";
 	echo "<noframes>NO FRAMES ... try phpMp+</noframes>";
 	echo "</frameset>";
@@ -285,6 +285,7 @@ else
 	echo "a.green:link, a.green:active, a.green:visited, a.green:hover {background: {$colors["playing"]["on"]}}";
 	echo "table { width: 100%; border-style: none }";
 	echo "form { padding: 0; margin: 0 }";
+	echo "tr.noborder td { border: none; border-style: none; border-color: {$colors["directories"]["body"][0]} }";
 	echo "</style>";
 	echo "</head>";
 

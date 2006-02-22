@@ -130,12 +130,13 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 	}
 }
 
-function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $pcount, $dcount, $has_password, $commands, $color, $server, $servers, $fp, $passarg, $ordered, $feature )
+function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $pcount, $dcount, $has_password, $commands, $color, $server, $servers, $fp, $passarg, $ordered, $feature, $arg, $search_bar, $javascript )
 {
 	echo "<!-- Begin displayDirectory  -->";
 	// The next line needs a cellspacing value of 2 since the other tables have 2 tables, and this one only has one
-	echo "<table summary=\"Directory\"cellspacing=2 bgcolor=\"{$color["title"]}\">";
-	echo "<tr><td><b>$title</b>&nbsp;";
+	echo "<table summary=\"Directory\" cellspacing=1 bgcolor=\"{$color["title"]}\">";
+	echo "<tr><td>";
+	echo "<b>$title</b>&nbsp;";
 
 	if( $dcount > "0" )
 	{
@@ -231,8 +232,14 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo $feature_bar;
 	}
 
-	echo "&nbsp;</small></td></tr>";
-	echo "<tr bgcolor=\"{$color["body"][0]}\"><td colspan=2>";
+	echo "&nbsp;</small></td></tr><tr><td colspan=2>";
+	echo "<table style=\"background-color: {$color["body"][0]}\"\">";
+	echo "<tr bgcolor=\"{$color["body"][0]}\">";
+	if(strcmp($search_bar,"yes") == 0 && empty($feature)) {
+		echo "<td>";
+	} else {
+		echo "<td colspan=2>";
+	}
 	$dirs = split( "/", $dir );
 	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered\">Music</a>";
 
@@ -291,7 +298,31 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;feature=$feature&amp;server=$server&amp;dir=$build_dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
 		echo "target=\"main\" title=\"Update the Current Directory\">db update</a>)</small>";
 	}
-	echo "</td></tr></table>";
+	if(strcmp($search_bar,"yes") == 0 && empty($feature)) {
+		echo "<form action=index.php? method=get>";
+		echo "<td align=right>";
+		echo "<input type=hidden value=\"main\" name=body>";
+		echo "<input type=hidden value=\"search\" name=feature>";
+		echo "<input type=hidden value=\"any\" name=search>";
+		echo "<input type=hidden value=\"$server\" name=server>";
+		echo "<input type=hidden value=\"$sort\" name=sort>";
+		echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=25 id=\"f\" autocomplete=on>";
+		echo "<input type=submit value=Go name=foo>";
+
+		if(strcmp($javascript,"yes") == 0) {
+			echo "<script type=\"text/javascript\">";
+				echo "document.getElementById('f').focus();";
+			echo "</script>";
+		}
+	
+		$arg_url = rawurlencode( $arg );
+		$dir_url = rawurlencode( $dir );
+		$sort_array = split( ",", $sort );
+		echo "</td></form>";
+	}
+
+	//$url = "index.php?body=main&amp;feature=search&amp;search=\"any\"&amp;arg=$arg_url&amp;dir=$dir_url";
+	echo "</td></tr></table></td></tr></table>";
 	echo "<!-- End displayDirectory -->";
 }
 

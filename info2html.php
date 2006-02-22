@@ -235,7 +235,7 @@ function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 		$display_fields = $ret;
 	}
 
-	return( array( $tagged, $untagged ));
+	return( array( $tagged, $untagged, $display_fields ));
 }
 
 function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server, $addperm )
