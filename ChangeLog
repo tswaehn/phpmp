@@ -1,4 +1,4 @@
-ver 0.12.0 (2005/x/x)
+ver 0.12.0 (2006/x/x)
 
 This was near a rewrite, tons of code changed, only the changes that were less significant or that I totally forgot
 are not here. Due to changes in this version the way it loads has completely changed.
@@ -81,6 +81,8 @@ machine with MPD, Apache & phpMp serving.
 65) Do not show update option when in the searching or finding feature, due to complications with the submission.
 66) Keep compatibiity with legacy MPD versions.
 67) If not filenames_only and not searching or finding default to 'Any' type of search if using MPD v12.
+68) Add quick search bar option
+69) Add inline option to easily integrate phpMp's search function into your browser
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

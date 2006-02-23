@@ -314,14 +314,9 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 				echo "document.getElementById('f').focus();";
 			echo "</script>";
 		}
-	
-		$arg_url = rawurlencode( $arg );
-		$dir_url = rawurlencode( $dir );
-		$sort_array = split( ",", $sort );
 		echo "</td></form>";
 	}
 
-	//$url = "index.php?body=main&amp;feature=search&amp;search=\"any\"&amp;arg=$arg_url&amp;dir=$dir_url";
 	echo "</td></tr></table></td></tr></table>";
 	echo "<!-- End displayDirectory -->";
 }

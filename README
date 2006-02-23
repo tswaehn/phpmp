@@ -6,6 +6,21 @@ phpMp is a web interface (written in PHP) for the Music Player Daemon (MPD).
 
 To install phpMp, see INSTALL.
 
+If you want to use phpMp as a search engine in your browser of choice you
+obviously need to do a little URL constuction. This is not an issue as 
+phpMp makes it pretty simple, here's how to set it up.
+
+The url will take up to three arguments: inline, search and server
+
+* inline would be the search term, this is required.
+* search would be anything you have in $search_fields in config.php or any.
+	This is optional and defaults to "any".
+* server in the case you have more than one server in config.php, ordered
+	by number. This defaults to '0'.
+
+In Konqueror you would set this search URL to:
+http://myserver/phpMp/index.php?inline=\{@}&search=any&server=0
+
 MiniFAQ
 -------
 

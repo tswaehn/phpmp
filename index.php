@@ -22,20 +22,33 @@ global $status;
 $hostport = $host . ":" . $port;
 
 // This will extract the needed GET/POST variables
-$arg =		isset( $_REQUEST["arg"] )	?	$_REQUEST["arg"]	:	"";
-$arg2 =		isset( $_REQUEST["arg2"] )	?	$_REQUEST["arg2"]	:	"";
-$body =		isset( $_REQUEST["body"] )	?	$_REQUEST["body"]	:	"";
-$command =	isset( $_REQUEST["command"] )	?	$_REQUEST["command"]	:	"";
+$arg =		isset($_REQUEST["arg"])		?	$_REQUEST["arg"]	:	"";
+$arg2 =		isset($_REQUEST["arg2"])	?	$_REQUEST["arg2"]	:	"";
+$body =		isset($_REQUEST["body"])	?	$_REQUEST["body"]	:	"";
+$command =	isset($_REQUEST["command"])	?	$_REQUEST["command"]	:	"";
 $feature =	isset( $_REQUEST["feature"] )	?	$_REQUEST["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
 $stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
+$inline =	isset( $_GET["inline"] )	?	$_GET["inline"]	:	"";
+
+if( isset($inline)) {
+	$search = isset($_GET["search"]) ? $_GET["search"] : "";
+}
 
 if( ! empty( $body ))
 {
 	if( strcmp( $body, "main" ) == "0" )
 	{
-		if( ! empty( $feature ))
+		if( ! empty($inline)) {
+			$arg = $inline;
+			$feature = "search";
+			if(empty($search) || ! isset($search)) {
+				$search = "any";
+			}
+			$search_fields = $config["display_fields"];
+		}
+		else if( ! empty( $feature ))
 		{
 			if( strcmp( $feature, "search" ) == "0" )
 			{
@@ -259,7 +272,12 @@ else if( empty( $body ) && empty( $feature ))
 	echo "</head>";
 
 	echo "<frameset {$config["frames_layout"]}>";
-	echo "<frame name=\"main\" src=\"index.php?body=main&amp;server=$server\" frameborder={$config["frame_border_size"]}>";
+	$mainurl = "index.php?body=main&amp;server=$server";
+	if($inline) {
+		$mainurl .= "&amp;inline=$inline&amp;search=$search";
+	}
+
+	echo "<frame name=\"main\" src=\"$mainurl\" frameborder={$config["frame_border_size"]}>";
 	echo "<frame name=\"playlist\" src=\"index.php?body=playlist&amp;server=$server\" frameborder=0>";
 	echo "<noframes>NO FRAMES ... try phpMp+</noframes>";
 	echo "</frameset>";
