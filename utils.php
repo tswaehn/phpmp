@@ -305,10 +305,10 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo "<input type=hidden value=\"main\" name=body>";
 		echo "<input type=hidden value=\"search\" name=feature>";
 		echo "<input type=hidden value=\"any\" name=search>";
-		echo "<input type=hidden value=\"$build_dir\" name=dir>";
+		echo "<input type=hidden value=\"$dir\" name=dir>";
 		echo "<input type=hidden value=\"$server\" name=server>";
 		echo "<input type=hidden value=\"$sort\" name=sort>";
-		echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=25 id=\"f\" autocomplete=on>";
+		echo "&nbsp;&nbsp;<input name=arg size=25 id=\"f\" autocomplete=on>";
 		echo "<input type=submit value=Go name=foo>";
 
 		if(strcmp($javascript,"yes") == 0) {
