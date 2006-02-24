@@ -26,12 +26,20 @@ $arg =		isset($_REQUEST["arg"])		?	$_REQUEST["arg"]	:	"";
 $arg2 =		isset($_REQUEST["arg2"])	?	$_REQUEST["arg2"]	:	"";
 $body =		isset($_REQUEST["body"])	?	$_REQUEST["body"]	:	"";
 $command =	isset($_REQUEST["command"])	?	$_REQUEST["command"]	:	"";
-$feature =	isset( $_REQUEST["feature"] )	?	$_REQUEST["feature"]	:	"";
+$feature =	isset( $_GET["feature"] )	?	$_GET["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
 $stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
+$streamurl =	isset( $_GET["streamurl"] )	?	$_GET["streamurl"]	:	"";
 $inline =	isset( $_GET["inline"] )	?	$_GET["inline"]	:	"";
 
+// This will load the data for a streamurl
+if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" ))
+{
+	require "xml-parse.php";
+}
+
+// $inline is a simple searcher
 if( isset($inline)) {
 	$search = isset($_GET["search"]) ? $_GET["search"] : "";
 }
@@ -112,13 +120,13 @@ if(! is_resource( $fp ))
 		include "features.php";
 		server( $servers, $host, $port, $colors["server"] );
 	}
-	echo "$errstr ($errno)<br>\n";
-	die;
+	die("{$errstr} ({$errno})<br>");
 }
 
 // Lets go ahead and get the MPD version while we can
 $MPDversion = initialConnect($fp);
 $MPDversion = trim($MPDversion);
+
 // Password stuff
 if( !empty( $logout ))
 {
@@ -171,55 +179,6 @@ if( ! empty( $command ))
 {
 	doCommand( $fp, $arg, $arg2, $command, $config["overwrite_playlists"], $status );
 	$status = getStatusInfo( $fp ); 
-}
-
-if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" ))
-{
-	require "xml-parse.php";
-	if( strcmp( $feature, "stream-icy" ) == "0" )
-	{
-		$fh = fopen( "http://dir.xiph.org/yp.xml", "r" );
-//		$fh2 = fopen( "http://oddsock.org/yp.xml", "r" );
-	}
-	else if( strcmp( $feature, "stream-shout" ) == "0" )
-	{
-		$fh = gzopen( "http://shapeshifter:8080/~sbh/shoutcast.xml.gz", "r" );
-	}
-
-	if( ! is_resource( $fh ) || ! is_resource( $fh2 ))
-	{
-		die ("<H3><b>If you want phpMp to download your stream, you have to change 'allow_url_open' to On in your php.ini</b></H3>");
-	}
-
-	$server_count = 0;
-	$server_data = array();
-	$xml_current_tag_state = '';
-
-	if( ! ( $xml_parser = xml_parser_create() ))
-	{
-		die( "Couldn't create XML parser!" );
-	}
-
-	xml_set_element_handler( $xml_parser, "startElementHandler", "endElementHandler" );
-	xml_set_character_data_handler( $xml_parser, "characterDataHandler" );
-
-	while( $data = fread( $fh, "4096" ))
-	{
-		if( ! xml_parse( $xml_parser, $data, feof( $fh ) ))
-		{
-			break; // get out of while loop if we're done with the file
-		}
-	}
-
-//	is_resource( $fh2 );
-	while( $data = fread( $fh2, "4096" ))
-	{
-		if( ! xml_parse( $xml_parser, $data, feof( $fh2 )))
-		{
-			break; // get out of while loop if we're done with the file
-		}
-	}
-	xml_parser_free( $xml_parser );
 }
 
 // This needs to go down here to give the cookies, server time to load

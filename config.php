@@ -22,11 +22,11 @@ $config = array(
 		/*******************************************************************************/
 		"enable_swap" => "yes",
 
-		/****************************************************************
-		/ This adds a handy "quick search" bar to the frontpage, this   /
-		/ will search the entire database for whatever is submitted     /
-		/ If javascript is enabled, it will automatically focus on this /
-		/***************************************************************/
+		/******************************************************************
+		/ This adds a handy "quick search" bar to the directory bar,  	  /
+		/ this will search the entire database for whatever is submitted  /
+		/ If javascript is enabled, it will automatically focus on this	  /
+		/*****************************************************************/
 		"search_bar" => "yes",
 
 		/***********************************************************
@@ -96,10 +96,27 @@ $config = array(
 		"time_left" => "no",
 
 		/************************************************************************
-		/ Yes to this to enable the icecast/streamcast stream browser.		/ 
+		/ Yes to this to enable the icecast/streamcast stream browser.		/
 		/ If you enable this 'allow_url_fopen = On' in your php.ini.		/
 		/***********************************************************************/
-		"stream_browser" => "no",
+		"stream_browser" => "yes",
+
+		/***************************************************************************
+		/ If stream_browser is set to "yes" and if this url exists, when clicking  /
+		/ on stream you will have the option to load a list of icecast streams	   /
+		/ from a remote site. This is hosted by xiph.org should work.		   /
+		/**************************************************************************/
+		"icey_stream_url" => "http://dir.xiph.org/yp.xml",
+
+		/***************************************************************************
+		/ If stream_browser is set to "yes" and if this url exists, when clicking  /
+		/ on the feature "stream" you will have the option to load a list of	   /
+		/ shoutcast streams (shoutcast.com). This is hosted by myself and is not   /
+		/ endorsed by shoutcast.com.						   /
+		/ There is a script in contrib/ if you want to host your own. It should    /
+		/ probably be run 3 times a day (or less depending on the need)	 	   /
+		/**************************************************************************/
+		"shout_stream_url" => "http://olricha.homelinux.net:8080/~sbh/shoutcast.xml.gz",
 
 		/************************************************************************
 		/ Playlist Align (this is useful for making the frame bigger)           /
@@ -168,7 +185,7 @@ $config = array(
 				/************************************************************************
 				/ You can set some things to remove from your filenames easier to read. /
 				/***********************************************************************/
-				"remove" => array('.mp3', '.ogg', '.flac', '.aac', '.mod'),
+				"remove" => "yes",
 
 				/*************************
 				/ Replace _ with a space /
@@ -186,6 +203,8 @@ $config = array(
 		"display_volume" => "yes",
 		"volume_incr"    => "10",
 
+		"filetypes" => array('.flac$', '.mp3', '.aac', '.mod', '.ogg'),
+
 		/**************************
 		/ No need to change these /
 		/*************************/
@@ -193,4 +212,8 @@ $config = array(
 		"unknown_string" => "",
 		"song_separator" => "rqqqrqqqr"
 );
+
+if(strcmp($config["filenames_only"]["remove"],"yes") == 0) {
+	$config["filenames_only"]["remove"] = $config["filetypes"];
+}
 ?>

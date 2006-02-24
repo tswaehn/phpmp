@@ -163,34 +163,47 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	echo "</table></td></tr><table>";
 }
 
-function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser )
+function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir )
 {
-	echo "<br>";
+	if( strcmp( $feature, "stream" ) == 0) {
+		echo "<br>";
+		echo "<form action=index.php? name=1 target=playlist method=get>";
+		echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td><b>Add Stream</b></td></tr>";
+		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+		echo "<input type=hidden value=\"playlist\" name=body>";
+		echo "<input type=hidden value=$server name=server>";
+		echo "<input type=input name=stream size=40>";
+		echo "<input type=submit value=Add name=foo>";
+		echo "</td></tr></table></form>";
 
-	echo "<form action=index.php? target=playlist method=get>";
-	echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
-	echo "<tr><td><b>Add Stream</b></td></tr>";
-	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-	echo "<input type=hidden value=\"playlist\" name=body>";
-	echo "<input type=hidden value=$server name=server>";
-	echo "<input type=input name=stream size=40>";
-	echo "<input type=submit value=Add name=foo>";
-	echo "</td></tr></table></form>";
+		echo "<br>";
 
-	echo "<br>";
+		echo "<form action=index.php? name=2 target=playlist method=get>";
+		echo "<table summary=\"Search Webpage for Streams\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td><b>Search Webpage for Streams</b></td></tr>";
+		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+		echo "<input type=hidden value=\"playlist\" name=body>";
+		echo "<input type=hidden value=$server name=server>";
+		echo "<input type=input name=streamurl size=40>";
+		echo "<input type=submit value=Add name=foo>";
+		echo "</td></tr></table></form>";
 
-	echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
-	echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-	echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
-	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-	echo "<input type=\"hidden\" value=\"playlist\" name=\"body\">";
-	echo "<input type=\"hidden\" value=\"$server\" name=\"server\">";
-	echo "<input type=\"file\" name=\"playlist_file[]\" size=30>";
-	echo "&nbsp;";
-	echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
-	echo "</td></tr></table></form>";
+		echo "<br>";
 
-	echo "<br>";
+		echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
+		echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
+		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+		echo "<input type=\"hidden\" value=\"playlist\" name=\"body\">";
+		echo "<input type=\"hidden\" value=\"$server\" name=\"server\">";
+		echo "<input type=\"file\" name=\"playlist_file[]\" size=30>";
+		echo "&nbsp;";
+		echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
+		echo "</td></tr></table></form>";
+
+		echo "<br>";
+	}
 
 	if( strcmp( $feature,"stream" ) && strcmp( $stream_browser, "yes" ) == 0)
 	{
@@ -203,7 +216,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 				$k++;
 			}
 		}
-		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<br><table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		echo "<tr><td>";
 		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 		if( strcmp( $feature, "stream-icy" ) == "0" )
@@ -214,12 +227,19 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 		{
 			echo "<tr><td><b>Shoutcast Streams</b>";
 		}
-		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
-		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;server=$server&amp;feature=$feature\" target=main>refresh</a>)</small></td>";
+		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
+		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature\" target=main>refresh</a>)";
+		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
+		$k++; /* Human readable */
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
 		echo "</table>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
+
+
+		$j = 0;
+
+		echo "<tr bgcolor=\"{$color["sort"]}\"><td>Stream Name</td></tr>";
 
 		$j=2;
 		$k=0;
@@ -235,27 +255,32 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 				echo $song_seperator . rawurlencode( $server_data[$i]["listen_url"] );
 			}
 
-			echo "\">" . trim( $server_data[$i]["server_name"] ) . "</a></td></tr>";
+			echo "\">" . trim( $server_data[$i]["server_name"] ) . "</a></td>";
+			echo "</tr>";
 			$k++;
 		}
 	}
-	else if( strcmp( $stream_browser, "yes" ) == 0)
+	else if( strcmp( $stream_browser, "yes" ) == 0 )
 	{
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td>";
-		echo "<table summary=\"Icecast/Oddcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td><b>Icecast / Oddcast Streams</b>";
-		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-icy\" target=main>show</a>)</small></td>";
-		echo "</tr></table></td></tr></table>";
+		if(isset($url_icy) && !empty($url_icy)) {
+			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+			echo "<tr><td>";
+			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+			echo "<tr><td><b>Icecast Streams</b>";
+			echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-icy\" target=main>show</a>)</small>";
+			echo "</td></tr></table></td></tr></table>";
 
-		echo "<br>";
+			echo "<br>";
+		}
 
-		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td>";
-		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td><b>Shoutcast Streams</b>";
-		echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
-		echo "</tr></table></td></tr></table>";
+		if(isset($url_shout) && !empty($url_shout)) {
+			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+			echo "<tr><td>";
+			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+			echo "<tr><td><b>Shoutcast Streams</b>";
+			echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
+			echo "</tr></table></td></tr></table>";
+		}
 	}
 }
 

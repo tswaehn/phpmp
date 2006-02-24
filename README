@@ -6,6 +6,10 @@ phpMp is a web interface (written in PHP) for the Music Player Daemon (MPD).
 
 To install phpMp, see INSTALL.
 
+
+inline=
+----------------------------------------------------------------------------
+
 If you want to use phpMp as a search engine in your browser of choice you
 obviously need to do a little URL constuction. This is not an issue as 
 phpMp makes it pretty simple, here's how to set it up.
@@ -20,6 +24,19 @@ The url will take up to three arguments: inline, search and server
 
 In Konqueror you would set this search URL to:
 http://myserver/phpMp/index.php?inline=\{@}&search=any&server=0
+
+
+stream_browser
+--------------------------------------------------------------------------
+
+To use the stream browser you need to have 'allow_url_fopen' set to 'On' in
+your php.ini. This is required only if you want to be able to download and
+update the file from within phpMp. Otherwise you could have it as a cronjob.
+It needs to go into the cache/ directory with the name stream-icy.xml or 
+stream-shout.xml, respectively. While I host a shoutcast xml file, which 
+updated tridaily you can generate your own using contrib/shoutcast.pl, 
+which could also be setup as a cronjob.
+
 
 MiniFAQ
 -------

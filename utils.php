@@ -26,6 +26,7 @@ function cleanSort( $sort_array, $display_fields )
 	return( array( $new_sort_array, $new_sort ));
 }
 
+
 /***********************************************************************************************#
 #												#
 #	crop: deletes all but the currently playing song from the current playlist		#
@@ -281,7 +282,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 
 		echo "<a title=\"Refresh the Current Directory '".$nice."'\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered&amp;dir=$build_dir\">$dirs[$i]</a>";
 	}
-	
+
         // We don't allow update during search or find because 
         // the search will not be re-submitted without some javascript magic.
         // It would probably be best to compensate for the stream browsers too.
@@ -304,6 +305,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo "<input type=hidden value=\"main\" name=body>";
 		echo "<input type=hidden value=\"search\" name=feature>";
 		echo "<input type=hidden value=\"any\" name=search>";
+		echo "<input type=hidden value=\"$build_dir\" name=dir>";
 		echo "<input type=hidden value=\"$server\" name=server>";
 		echo "<input type=hidden value=\"$sort\" name=sort>";
 		echo "&nbsp;&nbsp;<input name=arg value=\"$arg\" size=25 id=\"f\" autocomplete=on>";
@@ -384,4 +386,28 @@ function postStream( $fp, $filetype )
 	}
 	return $add;
 }
+
+function hostname($url) {
+	$i = parse_url($url);
+	return "{$i["scheme"]}://{$i["host"]}";
+}
+
+function x_array_merge($arr1,$arr2) {
+    for($i=0;$i<count($arr1);$i++) {
+        $arr[$i]=($arr1[$i] == '')?$arr2[$i]:$arr1[$i];
+    }
+    return $arr;
+ }
+
+function get_links($url) {
+    if( !($body = @file_get_contents($url)) ) return FALSE;
+    //Pattern building across multiple lines to avoid page distortion.
+    $pattern  = "/((@import\s+[\"'`]([\w:?=@&\/#._;-]+)[\"'`];)|";
+    $pattern .= "(:\s*url\s*\([\s\"'`]*([\w:?=@&\/#._;-]+)";
+    $pattern .= "([\s\"'`]*\))|<[^>]*\s+(src|href|url)\=[\s\"'`]*";
+    $pattern .= "([\w:?=@&\/#._;-]+)[\s\"'`]*[^>]*>))/i";
+    //End pattern building.
+    preg_match_all ($pattern, $body, $matches);
+    return (is_array($matches)) ? $matches:FALSE;
+ }
 ?>

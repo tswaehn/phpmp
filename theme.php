@@ -71,9 +71,10 @@ $colors["stats"]["body"][0] = "#ffffff";
 $colors["stats"]["body"][1] = "#eeeeee";
 
 // Colors for the Steam Table
-$colors["stream"]["title"] = "#aaffaa";
+$colors["stream"]["title"] = "#88ff88";
 $colors["stream"]["body"][0] = "#ccffcc";
 $colors["stream"]["body"][1] = "#eeffee";
+$colors["stream"]["sort"] = "#aaffaa";
 
 // Colors for Volume
 $colors["volume"]["title"] = "#cccccc";

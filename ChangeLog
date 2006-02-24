@@ -4,8 +4,8 @@ This was near a rewrite, tons of code changed, only the changes that were less s
 are not here. Due to changes in this version the way it loads has completely changed.
 
 My experience is, on a 800 mhz machine phpMp 0.11.x loads at 60% for about 1.8 seconds, phpMp 0.12.0 loads at 100%
-for about 0.8 seconds, this gets shorter (to a limit) with each load due to caching in linux. This is with the
-machine with MPD, Apache & phpMp serving.
+for about 0.8 seconds, this gets shorter (to a limit) with each load due to caching in linux/php. This is with the
+machine with MPD, Apache2 & phpMp serving.
 
 1) Fixed some problems with server change
 2) Changed all prints to echos for uniformity
@@ -82,7 +82,7 @@ machine with MPD, Apache & phpMp serving.
 66) Keep compatibiity with legacy MPD versions.
 67) If not filenames_only and not searching or finding default to 'Any' type of search if using MPD v12.
 68) Add quick search bar option
-69) Add inline option to easily integrate phpMp's search function into your browser
+69) Add the ability to search for music urls in a webpage (see streams menu)
 	
 ver 0.11.0 (2004/6/18)
 1) Add ability to add streams

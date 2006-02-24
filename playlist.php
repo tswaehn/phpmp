@@ -31,8 +31,43 @@ if( ! empty( $_FILES['playlist_file']['name'] ))
 		{
 			echo "NOT a m3u or pls file!<br>";
 		}
-	}   
+	}
 } 
+
+if( ! empty( $streamurl )) {
+	$links = get_links($streamurl);
+	$links = x_array_merge($links[3],x_array_merge($links[5],$links[8]));
+
+	$j = 0;
+	for($i = 0; $i<sizeof($links); $i++) {
+		for($k = 0; $k<sizeof($config["filetypes"]); $k++) {
+			if(preg_match("/{$config["filetypes"][$k]}$/",$links[$i])) {
+				$tmp[$j] = dirname($streamurl);
+
+				/* Rather than parsing just remove them and put one in. */
+				$tmp[$j] = rtrim($tmp[$j],"/");
+				$links[$i] = trim($links[$i],"/");
+				$tmp[$j] .= "/";
+				$tmp[$j] .=  $links[$i];
+				$j++;
+			}
+		}
+	}
+
+	if(isset($tmp)) {
+		$tmpsize = sizeof($tmp);
+		for($i = 0; $i<$tmpsize; $i++) {
+			$stream .= $tmp[$i];
+			if($i != ($tmpsize-1)) {
+				$stream .= $config["song_separator"];
+			}
+		}
+	} else {
+		echo "No music found in that webpage. <br>";
+	}
+	unset($tmpsize);
+}
+
 if( ! empty( $stream ))
 {
 	$stream = split( $config["song_separator"], $stream );
