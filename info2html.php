@@ -329,6 +329,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 {
 	$count = count( $info );
 	$dir_url = rawurlencode( $dir_url );
+
 	$index = array();
 	$index_key = "mt";
 	$mic = "0";
@@ -482,24 +483,23 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 		// Cut this in pieces so it wouldn't wrap
 		$sort_bar .= "<td>";
 
-		$stripurl = stripslashes( rawurldecode( $url ));
 		if( strcmp( $display_fields[$j], $sort_array[0] ) == "0" )
 		{
 			$sort_bar .= "<a title=\"Reverse this field\"";
 			if( strcmp( $ordered, "yes" ))
 			{
-				$sort_bar .= " href=\"$stripurl&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=yes&amp;server=$server\">";
+				$sort_bar .= " href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=yes&amp;server=$server\">";
 			}
 			else
 			{
-				$sort_bar .= "href=\"$stripurl&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
+				$sort_bar .= "href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
 			}
 			$sort_bar .= "<b>{$display_fields[$j]}</b>";
 		}
 		else
 		{
 			$sort_bar .= "<a title=\"Sort by this field\" ";
-			$sort_bar .= "href=\"$stripurl&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
+			$sort_bar .= "href=\"$url&amp;sort=" . pickSort($display_fields[$j]) . "&amp;ordered=no&amp;server=$server\">";
 			$sort_bar .= $display_fields[$j];
 		}
 

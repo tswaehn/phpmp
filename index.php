@@ -4,7 +4,16 @@ require "info.php";
 require "info2html.php";
 require "config.php";
 require "utils.php";
-$server = isset( $_REQUEST["server"] ) ? $_REQUEST["server"] : "0";
+
+/* I have not yet figured out why $_REQUEST is required here, but it is */
+$server =	isset( $_REQUEST["server"] )	?	$_REQUEST["server"]	:	"0";
+$feature =	isset($_GET["feature"])		?	$_GET["feature"]	:	"";
+
+// This will load the data for a streamurl
+if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" ))
+{
+	require "xml-parse.php";
+}
 
 if( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
 {
@@ -15,28 +24,27 @@ $host = $servers[$server][0];
 $port = $servers[$server][1];
 
 // This should keep us from calling status a billion times
-global $status;
+//global $status;
 
 // This variable is a argument to $_COOKIE[*] to make it where your cookies
 // won't go any old place, but only to the host/port that you are speaking to
 $hostport = $host . ":" . $port;
 
 // This will extract the needed GET/POST variables
-$arg =		isset($_REQUEST["arg"])		?	$_REQUEST["arg"]	:	"";
-$arg2 =		isset($_REQUEST["arg2"])	?	$_REQUEST["arg2"]	:	"";
-$body =		isset($_REQUEST["body"])	?	$_REQUEST["body"]	:	"";
-$command =	isset($_REQUEST["command"])	?	$_REQUEST["command"]	:	"";
+$arg =		isset( $_GET["arg"])		?	$_GET["arg"]	:	"";
+$arg2 =		isset( $_GET["arg2"])		?	$_GET["arg2"]	:	"";
+$body =		isset( $_GET["body"])		?	$_GET["body"]	:	"";
+$command =	isset( $_GET["command"])	?	$_GET["command"]	:	"";
 $feature =	isset( $_GET["feature"] )	?	$_GET["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
-$stream =	isset( $_REQUEST["stream"] )	?	$_REQUEST["stream"]	:	"";
+$stream =	isset( $_GET["stream"] )	?	$_GET["stream"]	:	"";
 $streamurl =	isset( $_GET["streamurl"] )	?	$_GET["streamurl"]	:	"";
 $inline =	isset( $_GET["inline"] )	?	$_GET["inline"]	:	"";
 
-// This will load the data for a streamurl
-if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( $feature, "stream-shout" ) == "0" ))
-{
-	require "xml-parse.php";
+if(isset($_POST["body"])) {
+	$body = $_POST["body"];
+	$add_all = isset( $_POST["add_all"] ) ? $_POST["add_all"] : "" ;
 }
 
 // $inline is a simple searcher
@@ -60,22 +68,22 @@ if( ! empty( $body ))
 		{
 			if( strcmp( $feature, "search" ) == "0" )
 			{
-				$search = isset( $_REQUEST["search"] ) ? $_REQUEST["search"] : "";
-				$find = isset( $_REQUEST["find"] ) ? $_REQUEST["find"] : "";
+				$search = isset( $_GET["search"] ) ? $_GET["search"] : "";
+				$find = isset( $_GET["find"] ) ? $_GET["find"] : "";
 				$search_fields = $config["display_fields"];
 			}
 		}
-		$delete = isset( $_REQUEST["delete"] ) ? $_REQUEST["delete"] : "no";
-		$dir = isset( $_REQUEST["dir"] ) ? $_REQUEST["dir"] : "";
-		$save = isset( $_REQUEST["save"] ) ? $_REQUEST["save"] : "";
-		$ordered = isset( $_REQUEST["ordered"] ) ? $_REQUEST["ordered"] : "";
+		$delete = isset( $_GET["delete"] ) ? $_GET["delete"] : "no";
+		$dir = isset( $_GET["dir"] ) ? $_GET["dir"] : "";
+		$save = isset( $_GET["save"] ) ? $_GET["save"] : "";
+		$ordered = isset( $_GET["ordered"] ) ? $_GET["ordered"] : "";
 	}
 	else if( strcmp( $body, "playlist" ) == "0" )
 	{
 		// Playlist Hiding Stuff
-		if( isset( $_REQUEST["hide"] ))
+		if( isset( $_GET["hide"] ))
 		{
-			$hide = $_REQUEST["hide"];
+			$hide = $_GET["hide"];
 		}
 		else if( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
 		{
@@ -91,13 +99,12 @@ if( ! empty( $body ))
 			$hide = 1;
 		}
 
-		$add_all = isset( $_REQUEST["add_all"] ) ? $_REQUEST["add_all"] : "";
-		$show_options = isset( $_REQUEST["show_options"] ) ? $_REQUEST["show_options"] : "0";
+		$show_options = isset( $_GET["show_options"] ) ? $_GET["show_options"] : "0";
 	}
 }
 else
 {
-	$logout = isset( $_REQUEST["logout"] ) ? $_REQUEST["logout"] : "";
+	$logout = isset( $_GET["logout"] ) ? $_GET["logout"] : "";
 }
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -250,7 +257,7 @@ else
 	}
 	if( isset( $status["updating_db"] ) && strcmp( $body, "main" ) == "0" )
 	{
-		$sort =	isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
+		$sort =	isset( $_GET["sort"] ) ? $_GET["sort"] : $config["default_sort"];
 		echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"{$config["refresh_freq"]};URL=index.php?body=main&amp;sort=$sort&amp;dir=$dir&amp;ordered=$ordered&amp;server=$server\">";
 	}
 	echo "<title>{$config["title"]} - $body</title>";

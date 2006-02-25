@@ -252,7 +252,6 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
 			echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td>";
-			echo "<a name={$i}></a>";
 			echo "[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
 			echo rawurlencode( $server_data[$i]["listen_url"] );
 
@@ -278,7 +277,6 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			if((strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) || strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0) {
 				echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td></td><td>";
 					echo "<table><tr>";
-						//echo "<td>" . print_r($server_data[$i]) . "</td>";
 						if(!empty($server_data[$i]["bitrate"])) {
 							echo "<td><b>Bitrate:</b> {$server_data[$i]["bitrate"]}</td>";
 						}
@@ -325,6 +323,8 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 						echo "</tr>";
 					}
 					echo "</table>";
+				$previous = ($i-1);
+			echo "<a name={$previous}></a>";
 				echo "</td></tr>";
 			}
 			$k++;
