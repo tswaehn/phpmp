@@ -233,7 +233,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=info&amp;arg2=expandall \" target=main>expand all</a>)</small>";
 		}
 		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"{$baseurl}&amp;feature=$feature\" target=main>refresh</a>)</small>";
-		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
+		if(strcmp($config["stream_browser"],"yes") != 0 ) {
+			echo "&nbsp;<small>(<a title=\"Update streams table\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
+		}
 		$k++; /* Human readable */
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
@@ -330,7 +332,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 	}
 	else if( strcmp( $stream_browser, "yes" ) == 0 )
 	{
-		if(isset($url_icy) && !empty($url_icy)) {
+		$icy_file = "{$real_path}/cache/stream-icy.xml";
+		$shout_file = "{$real_path}/cache/stream-shout.xml.gz";
+		if(isset($url_icy) && !empty($url_icy) && (!is_file($icy_file) && strcmp($config["stream_browser_updating"],"yes") != 0)) {
 			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 			echo "<tr><td>";
 			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -341,7 +345,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			echo "<br>";
 		}
 
-		if(isset($url_shout) && !empty($url_shout)) {
+		if(isset($url_shout) && !empty($url_shout) && (!is_file($shout_file) && strcmp($config["stream_browser_updating"],"yes") != 0)) {
 			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 			echo "<tr><td>";
 			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";

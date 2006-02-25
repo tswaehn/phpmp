@@ -97,9 +97,18 @@ $config = array(
 
 		/************************************************************************
 		/ Yes to this to enable the icecast/streamcast stream browser.		/
-		/ If you enable this 'allow_url_fopen = On' in your php.ini.		/
+		/ If not set to 'yes' you will be required to manually download		/
+		/ the wanted stream information files (see README)			/
 		/***********************************************************************/
 		"stream_browser" => "yes",
+
+		/********************************************************************
+		/ Yes to this if you want to allow the user to update their stream  /
+		/ information files						    /
+		/ If you set this to 'yes' you must have 'allow_url_fopen = On'     /
+		/ in your php.ini						    /
+		/*******************************************************************/
+		"stream_browser_updating" => "yes",
 
 		/***************************************************************************
 		/ If stream_browser is set to "yes" and if this url exists, when clicking  /

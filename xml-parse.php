@@ -8,23 +8,31 @@ $icy_file = "{$real_path}/cache/stream-icy.xml";
 $shout_file = "{$real_path}/cache/stream-shout.xml.gz";
 $cache_dir = "{$real_path}/cache";
 
-if( strcmp( $feature, "stream-icy" ) == "0" && (! is_file($icy_file) || strcmp($arg,'update') == 0) && strcmp($config["stream_browser"],"yes") == 0) {
-	if(!is_dir($cache_dir)) mkdir($cache_dir);
+if(strcmp($config["stream_browser_updating"],"yes") == 0) {
+	if( strcmp( $feature, "stream-icy" ) == "0" && (! is_file($icy_file) || strcmp($arg,'update') == 0)) {
+		if(!is_dir($cache_dir)) mkdir($cache_dir);
 
-	if(is_file($icy_file)) {
-		unlink($icy_file);
-	}
-	if(!copy( $config['icey_stream_url'], $icy_file )) {
-		die("{$errstr} ({$errno})<br>");
-	}
-} else if( strcmp( $feature, "stream-shout" ) == "0" && (! is_file($shout_file) || strcmp($arg,'update') == 0) && strcmp($config["stream_browser"],"yes") == 0) {
-	if(!is_dir($cache_dir)) mkdir($cache_dir);
+		if(is_file($icy_file)) {
+			unlink($icy_file);
+		}
+		if(!copy( $config['icey_stream_url'], $icy_file )) {
+			die("{$errstr} ({$errno})<br>");
+		}
+	} else if( strcmp( $feature, "stream-shout" ) == "0" && (! is_file($shout_file) || strcmp($arg,'update') == 0)) {
+		if(!is_dir($cache_dir)) mkdir($cache_dir);
 
-	if(is_file($shout_file)) {
-		unlink($shout_file);
+		if(is_file($shout_file)) {
+			unlink($shout_file);
+		}
+		if(!copy( $config['shout_stream_url'], $shout_file )) {
+			die("{$errstr} ({$errno})<br>");
+		}
 	}
-	if(!copy( $config['shout_stream_url'], $shout_file )) {
-		die("{$errstr} ({$errno})<br>");
+} else {
+	if(!is_file($icy_file) && strcmp($feature,"stream-icy") == 0) {
+		die("Access denied: {$icy_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"");
+	} else if (!is_file($shout_file) && strcmp($feature,"stream-shout") == 0) {
+		die("Access denied: {$shout_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"");
 	}
 }
 

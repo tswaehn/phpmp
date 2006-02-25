@@ -29,12 +29,15 @@ http://myserver/phpMp/index.php?inline=\{@}&search=any&server=0
 stream_browser
 --------------------------------------------------------------------------
 
-To use the stream browser you need to have 'allow_url_fopen' set to 'On' in
-your php.ini. This is required only if you want to be able to download and
-update the file from within phpMp. Otherwise you could have it as a cronjob.
+To use the stream browser updating you need to have 'allow_url_fopen' set 
+to 'On' in your php.ini. This is required only if you want to be able to 
+download and update the file from within phpMp. Otherwise you could have 
+it as a cronjob. The stream browser will not show up (at all) unless the
+following file(s) exist.
+
 It needs to go into the cache/ directory with the name stream-icy.xml or 
 stream-shout.xml, respectively. While I host a shoutcast xml file, which 
-updated tridaily you can generate your own using contrib/shoutcast.pl, 
+updated tri-daily you can generate your own using contrib/shoutcast.pl, 
 which could also be setup as a cronjob.
 
 
