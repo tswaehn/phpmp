@@ -1,13 +1,5 @@
-0.12.0 Release - A good 0.12.0 release could be done today if needed, but these would be useful if implemented, if not by 0.12.0>
---------------
-
-*) Fix shoutcast streaming
-
-Future - (doesn't have to be before release)
-------------------------------------------
-
-*) [Index]
-	*) Need to make an effort to cut more fat from the index
+*) [printMusicTable]
+	*) Need to fix addall to add in sorted order
 
 *) [i18n]
 	*) Need to look into the gettext/i18n stuff
@@ -25,11 +17,5 @@ Future - (doesn't have to be before release)
 		*) Playlist
 		*) Streams
 
-*) [Stream Browser]
-	*) Need to implement some time & caching system as not to overload the systems that host the XML(s)
-
 *) [Streams Menu]
 	*) Need to sort and put a index in this menu, make it similar to all the other tables if possible
-
-*) [XML Parser]
-	*) Rid of duplicate code in the XML Parser functions

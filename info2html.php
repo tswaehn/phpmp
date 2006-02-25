@@ -38,7 +38,7 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 		// If updating show the update links, otherwise show add links
 		if( $addperm == "1" )
 		{
-			$print[$i].= "[<a title=\"Add the $dirstr Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_dir\" target=playlist>add</a>]&nbsp";
+			$print[$i].= "[<a title=\"Add the $dirstr Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_dir\" target=playlist>add</a>]&nbsp;";
 		}
 		// This is a workaround to prevent letters that shouldn't be in the title from getting there.
 		$nice = str_replace(array("\"","\'"), '', $dirstr);

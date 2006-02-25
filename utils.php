@@ -224,7 +224,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		{
 			$feature_bar .= "&nbsp;|&nbsp;";
 		}
-		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\"";
+		$feature_bar .= "<a title=\"Add a Stream or Playlist of Streams to the Active Playlist\" ";
 		$feature_bar .= "href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stream\">Stream</a>";
 	}
 

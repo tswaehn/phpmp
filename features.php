@@ -163,7 +163,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	echo "</table></td></tr><table>";
 }
 
-function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir )
+function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir, $arg, $arg2 )
 {
 	if( strcmp( $feature, "stream" ) == 0) {
 		echo "<br>";
@@ -205,7 +205,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 		echo "<br>";
 	}
 
-	if( strcmp( $feature,"stream" ) && strcmp( $stream_browser, "yes" ) == 0)
+	if( strcmp( $feature,"stream" ) != 0 && strcmp( $stream_browser, "yes" ) == 0)
 	{
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
@@ -227,9 +227,13 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 		{
 			echo "<tr><td><b>Shoutcast Streams</b>";
 		}
-		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=stream\" target=main>hide</a>)";
-		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature\" target=main>refresh</a>)";
-		echo "&nbsp;(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
+		$baseurl = "index.php?body=main&amp;dir=$dir&amp;server=$server";
+		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"{$baseurl}&amp;feature=stream\" target=main>hide</a>)</small>";
+		if(!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
+			echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=info&amp;arg2=expandall \" target=main>expand all</a>)</small>";
+		}
+		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"{$baseurl}&amp;feature=$feature\" target=main>refresh</a>)</small>";
+		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
 		$k++; /* Human readable */
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
@@ -239,14 +243,15 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 
 		$j = 0;
 
-		echo "<tr bgcolor=\"{$color["sort"]}\"><td>Stream Name</td></tr>";
+		echo "<tr bgcolor=\"{$color["sort"]}\"><td></td><td>&nbsp;<b>Stream Information</b></td></tr>";
 
 		$j=2;
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
 			echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td>";
-			echo "&nbsp;<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
+			echo "<a name={$i}></a>";
+			echo "[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
 			echo rawurlencode( $server_data[$i]["listen_url"] );
 
 			while( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) == "0" )
@@ -255,8 +260,71 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 				echo $song_seperator . rawurlencode( $server_data[$i]["listen_url"] );
 			}
 
-			echo "\">" . trim( $server_data[$i]["server_name"] ) . "</a></td>";
-			echo "</tr>";
+			if(strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) {
+				$url = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature#{$i}";
+			} else if (!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
+				$url = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=info&amp;arg2={$i}#{$i}";
+			}
+			echo "\">add</a>]</td>";
+			echo "<td>&nbsp;";
+			if(isset($url)) {
+				echo "<a title=\"View information about this stream\" name=\"main\" href=\"$url\">" . trim( $server_data[$i]["server_name"] ) . "</a>";
+			} else {
+				echo trim( $server_data[$i]["server_name"] );
+			}
+			echo "</td></tr>";
+			if((strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) || strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0) {
+				echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td></td><td>";
+					echo "<table><tr>";
+						//echo "<td>" . print_r($server_data[$i]) . "</td>";
+						if(!empty($server_data[$i]["bitrate"])) {
+							echo "<td><b>Bitrate:</b> {$server_data[$i]["bitrate"]}</td>";
+						}
+
+						if(!empty($server_data[$i]["channels"])) {
+							echo "<td><b>Channels:</b> {$server_data[$i]["channels"]}</td>";
+						}
+
+						if(!empty($server_data[$i]["rank"])) {
+							echo "<td><b>Rank:</b> {$server_data[$i]["rank"]}</td>";
+						}
+
+						if(!empty($server_data[$i]["listening"])) {
+							echo "<td><b>Listening:</b> {$server_data[$i]["listening"]}</td>";
+						}
+
+						if(!empty($server_data[$i]["max_listeners"])) {
+							echo "<td><b>Max Listeners:</b> {$server_data[$i]["max_listeners"]}</td>";
+						}
+						if(!empty($server_data[$i]["samplerate"])) {
+							echo "<td><b>Sample Rate:</b> {$server_data[$i]["samplerate"]}</td>";
+						}
+					echo "</tr>";
+
+					if(!empty($server_data[$i]["server_type"])) {
+						echo "<tr><td colspan=99><b>Server Type:</b> {$server_data[$i]["server_type"]}</td></tr>";
+					}
+
+					if(!empty($server_data[$i]["current_song"])) {
+						echo "<tr><td colspan=99><b>Current Song:</b> {$server_data[$i]["current_song"]}</td></tr>";
+					}
+
+					if(!empty($server_data[$i]["genre"])) {
+						echo "<tr><td colspan=99><b>Genre:</b> {$server_data[$i]["genre"]}</td></tr>";
+					}
+
+					if(!empty($server_data[$i]["stream_homepage"])) {
+						if(!preg_match("/http:\/\//",$server_data[$i]["stream_homepage"])) {
+							$server_data[$i]["stream_homepage"] = "http://" . $server_data[$i]["stream_homepage"];
+						}
+
+						echo "<tr><td colspan=99><b>Server Homepage:</b> ";
+						echo "<a href=\"{$server_data[$i]["stream_homepage"]}\" target=\"new\" title=\"This stream's homepage\">{$server_data[$i]["stream_homepage"]}</a></td>";
+						echo "</tr>";
+					}
+					echo "</table>";
+				echo "</td></tr>";
+			}
 			$k++;
 		}
 	}

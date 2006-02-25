@@ -35,37 +35,58 @@ if( ! empty( $_FILES['playlist_file']['name'] ))
 } 
 
 if( ! empty( $streamurl )) {
-	$links = get_links($streamurl);
-	$links = x_array_merge($links[3],x_array_merge($links[5],$links[8]));
+	if(preg_match("/http:\/\/.*/",$streamurl)) {
+		$links = get_links($streamurl);
+		$links = x_array_merge($links[3],x_array_merge($links[5],$links[8]));
 
-	$j = 0;
-	for($i = 0; $i<sizeof($links); $i++) {
-		for($k = 0; $k<sizeof($config["filetypes"]); $k++) {
-			if(preg_match("/{$config["filetypes"][$k]}$/",$links[$i])) {
-				$tmp[$j] = dirname($streamurl);
+		$j = 0;
+		for($i = 0; $i<sizeof($links); $i++) {
+			for($k = 0; $k<sizeof($config["filetypes"]); $k++) {
+				if(preg_match("/{$config["filetypes"][$k]}$/",$links[$i])) {
+					$tmp[$j] = dirname($streamurl);
 
-				/* Rather than parsing just remove them and put one in. */
-				$tmp[$j] = rtrim($tmp[$j],"/");
-				$links[$i] = trim($links[$i],"/");
-				$tmp[$j] .= "/";
-				$tmp[$j] .=  $links[$i];
-				$j++;
+					/* Rather than parsing just remove them and put one in. */
+					$tmp[$j] = rtrim($tmp[$j],"/");
+					$links[$i] = trim($links[$i],"/");
+					$tmp[$j] .= "/";
+					$tmp[$j] .=  $links[$i];
+					$j++;
+				}
 			}
 		}
-	}
 
-	if(isset($tmp)) {
-		$tmpsize = sizeof($tmp);
-		for($i = 0; $i<$tmpsize; $i++) {
-			$stream .= $tmp[$i];
-			if($i != ($tmpsize-1)) {
-				$stream .= $config["song_separator"];
+		if(isset($tmp)) {
+			$tmpsize = sizeof($tmp);
+			for($i = 0; $i<$tmpsize; $i++) {
+				$stream .= $tmp[$i];
+				if($i != ($tmpsize-1)) {
+					$stream .= $config["song_separator"];
+				}
 			}
+		} else {
+			echo "No music found in that webpage. <br>";
 		}
-	} else {
-		echo "No music found in that webpage. <br>";
+		unset($tmpsize);
+	} else if(preg_match("/ftp:\/\/.*/",$streamurl)) {
+		$ftp_server = $streamurl;
+ 		$conn_id = ftp_connect($ftp_server);
+
+		$ftp_user_name = "anonymous";
+		$ftp_user_pass = "";
+
+		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
+		if ((!$conn_id) || (!$login_result)) { 
+			echo "FTP connection has failed!";
+			echo "Attempted to connect to $ftp_server for user $ftp_user_name"; 
+			exit; 
+		} else {
+			echo "Connected to $ftp_server, for user $ftp_user_name";
+		}
+		echo "It appears the ftp has succeeded";
+
+		// close the FTP stream 
+		ftp_close($conn_id); 
 	}
-	unset($tmpsize);
 }
 
 if( ! empty( $stream ))
