@@ -163,7 +163,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	echo "</table></td></tr><table>";
 }
 
-function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir, $arg, $arg2 )
+function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir, $arg, $arg2, $updating, $baseline, $streamfilter, $sfa )
 {
 	if( strcmp( $feature, "stream" ) == 0) {
 		echo "<br>";
@@ -207,11 +207,31 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 
 	if( strcmp( $feature,"stream" ) != 0 && strcmp( $stream_browser, "yes" ) == 0)
 	{
+		/* Filter $server_data */
+		{
+			if(!empty($streamfilter) && !empty($sfa)) {
+			$j = 0;
+			$new_server_data = array();
+			for($i = 0; $i < sizeof($server_data); $i++) {
+				foreach( $server_data[$i] as $key => $value ) {
+					if(strcmp($sfa,"any") == 0 || strcmp($sfa,$key) == 0) {
+						$pos = stripos($value,$streamfilter);
+						if($pos !== false) {
+							$new_server_data[$j] = $server_data[$i];
+							$j++;
+						}
+					}
+				}
+			}
+			$server_data = $new_server_data;
+			}
+		}
+		/* End $server_data filter*/
 		$k=0;
 		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
 		{
 			if( isset ( $server_data[($i+1)]["server_name"] ) &&
-				strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ))
+				strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) != 0)
 			{
 				$k++;
 			}
@@ -227,19 +247,45 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 		{
 			echo "<tr><td><b>Shoutcast Streams</b>";
 		}
-		$baseurl = "index.php?body=main&amp;dir=$dir&amp;server=$server";
-		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"{$baseurl}&amp;feature=stream\" target=main>hide</a>)</small>";
+		$baseurl = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;";
+		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"{$baseurl}feature=stream\" target=_self>hide</a>)</small>";
 		if(!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
-			echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=info&amp;arg2=expandall \" target=main>expand all</a>)</small>";
+			echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}feature=$feature&amp;arg=info&amp;arg2=expandall \" target=_self>expand all</a>)</small>";
 		}
-		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"{$baseurl}&amp;feature=$feature\" target=main>refresh</a>)</small>";
+		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature\" target=_self>refresh</a>)</small>";
 		if(strcmp($config["stream_browser"],"yes") != 0 ) {
-			echo "&nbsp;<small>(<a title=\"Update streams table\" href=\"{$baseurl}&amp;feature=$feature&amp;arg=update\" target=main>update</a>)</small></td>";
+			echo "&nbsp;<small>(<a title=\"Update streams table\" href=\"{$baseurl}feature=$feature&amp;arg=update\" target=_self>update</a>)</small></td>";
 		}
-		$k++; /* Human readable */
+		if($k!=0) {
+			$k++; /* Human readable */
+		}
 		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
 		echo "<tr><td>";
+		echo "<form action=index.php? method=get>";
+		echo "<select name=\"sfa\">";
+
+		echo "<option value=\"any\">Any</option>";
+		ksort($baseline);
+		foreach( $baseline as $key => $value) {
+			$tmp = str_replace("_"," ",$key);
+			$tmp = ucwords($tmp);
+			echo "<option";
+			if(strcmp($key,$sfa) == 0) {
+				echo " selected ";
+			}
+			echo " value=\"$key\">$tmp</option>";
+		}
+		echo "</select>";
+		echo "<input type=hidden value=\"main\" name=\"body\">";
+		echo "<input type=hidden value=\"{$feature}\" name=\"feature\">";
+		echo "<input type=hidden value=\"{$server}\" name=\"server\">";
+		echo "<input type=hidden value=\"{$dir}\" name=\"dir\">";
+		echo "<input type=hidden value=\"{$sort}\" name=\"sort\">";
+		echo "&nbsp;<input type=input name=\"streamfilter\" value=\"{$streamfilter}\" size=40 autocomplete=on>";
+		echo "&nbsp;<input type=submit value=Filter name=foo2>";
+		echo "</td></tr>";
 		echo "</table>";
+		echo "</form>";
 		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
 
 
@@ -262,9 +308,9 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			}
 
 			if(strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) {
-				$url = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature#{$i}";
+				$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature#{$i}";
 			} else if (!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
-				$url = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=info&amp;arg2={$i}#{$i}";
+				$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=info&amp;arg2={$i}#{$i}";
 			}
 			echo "\">add</a>]</td>";
 			echo "<td>&nbsp;";
@@ -332,9 +378,10 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 	}
 	else if( strcmp( $stream_browser, "yes" ) == 0 )
 	{
+		$real_path = realpath(".");
 		$icy_file = "{$real_path}/cache/stream-icy.xml";
 		$shout_file = "{$real_path}/cache/stream-shout.xml.gz";
-		if(isset($url_icy) && !empty($url_icy) && (!is_file($icy_file) && strcmp($config["stream_browser_updating"],"yes") != 0)) {
+		if(isset($url_icy) && !empty($url_icy) && (is_file($icy_file) || strcmp($updating,"yes") == 0)) {
 			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 			echo "<tr><td>";
 			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -345,7 +392,7 @@ function stream( $server, $color, $feature, $server_data, $song_seperator, $stre
 			echo "<br>";
 		}
 
-		if(isset($url_shout) && !empty($url_shout) && (!is_file($shout_file) && strcmp($config["stream_browser_updating"],"yes") != 0)) {
+		if(isset($url_shout) && !empty($url_shout) && (is_file($shout_file) || strcmp($updating,"yes") == 0)) {
 			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
 			echo "<tr><td>";
 			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
@@ -409,7 +456,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	{
 		echo $filename;
 	}
-        
+
 	// Default to Any if 0.12.x
 	if(( strcasecmp( $search, "any" ) == "0" || strcasecmp( $find, "any" ) == "0" ||
 	    ( strcmp($search,'') == 0 && strcmp($find,'') == 0 )) && strcmp( $MPDversion, "0.12.0" ) == 0 )
@@ -420,8 +467,8 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	{
 		echo "<option value=\"any\">Any</option>";
 	}
-        
-        
+
+
         for( $i = "0"; $i < count( $search_fields ); $i++ )
 	{
 		// Don't echo 'Time' or 'Track' as they don't make sense to search for.

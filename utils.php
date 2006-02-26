@@ -392,6 +392,7 @@ function hostname($url) {
 	return "{$i["scheme"]}://{$i["host"]}";
 }
 
+/* This function was taken from php.net examples*/
 function x_array_merge($arr1,$arr2) {
     for($i=0;$i<count($arr1);$i++) {
         $arr[$i]=($arr1[$i] == '')?$arr2[$i]:$arr1[$i];
@@ -399,6 +400,8 @@ function x_array_merge($arr1,$arr2) {
     return $arr;
  }
 
+/* This is where the file downloading is done */
+/* This code was taken from php.net examples */
 function get_links($url) {
     if( !($body = @file_get_contents($url)) ) return FALSE;
     //Pattern building across multiple lines to avoid page distortion.

@@ -31,16 +31,18 @@ $port = $servers[$server][1];
 $hostport = $host . ":" . $port;
 
 // This will extract the needed GET/POST variables
-$arg =		isset( $_GET["arg"])		?	$_GET["arg"]	:	"";
-$arg2 =		isset( $_GET["arg2"])		?	$_GET["arg2"]	:	"";
-$body =		isset( $_GET["body"])		?	$_GET["body"]	:	"";
+$arg =		isset( $_GET["arg"])		?	$_GET["arg"]		:	"";
+$arg2 =		isset( $_GET["arg2"])		?	$_GET["arg2"]		:	"";
+$body =		isset( $_GET["body"])		?	$_GET["body"]		:	"";
 $command =	isset( $_GET["command"])	?	$_GET["command"]	:	"";
 $feature =	isset( $_GET["feature"] )	?	$_GET["feature"]	:	"";
 $remember =	isset( $_REQUEST["remember"] )	?	$_REQUEST["remember"]	:	"";
 $passarg =	isset( $_REQUEST["passarg"] )	?	$_REQUEST["passarg"]	:	"";
-$stream =	isset( $_GET["stream"] )	?	$_GET["stream"]	:	"";
+$stream =	isset( $_GET["stream"] )	?	$_GET["stream"]		:	"";
 $streamurl =	isset( $_GET["streamurl"] )	?	$_GET["streamurl"]	:	"";
-$inline =	isset( $_GET["inline"] )	?	$_GET["inline"]	:	"";
+$inline =	isset( $_GET["inline"] )	?	$_GET["inline"]		:	"";
+$streamfilter =	isset( $_GET["streamfilter"] )	?	$_GET["streamfilter"]	:	"";
+$sfa =		isset($_GET["sfa"])		?	$_GET["sfa"]		:	"";
 
 if(isset($_POST["body"])) {
 	$body = $_POST["body"];
@@ -174,7 +176,7 @@ if( strlen( $passarg ) > "0" )
 if( ! isset( $has_password ))
 {
 	$has_password = 0;
-} 
+}
 
 $commands = getCommandInfo( $fp, $MPDversion );
 if( $commands["status"] == "1" )

@@ -90,7 +90,7 @@ else
 			$server_data = 0;
 		case 'stream-icy':
 		case 'stream-shout':
-			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["stream_browser"], $config["icey_stream_url"], $config["shout_stream_url"], $dir, $arg, $arg2 );
+			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["stream_browser"], $config["icey_stream_url"], $config["shout_stream_url"], $dir, $arg, $arg2, $config['stream_browser_updating'],$baseline, $streamfilter, $sfa );
 			break;
 	}
 	echo "<!-- End $feature -->";

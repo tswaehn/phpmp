@@ -2,11 +2,25 @@
 $server_count = 0;
 $server_data = array();
 $xml_current_tag_state = '';
+$baseline = array();
 
 $real_path = realpath(".");
-$icy_file = "{$real_path}/cache/stream-icy.xml";
-$shout_file = "{$real_path}/cache/stream-shout.xml.gz";
 $cache_dir = "{$real_path}/cache";
+$icy_file = "{$cache_dir}/stream-icy.xml";
+$shout_file = "{$cache_dir}/stream-shout.xml.gz";
+
+function troubleshooting ($updating) {
+	echo "You are having problems dealing with streams. Here are some troubleshooting steps to fix this.";
+	echo "1) allow_url_fopen = On must be set in php.ini";
+	echo "2) Check permissions of the cache/ directory";
+
+	echo "For phpMp controlled updating/download you have to have:";
+	echo "1) php must be compiled with gzip and xml";
+	if(strcmp($updating,"yes")==0) {
+		echo "2) stream_browser_updating must be set to \"yes\" in your config.php";
+	}
+	die("phpMp killed.");
+}
 
 if(strcmp($config["stream_browser_updating"],"yes") == 0) {
 	if( strcmp( $feature, "stream-icy" ) == "0" && (! is_file($icy_file) || strcmp($arg,'update') == 0)) {
@@ -16,7 +30,7 @@ if(strcmp($config["stream_browser_updating"],"yes") == 0) {
 			unlink($icy_file);
 		}
 		if(!copy( $config['icey_stream_url'], $icy_file )) {
-			die("{$errstr} ({$errno})<br>");
+			troubleshooting($config["stream_browser_updating"]);
 		}
 	} else if( strcmp( $feature, "stream-shout" ) == "0" && (! is_file($shout_file) || strcmp($arg,'update') == 0)) {
 		if(!is_dir($cache_dir)) mkdir($cache_dir);
@@ -25,14 +39,16 @@ if(strcmp($config["stream_browser_updating"],"yes") == 0) {
 			unlink($shout_file);
 		}
 		if(!copy( $config['shout_stream_url'], $shout_file )) {
-			die("{$errstr} ({$errno})<br>");
+			troubleshooting($config["stream_browser_updating"]);
 		}
 	}
 } else {
 	if(!is_file($icy_file) && strcmp($feature,"stream-icy") == 0) {
-		die("Access denied: {$icy_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"");
+		echo "Access denied: {$icy_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"";
+		troubleshooting($config["stream_browser_updating"]);
 	} else if (!is_file($shout_file) && strcmp($feature,"stream-shout") == 0) {
-		die("Access denied: {$shout_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"");
+		echo "Access denied: {$shout_file} doesn't exist, must be manually downloaded if \"stream_browser_updating\" isn't set to \"yes\"";
+		troubleshooting($config["stream_browser_updating"]);
 	}
 }
 
@@ -111,6 +127,7 @@ function characterDataHandler( $parser , $data )
 	global $server_count;
 	global $server_data;
 	global $xml_current_tag_state;
+	global $baseline;
 
 	if( $xml_current_tag_state == '' )
 	{
@@ -119,10 +136,12 @@ function characterDataHandler( $parser , $data )
 
 	if( $xml_current_tag_state == "SERVER_NAME" )
 	{
+		$baseline["server_name"] = 1;
 		$server_data[$server_count]["server_name"] = $data;
 	}
 	else if( $xml_current_tag_state == "LISTEN_URL" )
 	{
+		$baseline["listen_url"] = 1;
 		// This is here because if a '&' (maybe other special characters) 
 		// is passed to the XML parser it will do a multipass on it.		
 		if( isset( $server_data[$server_count]["listen_url"] ))
@@ -136,46 +155,57 @@ function characterDataHandler( $parser , $data )
 	}
 	else if( $xml_current_tag_state == "SERVER_TYPE" )
 	{
+		$baseline["server_type"] = 1;
 		$server_data[$server_count]["server_type"] = $data;
 	}
 	else if	( $xml_current_tag_state == "BITRATE" )
 	{
+		$baseline["bitrate"] = 1;
 		$server_data[$server_count]["bitrate"] = $data;
 	}
 	else if( $xml_current_tag_state == "CHANNELS" )
 	{
+		$baseline["channels"] = 1;
 		$server_data[$server_count]["channels"] = $data;
 	}
 	else if( $xml_current_tag_state == "SAMPLERATE" )
 	{
+		$baseline["samplerate"] = 1;
 		$server_data[$server_count]["samplerate"] = $data;
 	}
 	else if( $xml_current_tag_state == "GENRE" )
 	{
+		$baseline["genre"] = 1;
 		$server_data[$server_count]["genre"] = $data;
 	}
 	else if( $xml_current_tag_state == "CURRENT_SONG" )
 	{
+		$baseline["current_song"] = 1;
 		$server_data[$server_count]["current_song"] = $data;
 	}
 	else if( $xml_current_tag_state == "RANK" )
 	{
+		$baseline["rank"] = 1;
 		$server_data[$server_count]["rank"] = $data;
 	}
 	else if( $xml_current_tag_state == "STREAM_HOMEPAGE" )
 	{
+		$baseline["stream_homepage"] = 1;
 		$server_data[$server_count]["stream_homepage"] = $data;
 	}
 	else if( $xml_current_tag_state == "LISTENING" )
 	{
+		$baseline["listening"] = 1;
 		$server_data[$server_count]["listening"] = $data;
 	}
 	else if( $xml_current_tag_state == "MAX_LISTENERS" )
 	{
+		$baseline["max_listeners"] = 1;
 		$server_data[$server_count]["max_listeners"] = $data;
 	}
 	else if( $xml_current_tag_state == "BITRATE" )
 	{
+		$baseline["bitrate"] = 1;
 		$server_data[$server_count]["bitrate"] = $data;
 	}
 }

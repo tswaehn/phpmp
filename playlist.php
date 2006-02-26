@@ -34,7 +34,8 @@ if( ! empty( $_FILES['playlist_file']['name'] ))
 	}
 } 
 
-if( ! empty( $streamurl )) {
+/* File downloading is done in get_links(), we parse it here for valid filenames */
+if( isset( $streamurl ) && ! empty( $streamurl )) {
 	if(preg_match("/http:\/\/.*/",$streamurl)) {
 		$links = get_links($streamurl);
 		$links = x_array_merge($links[3],x_array_merge($links[5],$links[8]));
@@ -66,8 +67,13 @@ if( ! empty( $streamurl )) {
 		} else {
 			echo "No music found in that webpage. <br>";
 		}
+		unset($tmp);
 		unset($tmpsize);
-	} else if(preg_match("/ftp:\/\/.*/",$streamurl)) {
+
+// Disable this code for now, ftp handling is broken in php, there is a bug
+// in bugzilla
+//	} else if(preg_match("/ftp:\/\/.*/",$streamurl)) {
+/*
 		$ftp_server = $streamurl;
  		$conn_id = ftp_connect($ftp_server);
 
@@ -85,7 +91,8 @@ if( ! empty( $streamurl )) {
 		echo "It appears the ftp has succeeded";
 
 		// close the FTP stream 
-		ftp_close($conn_id); 
+		ftp_close($conn_id);
+*/
 	}
 }
 
