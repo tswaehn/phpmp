@@ -37,8 +37,8 @@ if( empty( $feature ))
 
 	if( ! empty( $lsinfo["music"] ))
 	{
-		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, $ordered );
-		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $commands["add"], $feature, 0 );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["meta"], $tagged_info, $file_info["count"], $sort_array, $server, $dir, $feature, $ordered );
+		printMusicTable( $add_all, count( $config["display_fields"] ), $config["use_javascript"], $colors["music"]["file"], $file_info, $tagged_info["count"], $sort_array, $server, $dir, $feature, 0 );
 	}
 
 	printPlaylistTable( $colors["playlist"], $server, $pinfo, $delete, $commands["rm"] );
@@ -87,10 +87,11 @@ else
 			stats( $fp, $colors["stats"], $MPDversion, $phpMpVersion, $host, $port );
 			break;
 		case 'stream':
-			$server_data = 0;
+			stream( $server, $colors["stream"], $config["stream_browser"], $config["icey_stream_url"], $config["shout_stream_url"], $dir, $config['stream_browser_updating'] );
+			break;
 		case 'stream-icy':
 		case 'stream-shout':
-			stream( $server, $colors["stream"], $feature, $server_data, $config["song_separator"], $config["stream_browser"], $config["icey_stream_url"], $config["shout_stream_url"], $dir, $arg, $arg2, $config['stream_browser_updating'],$baseline, $streamfilter, $sfa );
+			sbrowser( $server, $colors["stream"], $feature, $server_data, $config["stream_browser"], $config["icey_stream_url"], $config["shout_stream_url"], $dir, $arg, $arg2, $config['stream_browser_updating'],$baseline, $streamfilter, $sfa );
 			break;
 	}
 	echo "<!-- End $feature -->";

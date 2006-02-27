@@ -15,16 +15,13 @@ if( ! empty( $feature ) && ( strcmp( $feature, "stream-icy" ) == "0" || strcmp( 
 	require "xml-parse.php";
 }
 
-if( sizeof( $servers ) > 1 && strcmp( $config["server_in_title"],"yes" ) == "0" )
+if( sizeof( $servers ) > 1 && $config["server_in_title"] === true )
 {
 	$config["title"] .= strlen( $servers[$server][2] ) > "0" ? " ({$servers[$server][2]})" : " ({$servers[$server][0]})";
 }
 
 $host = $servers[$server][0];
 $port = $servers[$server][1];
-
-// This should keep us from calling status a billion times
-//global $status;
 
 // This variable is a argument to $_COOKIE[*] to make it where your cookies
 // won't go any old place, but only to the host/port that you are speaking to
@@ -87,12 +84,12 @@ if( ! empty( $body ))
 		{
 			$hide = $_GET["hide"];
 		}
-		else if( strcmp($config["use_cookies"], "yes" ) == "0" && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
+		else if( $config["use_cookies"] === true && isset( $_COOKIE["phpMp_playlist_hide"][$hostport] ))
 		{
 			$hide = $_COOKIE["phpMp_playlist_hide"][$hostport];
 		}
 
-		if( isset( $hide ) && strcmp( $config["use_cookies"], "yes" ) == "0" )
+		if( isset( $hide ) && $config["use_cookies"] === true )
 		{
 			setcookie("phpMp_playlist_hide[$hostport]", $hide);
 		}
@@ -148,7 +145,7 @@ else if( isset( $_COOKIE["phpMp_password"][$hostport] ))
 
 if( strlen( $passarg ) > "0" )
 {
-	$has_password = 1;
+	$has_password = true;
 	fputs( $fp, "password \"$passarg\"\n" );
 	while ( ! feof( $fp ))
 	{
@@ -175,11 +172,11 @@ if( strlen( $passarg ) > "0" )
 
 if( ! isset( $has_password ))
 {
-	$has_password = 0;
+	$has_password = false;
 }
 
 $commands = getCommandInfo( $fp, $MPDversion );
-if( $commands["status"] == "1" )
+if( $commands["status"] === true )
 {
 	$status = getStatusInfo( $fp );
 }
@@ -192,7 +189,7 @@ if( ! empty( $command ))
 
 // This needs to go down here to give the cookies, server time to load
 include "theme.php";
-if( $commands["status"] == "1" && $config["smart_updating"] == "yes" && ! empty($status["time"])) {
+if( $commands["status"] === true && $config["smart_updating"] === true && ! empty($status["time"])) {
 	$var1 = strtok($status["time"],":");
 	$var2 = strrchr($status["time"],":");
 	$var2 = str_replace(":","",$var2);
@@ -203,26 +200,26 @@ if( $commands["status"] == "1" && $config["smart_updating"] == "yes" && ! empty(
 }
 
 // There might be more that's would prevent phpMp from loading, rather than taking time to figure it out, we'll wait for reports.
-if( $commands["listall"] == "0" || $commands["lsinfo"] == "0" || $commands["playlist"] == "0" || $commands["playlistinfo"] == "0" || $commands["stats"] == "0" )
+if( $commands["listall"] === false || $commands["lsinfo"] === false || $commands["playlist"] === false || $commands["playlistinfo"] === false || $commands["stats"] === false )
 {
 	include "features.php";
 	setcookie( "phpMp_password[$hostport]", "" );
 	unset( $has_password );
 
 	echo "<b>Error:</b> Can't load phpMp due to not having permission to the following commands: ";
-	if( $commands["listall"] == "0" )
+	if( $commands["listall"] === false )
 	{
 		echo "listall ";
 	}
-	if( $commands["lsinfo"] == "0" )
+	if( $commands["lsinfo"] === false )
 	{
 		echo "lsinfo ";
 	}
-	if( $commands["playlist"] == "0" )
+	if( $commands["playlist"] === false )
 	{
 		echo "playlist ";
 	}
-	if( $commands["playlistinfo"] == "0" )
+	if( $commands["playlistinfo"] === false )
 	{
 		echo "playlistinfo";
 	}

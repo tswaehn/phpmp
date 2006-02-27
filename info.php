@@ -31,7 +31,7 @@ function getStatusInfo( $conn )
 
 function getCommandInfo( $conn, $MPDVersion )
 {
-    
+
 	fputs( $conn, "commands\n" );
 	while( ! feof( $conn ))
 	{
@@ -63,47 +63,47 @@ function getCommandInfo( $conn, $MPDVersion )
 			
 			// 0.10.x
 			$ret = $ret + array(
-					"add" => 1,
-					"clear" => 1,
-					"close" => 1,
-					"crossfade" => 1,
-					"close" => 1,
-					"crossfade" => 1,
-					"currentsong" => 1,
-					"delete" => 1,
-					"find" => 1,
-					"list" => 1,
-					"listall" => 1,
-					"listallinfo" => 1,
-					"load" => 1,
-					"lsinfo" => 1,
-					"next" => 1,
-					"pause" => 1,
-					"password" => 1,
-					"ping" => 1,
-					"play" => 1,
-					"playlist" => 1,
-					"playlistinfo" => 1,
-					"previous" => 1,
-					"random" => 1,
-					"repeat" => 1,
-					"rm" => 1,
-					"save" => 1,
-					"search" => 1,
-					"seek" => 1,
-					"setvol" => 1,
-					"shuffle" => 1,
-					"stats" => 1,
-					"status" => 1,
-					"stop" => 1,
-					"swap" => 1,
-					"volume" => 1
+					"add" => true,
+					"clear" => true,
+					"close" => true,
+					"crossfade" => true,
+					"close" => true,
+					"crossfade" => true,
+					"currentsong" => true,
+					"delete" => true,
+					"find" => true,
+					"list" => true,
+					"listall" => true,
+					"listallinfo" => true,
+					"load" => true,
+					"lsinfo" => true,
+					"next" => true,
+					"pause" => true,
+					"password" => true,
+					"ping" => true,
+					"play" => true,
+					"playlist" => true,
+					"playlistinfo" => true,
+					"previous" => true,
+					"random" => true,
+					"repeat" => true,
+					"rm" => true,
+					"save" => true,
+					"search" => true,
+					"seek" => true,
+					"setvol" => true,
+					"shuffle" => true,
+					"stats" => true,
+					"status" => true,
+					"stop" => true,
+					"swap" => true,
+					"volume" => true
 					);
 			return $ret;
 		}
 	
 		$el = str_replace( "command: ", "", $got);
-		$ret[$el] = "1";
+		$ret[$el] = true;
         }
 	fputs( $conn, "notcommands\n" );
 	while( ! feof( $conn ))
@@ -122,13 +122,13 @@ function getCommandInfo( $conn, $MPDVersion )
 
 		if( $el = str_replace( "command: ", "", $got ))
 		{
-			$ret["all"] = "0";
-			$ret[$el] = "0";
+			$ret["all"] = false;
+			$ret[$el] = false;
 		}
 	}
 	if( ! isset ( $ret["all"] ))
 	{
-		$ret["all"] = "1";
+		$ret["all"] = true;
 	}
 	return $ret;
 }
@@ -192,7 +192,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 		$goto = $count > $start ? $count - 1 : $count;
 		$time = time();
 
-		if( strcmp( $filenames_only, "yes" ) && isset($ret["Name"]) && $ret["Name"] > "0")
+		if( $filenames_only !== true && isset($ret["Name"]) && $ret["Name"] > "0")
 		{
 			$display = $ret["Name"];
 		}
@@ -211,7 +211,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 		        echo "<tr bgcolor=\"{$color["body"][ ( $count % 2 ) ]}\">";
 		}
 
-		if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		if( $config["enable_swap"] === true )
 		{
 			echo "<td valign=middle><a name=$count></a><small>";
 		}
@@ -220,18 +220,18 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 			echo "<td valign=top><a name=$count></a><small>";
 		}
 
-		if( $commands["move"] == "0" || ( strcmp( $config["enable_swap"], "yes" ) == "0" && $ret["Pos"] == "0" ))
+		if( $commands["move"] === false || ($config["enable_swap"] === true && $ret["Pos"] == "0" ))
 		{
 			echo "<small>^</small><br>";
 		}
-		else if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		else if( $config["enable_swap"] === true )
 		{
 			echo "<small><a title=\"Move song up one position in the playlist\" ";
 			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
 			echo $ret["Pos"] . "&amp;arg2=" . ( $ret["Pos"] - 1 ) . "&amp;time=$time#$goto\">^</a></small><br>";
 		}
 
-		if( $commands["delete"] == "0" )
+		if( $commands["delete"] === false )
 		{
 			echo "<small>d</small>";
 		}
@@ -242,11 +242,11 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 			echo "d</a></small>";
 		}
 
-		if( ( $commands["swap"] == "0" || $length == ( $ret["Pos"] + 1 )) && strcmp( $config["enable_swap"], "yes" ) == "0" )
+		if( ( $commands["swap"] === false || $length == ( $ret["Pos"] + 1 )) && $config["enable_swap"] === true )
 		{
 			echo "<br><small>v</small>";
 		}
-		else if( strcmp( $config["enable_swap"], "yes" ) == "0" )
+		else if( $config["enable_swap"] === true )
 		{
 			echo "<br><small><a title=\"Move song down one position in the playlist\" ";
 			echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=move&amp;arg=";
@@ -254,7 +254,7 @@ function printPlaylistInfo( $conn, $num, $hide, $show_options, $length, $command
 			echo "v</a></small>";
 		}
 
-		if( $commands["play"] == "0" )
+		if( $commands["play"] === false )
 		{
 			echo "</td><td width=\"100%\">$display";
 		}

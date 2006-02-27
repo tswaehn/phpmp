@@ -88,7 +88,7 @@ $colors["time"]["background"] = "#aaaaaa";
 $colors["time"]["foreground"] = "#000000";
 
 // URL Displays
-if ($config["use_images"]=="yes")
+if ($config["use_images"] === true)
 {
 	// The following are examples of images you could use for phpMp. These are user-supplied.
 	$display["playing"]["prev"]["active"] = "<a title=\"Previous\" href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;command=previous\"><img src=\"images/previous.gif\" border=0></a>";

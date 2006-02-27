@@ -34,11 +34,11 @@ function outputs( $fp, $host, $color, $server, $commands )
 	for( $i = "0"; $i < sizeOf( $outputs ); $i++ )
 	{
 		echo "<tr bgcolor=\"{$color["body"][$i%2]}\"><td nowrap>";
-		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] == "1" )
+		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] === true )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
-		else if( $commands["disableoutput"] == "1")
+		else if( $commands["disableoutput"] === true )
 		{
 			echo "[<a title=\"Disable this output\" href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=disableoutput&amp;arg=$i>disable</a>]</td>";
 		}
@@ -88,7 +88,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 			$seconds -= $days * 86400;
 			$ret .= "$days days ";
 		}
-  
+
 		$hours = floor ($seconds / 3600);
 		if ($hours > 1)
 		{
@@ -163,243 +163,237 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	echo "</table></td></tr><table>";
 }
 
-function stream( $server, $color, $feature, $server_data, $song_seperator, $stream_browser, $url_icy, $url_shout, $dir, $arg, $arg2, $updating, $baseline, $streamfilter, $sfa )
+function stream( $server, $color, $stream_browser, $url_icy, $url_shout, $dir, $updating )
 {
-	if( strcmp( $feature, "stream" ) == 0) {
-		echo "<br>";
-		echo "<form action=index.php? name=1 target=playlist method=get>";
-		echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td><b>Add Stream</b></td></tr>";
-		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-		echo "<input type=hidden value=\"playlist\" name=body>";
-		echo "<input type=hidden value=$server name=server>";
-		echo "<input type=input name=stream size=40>";
-		echo "<input type=submit value=Add name=foo>";
-		echo "</td></tr></table></form>";
+	echo "<br>";
+	echo "<form action=index.php? name=1 target=playlist method=get>";
+	echo "<table summary=\"Add Stream\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
+	echo "<tr><td><b>Add Stream</b></td></tr>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+	echo "<input type=hidden value=\"playlist\" name=body>";
+	echo "<input type=hidden value=$server name=server>";
+	echo "<input type=input name=stream size=40>";
+	echo "<input type=submit value=Add name=foo>";
+	echo "</td></tr></table></form>";
 
-		echo "<br>";
+	echo "<br>";
+	echo "<form action=index.php? name=2 target=playlist method=get>";
+	echo "<table summary=\"Search Webpage for Streams\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
+	echo "<tr><td><b>Search Webpage for Streams</b></td></tr>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+	echo "<input type=hidden value=\"playlist\" name=body>";
+	echo "<input type=hidden value=$server name=server>";
+	echo "<input type=input name=streamurl size=40>";
+	echo "<input type=submit value=Add name=foo>";
+	echo "</td></tr></table></form>";
 
-		echo "<form action=index.php? name=2 target=playlist method=get>";
-		echo "<table summary=\"Search Webpage for Streams\" border=0 cellspacing=1 bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td><b>Search Webpage for Streams</b></td></tr>";
-		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-		echo "<input type=hidden value=\"playlist\" name=body>";
-		echo "<input type=hidden value=$server name=server>";
-		echo "<input type=input name=streamurl size=40>";
-		echo "<input type=submit value=Add name=foo>";
-		echo "</td></tr></table></form>";
+	echo "<br>";
+	echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
+	echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+	echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
+	echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
+	echo "<input type=\"hidden\" value=\"playlist\" name=\"body\">";
+	echo "<input type=\"hidden\" value=\"$server\" name=\"server\">";
+	echo "<input type=\"file\" name=\"playlist_file[]\" size=30>";
+	echo "&nbsp;";
+	echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
+	echo "</td></tr></table></form>";
 
-		echo "<br>";
-
-		echo "<form enctype=\"multipart/form-data\" action=\"index.php?\" target=\"playlist\" method=\"post\">";
-		echo "<table summary=\"Load Stream From Playlist\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td><b>Load Stream From Playlist</b></td></tr>";
-		echo "<tr bgcolor=\"{$color["body"][0]}\"><td>";
-		echo "<input type=\"hidden\" value=\"playlist\" name=\"body\">";
-		echo "<input type=\"hidden\" value=\"$server\" name=\"server\">";
-		echo "<input type=\"file\" name=\"playlist_file[]\" size=30>";
-		echo "&nbsp;";
-		echo "<input type=\"submit\" value=\"Load\" name=\"foo\"><br>";
-		echo "</td></tr></table></form>";
-
-		echo "<br>";
+	echo "<br>";
+	$real_path = realpath(".");
+	$icy_file = "{$real_path}/cache/stream-icy.xml";
+	$shout_file = "{$real_path}/cache/stream-shout.xml.gz";
+	if(isset($url_icy) && !empty($url_icy) && (is_file($icy_file) || $updating === true) && $stream_browser === true) {
+		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td>";
+		echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td><b>Icecast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Show a table of current Icecast Streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-icy\" target=main>show</a>)</small>";
+		echo "</td></tr></table></td></tr></table>";
 	}
 
-	if( strcmp( $feature,"stream" ) != 0 && strcmp( $stream_browser, "yes" ) == 0)
+	echo "<br>";
+	if(isset($url_shout) && !empty($url_shout) && (is_file($shout_file) || $updating === true) && $stream_browser === true) {
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td>";
+		echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+		echo "<tr><td><b>Shoutcast Streams</b>";
+		echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
+		echo "</tr></table></td></tr></table>";
+	}
+}
+
+function sbrowser( $server, $color, $feature, $server_data, $stream_browser, $url_icy, $url_shout, $dir, $arg, $arg2, $updating, $baseline, $streamfilter, $sfa )
+{
+	// This should never happen
+	if( $stream_browser !== true )
 	{
-		/* Filter $server_data */
-		{
-			if(!empty($streamfilter) && !empty($sfa)) {
-			$j = 0;
-			$new_server_data = array();
-			for($i = 0; $i < sizeof($server_data); $i++) {
-				foreach( $server_data[$i] as $key => $value ) {
-					if(strcmp($sfa,"any") == 0 || strcmp($sfa,$key) == 0) {
-						$pos = stripos($value,$streamfilter);
-						if($pos !== false) {
-							$new_server_data[$j] = $server_data[$i];
-							$j++;
-						}
+		return -1;
+	}
+
+	/* Filter $server_data */
+	if(!empty($streamfilter) && !empty($sfa)) {
+		$j = 0;
+		$new_server_data = array();
+		for($i = 0; $i < sizeof($server_data); $i++) {
+			foreach( $server_data[$i] as $key => $value ) {
+				if(strcmp($sfa,"any") == 0 || strcmp($sfa,$key) == 0) {
+					$pos = stripos($value,$streamfilter);
+					if($pos !== false) {
+						$new_server_data[$j] = $server_data[$i];
+						$j++;
 					}
 				}
 			}
-			$server_data = $new_server_data;
-			}
 		}
-		/* End $server_data filter*/
-		$k=0;
-		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
+		$server_data = $new_server_data;
+	}
+
+	/* End $server_data filter*/
+	$k=0;
+	for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
+	{
+		if( isset ( $server_data[($i+1)]["server_name"] ) &&
+			strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) != 0)
 		{
-			if( isset ( $server_data[($i+1)]["server_name"] ) &&
-				strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) != 0)
-			{
-				$k++;
-			}
-		}
-		echo "<br><table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		echo "<tr><td>";
-		echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-		if( strcmp( $feature, "stream-icy" ) == "0" )
-		{ 
-			echo "<tr><td><b>Icecast / Oddcast Streams</b>";
-		}
-		else if( strcmp( $feature, "stream-shout" ) == "0" )
-		{
-			echo "<tr><td><b>Shoutcast Streams</b>";
-		}
-		$baseurl = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;";
-		echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"{$baseurl}feature=stream\" target=_self>hide</a>)</small>";
-		if(!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
-			echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}feature=$feature&amp;arg=info&amp;arg2=expandall \" target=_self>expand all</a>)</small>";
-		}
-		echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature\" target=_self>refresh</a>)</small>";
-		if(strcmp($config["stream_browser"],"yes") != 0 ) {
-			echo "&nbsp;<small>(<a title=\"Update streams table\" href=\"{$baseurl}feature=$feature&amp;arg=update\" target=_self>update</a>)</small></td>";
-		}
-		if($k!=0) {
-			$k++; /* Human readable */
-		}
-		echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
-		echo "<tr><td>";
-		echo "<form action=index.php? method=get>";
-		echo "<select name=\"sfa\">";
-
-		echo "<option value=\"any\">Any</option>";
-		ksort($baseline);
-		foreach( $baseline as $key => $value) {
-			$tmp = str_replace("_"," ",$key);
-			$tmp = ucwords($tmp);
-			echo "<option";
-			if(strcmp($key,$sfa) == 0) {
-				echo " selected ";
-			}
-			echo " value=\"$key\">$tmp</option>";
-		}
-		echo "</select>";
-		echo "<input type=hidden value=\"main\" name=\"body\">";
-		echo "<input type=hidden value=\"{$feature}\" name=\"feature\">";
-		echo "<input type=hidden value=\"{$server}\" name=\"server\">";
-		echo "<input type=hidden value=\"{$dir}\" name=\"dir\">";
-		echo "<input type=hidden value=\"{$sort}\" name=\"sort\">";
-		echo "&nbsp;<input type=input name=\"streamfilter\" value=\"{$streamfilter}\" size=40 autocomplete=on>";
-		echo "&nbsp;<input type=submit value=Filter name=foo2>";
-		echo "</td></tr>";
-		echo "</table>";
-		echo "</form>";
-		echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
-
-
-		$j = 0;
-
-		echo "<tr bgcolor=\"{$color["sort"]}\"><td></td><td>&nbsp;<b>Stream Information</b></td></tr>";
-
-		$j=2;
-		$k=0;
-		for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
-		{
-			echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td>";
-			echo "[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
-			echo rawurlencode( $server_data[$i]["listen_url"] );
-
-			while( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) == "0" )
-			{
-				$i++;
-				echo $song_seperator . rawurlencode( $server_data[$i]["listen_url"] );
-			}
-
-			if(strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) {
-				$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature#{$i}";
-			} else if (!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
-				$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=info&amp;arg2={$i}#{$i}";
-			}
-			echo "\">add</a>]</td>";
-			echo "<td>&nbsp;";
-			if(isset($url)) {
-				echo "<a title=\"View information about this stream\" name=\"main\" href=\"$url\">" . trim( $server_data[$i]["server_name"] ) . "</a>";
-			} else {
-				echo trim( $server_data[$i]["server_name"] );
-			}
-			echo "</td></tr>";
-			if((strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) || strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0) {
-				echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td></td><td>";
-					echo "<table><tr>";
-						if(!empty($server_data[$i]["bitrate"])) {
-							echo "<td><b>Bitrate:</b> {$server_data[$i]["bitrate"]}</td>";
-						}
-
-						if(!empty($server_data[$i]["channels"])) {
-							echo "<td><b>Channels:</b> {$server_data[$i]["channels"]}</td>";
-						}
-
-						if(!empty($server_data[$i]["rank"])) {
-							echo "<td><b>Rank:</b> {$server_data[$i]["rank"]}</td>";
-						}
-
-						if(!empty($server_data[$i]["listening"])) {
-							echo "<td><b>Listening:</b> {$server_data[$i]["listening"]}</td>";
-						}
-
-						if(!empty($server_data[$i]["max_listeners"])) {
-							echo "<td><b>Max Listeners:</b> {$server_data[$i]["max_listeners"]}</td>";
-						}
-						if(!empty($server_data[$i]["samplerate"])) {
-							echo "<td><b>Sample Rate:</b> {$server_data[$i]["samplerate"]}</td>";
-						}
-					echo "</tr>";
-
-					if(!empty($server_data[$i]["server_type"])) {
-						echo "<tr><td colspan=99><b>Server Type:</b> {$server_data[$i]["server_type"]}</td></tr>";
-					}
-
-					if(!empty($server_data[$i]["current_song"])) {
-						echo "<tr><td colspan=99><b>Current Song:</b> {$server_data[$i]["current_song"]}</td></tr>";
-					}
-
-					if(!empty($server_data[$i]["genre"])) {
-						echo "<tr><td colspan=99><b>Genre:</b> {$server_data[$i]["genre"]}</td></tr>";
-					}
-
-					if(!empty($server_data[$i]["stream_homepage"])) {
-						if(!preg_match("/http:\/\//",$server_data[$i]["stream_homepage"])) {
-							$server_data[$i]["stream_homepage"] = "http://" . $server_data[$i]["stream_homepage"];
-						}
-
-						echo "<tr><td colspan=99><b>Server Homepage:</b> ";
-						echo "<a href=\"{$server_data[$i]["stream_homepage"]}\" target=\"new\" title=\"This stream's homepage\">{$server_data[$i]["stream_homepage"]}</a></td>";
-						echo "</tr>";
-					}
-					echo "</table>";
-				$previous = ($i-1);
-			echo "<a name={$previous}></a>";
-				echo "</td></tr>";
-			}
 			$k++;
 		}
 	}
-	else if( strcmp( $stream_browser, "yes" ) == 0 )
+	echo "<br><table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+	echo "<tr><td>";
+	echo "<table summary=\"Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
+	if( strcmp( $feature, "stream-icy" ) == "0" )
+	{ 
+		echo "<tr><td><b>Icecast Streams</b>";
+	}
+	else if( strcmp( $feature, "stream-shout" ) == "0" )
 	{
-		$real_path = realpath(".");
-		$icy_file = "{$real_path}/cache/stream-icy.xml";
-		$shout_file = "{$real_path}/cache/stream-shout.xml.gz";
-		if(isset($url_icy) && !empty($url_icy) && (is_file($icy_file) || strcmp($updating,"yes") == 0)) {
-			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-			echo "<tr><td>";
-			echo "<table summary=\"Icecast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-			echo "<tr><td><b>Icecast Streams</b>";
-			echo "&nbsp;<small>(<a title=\"Show a table of current Icecast / Oddcast streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-icy\" target=main>show</a>)</small>";
-			echo "</td></tr></table></td></tr></table>";
+		echo "<tr><td><b>Shoutcast Streams</b>";
+	}
+	$baseurl = "index.php?body=main&amp;dir=$dir&amp;server=$server&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;";
+	echo "&nbsp;<small>(<a title=\"Hide the streams table\" href=\"{$baseurl}feature=stream\" target=_self>hide</a>)</small>";
+	if(!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
+		echo "&nbsp;<small>(<a title=\"Expand all\" href=\"{$baseurl}feature=$feature&amp;arg=info&amp;arg2=expandall \" target=_self>expand all</a>)</small>";
+	}
+	echo "&nbsp;<small>(<a title=\"Refresh streams table\" href=\"index.php?body=main&amp;dir=$dir&amp;server=$server&amp;feature=$feature\" target=_self>refresh</a>)</small>";
+	if( $updating === true ) {
+		echo "&nbsp;<small>(<a title=\"Update streams table\" href=\"{$baseurl}feature=$feature&amp;arg=update\" target=_self>update</a>)</small></td>";
+	}
+	if($k!=0) {
+		$k++; /* Human readable */
+	}
+	echo "<td align=\"right\"><small><b>Found $k unique results</b></small></td></tr>";
+	echo "<tr><td>";
+	echo "<form action=index.php? method=get>";
+	echo "<select name=\"sfa\">";
+	echo "<option value=\"any\">Any</option>";
+	ksort($baseline);
+	foreach( $baseline as $key => $value) {
+		$tmp = str_replace("_"," ",$key);
+		$tmp = ucwords($tmp);
+		echo "<option";
+		if(strcmp($key,$sfa) == 0) {
+			echo " selected ";
+		}
+		echo " value=\"$key\">$tmp</option>";
+	}
+	echo "</select>";
+	echo "<input type=hidden value=\"main\" name=\"body\">";
+	echo "<input type=hidden value=\"{$feature}\" name=\"feature\">";
+	echo "<input type=hidden value=\"{$server}\" name=\"server\">";
+	echo "<input type=hidden value=\"{$dir}\" name=\"dir\">";
+	//echo "<input type=hidden value=\"{$sort}\" name=\"sort\">";
+	echo "&nbsp;<input type=input name=\"streamfilter\" value=\"{$streamfilter}\" size=40 autocomplete=on>";
+	echo "&nbsp;<input type=submit value=Filter name=foo2>";
+	echo "</td></tr>";
+	echo "</table>";
+	echo "</form>";
+	echo "<table summary=\"Statistics\" border=0 cellspacing=1 bgcolor=\"{$color["body"][1]}\" width=\"100%\">";
 
-			echo "<br>";
+	$j = 0;
+
+	echo "<tr bgcolor=\"{$color["sort"]}\"><td></td><td>&nbsp;<b>Stream Information</b></td></tr>";
+	$j=2;
+	$k=0;
+	for( $i = "0"; $i < sizeOf( $server_data ); $i++ )
+	{
+		echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><a href=$i></a><td>";
+		echo "[<a title=\"Add this stream to your playlist\" target=\"playlist\" href=\"index.php?body=playlist&amp;stream=";
+		echo rawurlencode( $server_data[$i]["listen_url"] );
+		while( strcmp( $server_data[$i]["server_name"], $server_data[($i+1)]["server_name"] ) == "0" )
+		{
+			$i++;
+			echo $song_seperator . rawurlencode( $server_data[$i]["listen_url"] );
 		}
 
-		if(isset($url_shout) && !empty($url_shout) && (is_file($shout_file) || strcmp($updating,"yes") == 0)) {
-			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-			echo "<tr><td>";
-			echo "<table summary=\"Shoutcast Streams\" border=\"0\" cellspacing=\"1\" bgcolor=\"{$color["title"]}\" width=\"100%\">";
-			echo "<tr><td><b>Shoutcast Streams</b>";
-			echo "&nbsp;<small>(<a title=\"Show a table of current Shoutcast streams\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir&amp;feature=stream-shout\" target=main>show</a>)</small></td>";
-			echo "</tr></table></td></tr></table>";
+		if(strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) {
+			$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature#{$i}#{$i}";
+		} else if (!(strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0)) {
+			$url = "index.php?body=main&amp;streamfilter=$streamfilter&amp;sfa=$sfa&amp;dir=$dir&amp;server=$server&amp;feature=$feature&amp;arg=info&amp;arg2={$i}#{$i}";
 		}
+		echo "\">add</a>]</td>";
+		echo "<td>&nbsp;";
+		if(isset($url)) {
+			echo "<a title=\"View information about this stream\" name=\"main\" href=\"$url\">" . trim( $server_data[$i]["server_name"] ) . "</a>";
+		} else {
+			echo trim( $server_data[$i]["server_name"] );
+		}
+		echo "</td></tr>";
+		if((strcmp($arg,"info") == 0 && strcmp($arg2,$i) == 0) || strcmp($arg,"info") == 0 && strcmp($arg2,"expandall") == 0) {
+			echo "<tr bgcolor=\"{$color["body"][$k%2]}\"><td></td><td>";
+			echo "<table><tr>";
+			if(!empty($server_data[$i]["bitrate"])) {
+				echo "<td><b>Bitrate:</b> {$server_data[$i]["bitrate"]}</td>";
+			}
+
+			if(!empty($server_data[$i]["channels"])) {
+				echo "<td><b>Channels:</b> {$server_data[$i]["channels"]}</td>";
+			}
+
+			if(!empty($server_data[$i]["rank"])) {
+				echo "<td><b>Rank:</b> {$server_data[$i]["rank"]}</td>";
+			}
+
+			if(!empty($server_data[$i]["listening"])) {
+				echo "<td><b>Listening:</b> {$server_data[$i]["listening"]}</td>";
+			}
+
+			if(!empty($server_data[$i]["max_listeners"])) {
+				echo "<td><b>Max Listeners:</b> {$server_data[$i]["max_listeners"]}</td>";
+			}
+
+			if(!empty($server_data[$i]["samplerate"])) {
+				echo "<td><b>Sample Rate:</b> {$server_data[$i]["samplerate"]}</td>";
+			}
+			echo "</tr>";
+
+			if(!empty($server_data[$i]["server_type"])) {
+				echo "<tr><td colspan=99><b>Server Type:</b> {$server_data[$i]["server_type"]}</td></tr>";
+			}
+
+			if(!empty($server_data[$i]["current_song"])) {
+				echo "<tr><td colspan=99><b>Current Song:</b> {$server_data[$i]["current_song"]}</td></tr>";
+			}
+
+			if(!empty($server_data[$i]["genre"])) {
+				echo "<tr><td colspan=99><b>Genre:</b> {$server_data[$i]["genre"]}</td></tr>";
+			}
+
+			if(!empty($server_data[$i]["stream_homepage"])) {
+				if(!preg_match("/http:\/\//",$server_data[$i]["stream_homepage"])) {
+					$server_data[$i]["stream_homepage"] = "http://" . $server_data[$i]["stream_homepage"];
+				}
+
+				echo "<tr><td colspan=99><b>Server Homepage:</b> ";
+				echo "<a href=\"{$server_data[$i]["stream_homepage"]}\" target=\"new\" title=\"This stream's homepage\">{$server_data[$i]["stream_homepage"]}</a></td>";
+				echo "</tr>";
+			}
+			echo "</table>";
+			$previous = ($i-1);
+			echo "<a name={$previous}></a>";
+			echo "</td></tr>";
+		}
+		$k++;
 	}
 }
 
@@ -452,7 +446,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	}
 
 
-	if( strcmp( $config["filenames_only"], "yes" ) == "0" )
+	if( $config["filenames_only"] === true )
 	{
 		echo $filename;
 	}
@@ -485,7 +479,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 		}
 	}
         
-	if( strcmp( $config["filenames_only"], "yes" ))
+	if( $config["filenames_only"] !== true )
 	{
 		echo $filename;
 	}

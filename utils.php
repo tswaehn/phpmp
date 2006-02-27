@@ -86,7 +86,7 @@ function doCommand( $fp, $arg, $arg2, $command, $overwrite, $status )
 
 	// This is to facilitate for overwriting playlists, it should probably detect to see if
 	// it exists first, but who cares, right?
-        if( strncmp( "save", $command, strlen( "save" )) == "0" && strcmp( $overwrite, "yes" ) == "0" )
+        if( strncmp( "save", $command, strlen( "save" )) == "0" && $overwrite === true )
 	{
 		fputs( $fp, "rm \"$arg\"\n" );
 		fgets( $fp, "1024");
@@ -170,9 +170,9 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	$feature_bar = "";
 
 	// If we have all commands available and we don't have an active password don't show the feature bar.
-	if( $commands["all"] == "0" || strlen( $passarg ) > "0" )
+	if( $commands["all"] === false || strlen( $passarg ) > "0" )
 	{
-		if( $has_password == "1" )
+		if( $has_password === true )
 		{
 			$feature_bar .= "<a title=\"Logout of MPD Server\" target=_top href=\"index.php?server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;logout=1\">Logout</a>";
 		}
@@ -182,7 +182,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		}
 	}
 
-	if( $commands["outputs"] == "1" )
+	if( $commands["outputs"] === true )
 	{
 		if( ! empty( $feature_bar ))
 		{
@@ -191,7 +191,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		$feature_bar .= "<a title=\"View the Sound Outputs\" href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=outputs&amp;dir=$dir_url\">Outputs</a>";
 	}
 
-	if( $commands["search"] == "1" )
+	if( $commands["search"] === true )
 	{
 		if( ! empty( $feature_bar ))
 		{
@@ -209,7 +209,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		$feature_bar .= "<a title=\"Change the MPD Server\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;dir=$dir_url&amp;feature=server\">Servers</a>";
 	}
 
-	if( $commands["stats"] == "1" )
+	if( $commands["stats"] === true )
 	{
 		if( ! empty( $feature_bar ))
 		{
@@ -218,7 +218,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		$feature_bar .= "<a title=\"View MPD/phpMp Statistics\" target=main href=\"index.php?body=main&amp;server=$server&amp;dir=$dir_url&amp;sort=$sort&amp;feature=stats\">Stats</a>";
 	}
 
-	if( $commands["load"] == "1" )
+	if( $commands["load"] === true )
 	{
 		if( ! empty( $feature_bar ))
 		{
@@ -236,7 +236,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	echo "&nbsp;</small></td></tr><tr><td colspan=2>";
 	echo "<table style=\"background-color: {$color["body"][0]}\"\">";
 	echo "<tr bgcolor=\"{$color["body"][0]}\">";
-	if(strcmp($search_bar,"yes") == 0 && empty($feature)) {
+	if( $search_bar ===  true && empty($feature)) {
 		echo "<td>";
 	} else {
 		echo "<td colspan=2>";
@@ -291,7 +291,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	{
 		echo "&nbsp;&nbsp;<small>(db updating...)</small>";
         }
-	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] == "1" &&
+	else if( strcmp( $title, "Current Directory" ) == "0" && $commands["update"] === true &&
                 !( strcmp( $feature, "search" ) == "0"  || strcmp( $feature, "find" ) == "0" ))
 	{
 		$dirs[$i] = stripslashes( $dirs[$i] );
@@ -299,7 +299,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 		echo "&nbsp;&nbsp;<small>(<a href=\"index.php?body=main&amp;feature=$feature&amp;server=$server&amp;dir=$build_dir&amp;sort=$sort&amp;ordered=$ordered&amp;command=update&amp;arg=$build_dir/\"";
 		echo "target=\"main\" title=\"Update the Current Directory\">db update</a>)</small>";
 	}
-	if(strcmp($search_bar,"yes") == 0 && empty($feature)) {
+	if( $search_bar === true && empty($feature)) {
 		echo "<form action=index.php? method=get>";
 		echo "<td align=right>";
 		echo "<input type=hidden value=\"main\" name=body>";

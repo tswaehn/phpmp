@@ -17,24 +17,24 @@ $servers[] = array('localhost', 6600, 'My MusicBox');
 /* Optional */
 $config = array(
 		/********************************************************************************
-		/  If set to "yes" up and down swap buttons will appear in the active playlist	/
+		/  If set to true up and down swap buttons will appear in the active playlist	/
 		/  The only real downside is your playlist will take up more space if enabled	/
 		/*******************************************************************************/
-		"enable_swap" => "yes",
+		"enable_swap" => true,
 
 		/******************************************************************
 		/ This adds a handy "quick search" bar to the directory bar,  	  /
 		/ this will search the entire database for whatever is submitted  /
 		/ If javascript is enabled, it will automatically focus on this	  /
 		/*****************************************************************/
-		"search_bar" => "yes",
+		"search_bar" => true,
 
 		/***********************************************************
-		/ If set to yes, this will hide your playlist options, and / 
+		/ If set to true, this will hide your playlist options, and / 
 		/ leave you with an option to show it. Otherwise it will   /
 		/ always be shown.					   /
 		/**********************************************************/
-		"playlist_option_hide" => "no",
+		"playlist_option_hide" => false,
 
 		/***************************************************************
 		/ Frame border size, set this to 0 for looks, 1 for usability. /
@@ -45,12 +45,12 @@ $config = array(
 		/ Change phpMp behaviour to where a button changes from play /
 		/ to pause and visa-versa, instead of showing all buttons    /
 		/************************************************************/
-		"play_pause" => "yes",
+		"play_pause" => true,
 
 		/*************************************************************
 		/ Display the server in the title? (if more than one server) /
 		/************************************************************/
-                "server_in_title" => "yes",
+                "server_in_title" => true,
 
 		/***********************************************
 		/ The order your music files will be sorted in,/ 
@@ -75,9 +75,9 @@ $config = array(
 		"hide_threshold" => "15",
 
 		/***************************************************************
-		/ If "yes" this will allow you to replace your saved playlist. /
+		/ If true this will allow you to replace your saved playlist. /
 		/**************************************************************/
-		"overwrite_playlists" => "yes",
+		"overwrite_playlists" => true,
 
 		/**************************************************
 		/ How often to refresh the active playlist frame. /
@@ -88,37 +88,37 @@ $config = array(
 		/ If the song ends before the next scheduled playlist reload /
 		/ (as set in refresh_freq), reload on song change.	     /
 		/************************************************************/
-		"smart_updating" => "yes",
+		"smart_updating" => true,
 
 		/***********************************************************************
 		/ Yes to this to see the time left instead rather than the time so far /
 		/**********************************************************************/
-		"time_left" => "no",
+		"time_left" => false,
 
 		/************************************************************************
 		/ Yes to this to enable the icecast/streamcast stream browser.		/
-		/ If not set to 'yes' you will be required to manually download		/
+		/ If not set to true you will be required to manually download		/
 		/ the wanted stream information files (see README)			/
 		/***********************************************************************/
-		"stream_browser" => "yes",
+		"stream_browser" => true,
 
 		/********************************************************************
 		/ Yes to this if you want to allow the user to update their stream  /
 		/ information files						    /
-		/ If you set this to 'yes' you must have 'allow_url_fopen = On'     /
+		/ If you set this to true you must have 'allow_url_fopen = On'     /
 		/ in your php.ini						    /
 		/*******************************************************************/
-		"stream_browser_updating" => "yes",
+		"stream_browser_updating" => true,
 
 		/***************************************************************************
-		/ If stream_browser is set to "yes" and if this url exists, when clicking  /
+		/ If stream_browser is set to true and if this url exists, when clicking  /
 		/ on stream you will have the option to load a list of icecast streams	   /
 		/ from a remote site. This is hosted by xiph.org should work.		   /
 		/**************************************************************************/
 		"icey_stream_url" => "http://dir.xiph.org/yp.xml",
 
 		/***************************************************************************
-		/ If stream_browser is set to "yes" and if this url exists, when clicking  /
+		/ If stream_browser is set to true and if this url exists, when clicking  /
 		/ on the feature "stream" you will have the option to load a list of	   /
 		/ shoutcast streams (shoutcast.com). This is hosted by myself and is not   /
 		/ endorsed by shoutcast.com.						   /
@@ -138,18 +138,18 @@ $config = array(
 		/ Without javascript this will try to addall through a URL and it will not /
 		/ work with default Apache values                                          /
 		***************************************************************************/
-		"use_javascript" => "yes",
+		"use_javascript" => true,
 
 		/*******************************************************************
 		/ Right now this affects being able to change servers, remembering / 
 		/ your MPD password and weather the playlist is hidden or not      /
 		/******************************************************************/ 
-		"use_cookies" => "yes",
+		"use_cookies" => true,
 
 		/*************************************************************
 		/ Use user-supplied images (see theme.php for more details). /
 		/************************************************************/
-		"use_images" => "no",
+		"use_images" => false,
 
 		/********************************************************************************************************
 		/ Remove any of the following to get rid of the field in the music tables.  				/
@@ -183,33 +183,33 @@ $config = array(
 		/*********************************************************
 		/ If you prefer not to have metadata (id3/vorbis) shown. /
 		/********************************************************/
-		"filenames_only" => "no",
+		"filenames_only" => false,
 
 			// Don't Edit!
 			"regex" => array(
 
 			/****************************************************************
-			/ If "filenames_only" is set to yes configure the next options. /
+			/ If "filenames_only" is set to true configure the next options. /
 			/***************************************************************/
 				/************************************************************************
 				/ You can set some things to remove from your filenames easier to read. /
 				/***********************************************************************/
-				"remove" => "yes",
+				"remove" => true,
 
 				/*************************
 				/ Replace _ with a space /
 				/************************/
-				"space" => "yes",
+				"space" => true,
 
 				/*******************************************
 				/ Uppercase the first letter after a space /
 				/******************************************/
-				"uppercase_first" => "yes"),
+				"uppercase_first" => true),
 		
 		/*****************
 		/ Volume Options /
 		/****************/
-		"display_volume" => "yes",
+		"display_volume" => true,
 		"volume_incr"    => "10",
 
 		"filetypes" => array('.flac$', '.mp3', '.aac', '.mod', '.ogg'),
@@ -222,7 +222,7 @@ $config = array(
 		"song_separator" => "rqqqrqqqr"
 );
 
-if(strcmp($config["filenames_only"]["remove"],"yes") == 0) {
+if( $config["filenames_only"]["remove"] === true ) {
 	$config["filenames_only"]["remove"] = $config["filetypes"];
 }
 ?>

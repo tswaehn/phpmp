@@ -36,7 +36,7 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 		}
 
 		// If updating show the update links, otherwise show add links
-		if( $addperm == "1" )
+		if( $addperm === true )
 		{
 			$print[$i].= "[<a title=\"Add the $dirstr Directory\" href=\"index.php?body=playlist&amp;server=$server&amp;command=add&amp;arg=$full_dir\" target=playlist>add</a>]&nbsp;";
 		}
@@ -99,7 +99,7 @@ function printDirectoryTable( $info, $dir, $sort, $server, $addperm, $color )
 		echo "<tr><td nowrap><b>Directories</b>";
 	        printIndex($index,"","d");
 		$dir = rawurlencode($dir);
-		if( $addperm == "1" )
+		if( $addperm === true )
 		{
 			if(empty($dir)) {
 				$dir = '/';
@@ -156,7 +156,7 @@ function lsinfo2playlistTable( $lsinfo, $sort, $delete, $server, $loadperm )
 			$print[$i] .= "href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;command=rm&amp;arg=$dirurl\">del</a>]&nbsp;";
 		}
 
-		if( $loadperm == "1" )
+		if( $loadperm == true )
 		{
 			$print[$i] .= "<a title=\"Load the playlist $dirstr\" ";
 			$print[$i] .= "target=\"playlist\" href=\"index.php?body=playlist&amp;server=$server&amp;command=load&amp;arg=$dirurl\">$dirstr</a>&nbsp;";
@@ -206,7 +206,7 @@ function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 
 	for( $i="0"; $i < count( $lsinfo ); $i++ )
 	{
-		if( strcmp( $filenames_only, "yes" ) == "0" || empty( $lsinfo[$i]["Title"] ))
+		if( $filenames_only === true || empty( $lsinfo[$i]["Title"] ))
 		{
 			$untagged[] = $lsinfo[$i];
 		}
@@ -268,7 +268,7 @@ function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server,
 			$mprint[$i] = "";
 		}
 
-		if( $addperm == "1" )
+		if( $addperm === true )
 		{
 			$mprint[$i] = "<tr bgcolor=$col><td>$mprint[$i][<a title=\"Add this song to the active playlist\" ";
 			$mprint[$i] .= "target=\"playlist\" ";
@@ -291,7 +291,7 @@ function fileinfo2musicTable( $info, $dir_url, $display_fields, $color, $server,
 	$sort_bar = "<tr colspan=3 bgcolor=\"{$color["file"]["sort"]}\">";
 
 	// This creates the column for 'Add'
-	if( $addperm == "1" )
+	if( $addperm == true )
 	{
 		$sort_bar .= "<td width=\"1%\"></td>";
 	}
@@ -387,7 +387,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 			}
 		}
 	
-		if( $addperm == "1" )
+		if( $addperm === true )
 		{
 			$mprint[$i] = "<tr bgcolor=$col><td width=\"1%\">$mprint[$i][";
 			$mprint[$i] .= "<a title=\"Add this song to the current playlist\" ";
@@ -473,7 +473,7 @@ function taginfo2musicTable( $info, $dir_url, $display_fields, $unknown, $color,
 	$sort_bar = "<tr bgcolor=\"{$color["meta"]["sort"]}\">";
 
 	// This creates the column for 'Add'
-	if( $addperm == "1" )
+	if( $addperm === true  )
 	{
 		$sort_bar .= "<td width=0></td>";
 	}
@@ -565,7 +565,7 @@ function printIndex( $index, $title, $anc )
 #														#
 #***************************************************************************************************************/
 
-function printMusicTable( $add_all, $field_count, $use_javascript, $color, $info, $altcount, $sort_array, $server, $dir, $addperm, $feature, $ordered )
+function printMusicTable( $add_all, $field_count, $use_javascript, $color, $info, $altcount, $sort_array, $server, $dir, $feature, $ordered )
 {
 	if( is_array( $info ))
 	{
@@ -612,7 +612,7 @@ function printMusicTable( $add_all, $field_count, $use_javascript, $color, $info
 
 		if( ! empty( $add_all ))
 		{
-			if( strcmp( $use_javascript, "yes" ) == "0" )
+			if( $use_javascript === true )
 			{
 				if( $count > 0 && $altcount > 0 )
 				{
@@ -666,7 +666,7 @@ function printPlaylistTable( $color, $server, $info, $delete, $rmperm )
 		echo "<td nowrap>";
 		echo "<b>Saved Playlists</b>";
 		printIndex( $index, "", "p" );
-		if( strcmp( $delete, "yes" ) && $rmperm == "1" )
+		if( strcmp( $delete, "yes" ) && $rmperm == true )
 		{
 		        echo "&nbsp;<small>(<a title=\"Goto Delete Playlist Menu\" href=\"index.php?body=main&amp;delete=yes&amp;server=$server#playlists\">delete</a>)</small>";
 		}
@@ -701,7 +701,7 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 		$song = basename( $song_info["file"] );
 	}
 
-	if( strcmp( $filenames_only,"yes" ) && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
+	if( $filenames_only !== true && isset( $song_info["Title"] ) && strlen( $song_info["Title"] ) > "0" )
 	{
 		// This will replace all song_display_conf stuff with the actual value
 		foreach( $song_info as $key => $value )
@@ -728,7 +728,7 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 			$song_display .= $song_display_conf[$i];
 		}
 	}
-	else if( strcmp( $filenames_only, "yes") == "0" && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
+	else if( $filenames_only === true && isset( $song_info["Name"] ) && ( $song_info["Name"] > "0" ))
 	{
 		$song_display = $song_info["Name"];
 	}
@@ -741,11 +741,11 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 			{
 				$song = str_replace( $regex["remove"][$i], '', $song );
 			}
-			if( strcmp( $regex["space"], "yes") == "0" )
+			if( $regex["space"] === true )
 			{
 				$song = str_replace( '_', ' ', $song );
 			}
-			if( strcmp( $regex["uppercase_first"], "yes" ) == "0" )
+			if( $regex["uppercase_first"] === true )
 			{
 				$song = ucwords( $song );
 			}
