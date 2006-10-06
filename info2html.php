@@ -590,6 +590,7 @@ function printMusicTable( $add_all, $field_count, $use_javascript, $color, $info
 		}
 		echo "<input type=hidden name=\"body\" value=\"playlist\">";
 		echo "<input type=hidden name=\"server\" value=\"$server\">";
+		echo "</form>";
 		echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"{$color["title"]}\">";
 		echo "<tr><td>";
 		echo "<table summary=\"Music Separators\" cellspacing=1 bgcolor=\"{$color["title"]}\">";
