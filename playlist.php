@@ -551,13 +551,20 @@ if( $status["volume"] >= "0" && $config["display_volume"] === true )
 	echo "<!-- End Seek Bar -->";
 	echo "</table></td>";
 	echo "<td valign=\"middle\" align=\"center\">";
-	if( $status["volume"] != "100" && $commands["setvol"] === true )
+
+	$topvol = $status["volume"] + $config["volume_incr"];
+	if($topvol > 100)
 	{
-		echo "<a  title=\"Increase Volume by {$config["volume_incr"]}%\" ";
-		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=";
-		echo ($status["volume"]+$config["volume_incr"]) . "\">></a>";
+		$topvol = "100";
 	}
-	else if( $status["volume"]=="100" )
+
+	if( $status["volume"] != 100 && $commands["setvol"] === true )
+	{
+		echo "<a  title=\"Increase Volume to {$topvol}%\" ";
+		echo "href=\"index.php?body=playlist&amp;server=$server&amp;hide=$hide&amp;show_options=$show_options&amp;command=setvol&amp;arg=";
+		echo ($topvol) . "\">></a>";
+	}
+	else
 	{
 		echo ">";
 	}
