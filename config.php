@@ -7,12 +7,26 @@
 	If you edit this file, you must refresh the page for it to take effect
 */
 
+/* some helpers for phpMpReloaded */
+define('__PHPMPRELOADED_MPD_SETTINGS__', '../../config/mpd_config.php' );
+define('__PHPMPRELOADED_CLIENT_SWITCHER__', '../../lib/ClientSwitcher.php');
+if (file_exists( __PHPMPRELOADED_MPD_SETTINGS__ )){
+	include(__PHPMPRELOADED_MPD_SETTINGS__);
+}
+
 /* Required */
 
 /**********************************************************************
 / This is a list of your MPD servers, one per line. (host,port,alias) /
 **********************************************************************/
-$servers[] = array('localhost', 6600, 'My MusicBox');
+/* when host and port is allready given */
+if (isset($mpd_host) && isset($mpd_port)){
+	/* generate the default list */
+	$servers[] = array( $mpd_host, $mpd_port, 'default' );
+} else {
+	/* else use the list provided here */
+	$servers[] = array('localhost', 6600, 'My MusicBox');	
+}
 
 /* Optional */
 $config = array(

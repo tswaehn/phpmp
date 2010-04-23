@@ -1,4 +1,9 @@
 <?php
+
+if (file_exists(__PHPMPRELOADED_CLIENT_SWITCHER__)){
+	include(__PHPMPRELOADED_CLIENT_SWITCHER__);
+}
+
 if( ! empty( $add_all ))
 {
 	$add_all = rawurldecode( $add_all );
