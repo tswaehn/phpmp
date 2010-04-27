@@ -103,7 +103,7 @@ if( isset( $streamurl ) && ! empty( $streamurl )) {
 
 if( ! empty( $stream ))
 {
-	$stream = split( $config["song_separator"], $stream );
+	$stream = explode( $config["song_separator"], $stream );
 	for( $i = 0; $i < sizeOf( $stream ); $i++ )
 	{
 		if( preg_match( "/^(ftp|http):\/\/.*?\.(m3u|pls)/i", $stream[$i] ))
@@ -225,7 +225,7 @@ if( isset( $status["state"] ))
 	{
 		$num = $status["song"];
 		$songid = $status["songid"];
-		$time = split( ":", $status["time"] );
+		$time = explode( ":", $status["time"] );
 
 		// SONG INFO Begin: Second table from top
 		$song_info = getPlaylistInfo( $fp, $num, $config["display_fields"] );

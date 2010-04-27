@@ -22,6 +22,7 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 	}
 
 	$dic = 0;
+	$index=array();
 	for( $i = "0"; $i < $count; $i++ )
 	{
        		$dirstr = basename( $lsinfo[$i] );
@@ -203,7 +204,7 @@ function splitTagFile( $lsinfo, $display_fields, $filenames_only )
 	$stats = array();
 	$tagged = array();
 	$untagged = array();
-
+	
 	for( $i="0"; $i < count( $lsinfo ); $i++ )
 	{
 		if( $filenames_only === true || empty( $lsinfo[$i]["Title"] ))

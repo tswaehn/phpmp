@@ -1,6 +1,6 @@
 <?php
 include "theme.php";
-$phpMpVersion="0.12.0";
+$phpMpVersion="0.12.1";
 
 function cleanSort( $sort_array, $display_fields )
 {
@@ -241,7 +241,7 @@ function displayDirectory( $dir, $dir_url, $sort, $title, $mfcount, $mtcount, $p
 	} else {
 		echo "<td colspan=2>";
 	}
-	$dirs = split( "/", $dir );
+	$dirs = explode( "/", $dir );
 	echo "<a title=\"Back to the Root Music Directory\" href=\"index.php?body=main&amp;server=$server&amp;sort=$sort&amp;ordered=$ordered\">Music</a>";
 
 	$build_dir = "";

@@ -9,7 +9,7 @@ function outputs( $fp, $host, $color, $server, $commands )
 		$got = fgets( $fp, "1024" );
 		if ( strstr ( $got, ":" ))
 		{
-			list( $val,$arg ) = split( ":", $got );
+			list( $val,$arg ) = explode( ":", $got );
 		}
 		if ( strcmp( $val, "outputid" ) == "0")
 		{
@@ -128,7 +128,10 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 		$got = strtok( "\0" );
 		$stats[$el] = preg_replace( "/^ /", "", $got );
 	}
-
+	
+	// requesting time() or date() requires a well set timezone
+	date_default_timezone_set  ( "Europe/Berlin" );
+	
 	$statistics = array
 		(
 			"Artists" => $stats["artists"],
@@ -138,7 +141,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 			"Play Time" => secondsToDHMS( $stats["playtime"] ),
 			"MPD Version" => $MPDversion,
 			"phpMp Version" => $phpMpVersion,
-			"Database Updated" => date( "F j, Y, g:i a", $stats["db_update"] ),
+			"Database Updated" => date( "F j, Y, g:i a", (int) $stats["db_update"] ),
 			"Total Database Play Time" => secondsToDHMS( $stats["db_playtime"] )
 		); 
 
@@ -497,7 +500,7 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 
 	$arg_url = rawurlencode( $arg );
 	$dir_url = rawurlencode( $dir );
-	$sort_array = split( ",", $sort );
+	$sort_array = explode( ",", $sort );
 
 	if( empty( $search ))
 	{

@@ -2,7 +2,7 @@
 $dir = rawurldecode( $dir );
 $dir_url = rawurlencode( $dir );
 $sort = isset( $_REQUEST["sort"] ) ? $_REQUEST["sort"] : $config["default_sort"];
-$sort_array = split( ",", $sort );
+$sort_array = explode( ",", $sort );
 $url = "index.php?body=main&amp;dir=$dir_url";
 if( empty( $feature ))
 {

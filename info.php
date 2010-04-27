@@ -385,14 +385,16 @@ function getLsInfo( $conn, $command, $display_fields )
 	$playlist = array();
 
 	$mcount = -1;
-	$dcount = 0;
-	$pcount = 0;
+	$dcount = -1;
+	$pcount = -1;
 
+	$type = "";
 	fputs( $conn, $command );
 	while( ! feof( $conn ))
 	{
 		$got = fgets( $conn, "1024" );
 		$got = str_replace( "\n", "", $got );
+
 		if( strncmp( "OK", $got, strlen( "OK" )) == "0" )
 		{
 			break;
@@ -403,6 +405,45 @@ function getLsInfo( $conn, $command, $display_fields )
 			break;
 		}
 		$el = strtok( $got, ":" );
+		
+		switch ($el){
+			// add a new entry depending on the element type
+			case "directory":
+							$type = "directory";
+							$dcount++;
+							$dir[$dcount] = str_replace( "$el: " , "", $got );
+							break;
+			case "playlist":
+							$type = "playlist";
+							$pcount++;
+							$playlist[$pcount] = str_replace( "$el: " , "", $got );
+							break;
+			case "file":
+							$type = "file";
+							$mcount++;
+							$music[$mcount]["$el"] = str_replace( "$el: ", "", $got);
+							//$music[$mcount] = setNotSetSongFields( $filename, $display_fields );
+							break;			
+							
+			default:	
+				// add additional information depending on last item type
+				switch ($type){
+					case "directory":
+							$dir[$dcount]["$el"] = str_replace( "$el: ", "", $got);
+							break;
+					case "playlist":
+							//$playlist[$pcount]["$el"] = str_replace( "$el: ", "", $got);
+							break;
+					case "file":
+					        //
+							$music[$mcount]["$el"] = str_replace( "$el: ", "", $got);
+							break;
+									 
+					
+				}			
+				
+		}
+/*		
 		if( strcmp( $el, "directory" ) == "0" )
 		{
 			$dir[$dcount] = str_replace( "$el: " , "", $got );
@@ -423,12 +464,17 @@ function getLsInfo( $conn, $command, $display_fields )
 			}
 			$mcount++;
 		}
+		
+		This crashes when playlists/directories come with additional information:
 		$music[$mcount]["$el"] = str_replace( "$el: ", "", $got);
-	}
+	*/
 
+	} // end while
+	
 	$ret["dir"] = $dir;
 	$ret["music"] = $music;
 	$ret["playlist"] = $playlist;
+	
 	return $ret;
 }
 ?>
