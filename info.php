@@ -411,7 +411,7 @@ function getLsInfo( $conn, $command, $display_fields )
 			case "directory":
 							$type = "directory";
 							$dcount++;
-							$dir[$dcount] = str_replace( "$el: " , "", $got );
+							$dir[$dcount][$el] = str_replace( "$el: " , "", $got );
 							break;
 			case "playlist":
 							$type = "playlist";

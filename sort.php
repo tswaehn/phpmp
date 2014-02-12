@@ -1,4 +1,9 @@
 <?php
+function dsort( $a, $b )
+{
+		return strcasecmp( basename( $a["directory"] ), basename( $b["directory"] ) );
+}
+
 function fsort( $a, $b )
 {
 		return strcasecmp( basename( $a["file"] ), basename( $b["file"] ) );
