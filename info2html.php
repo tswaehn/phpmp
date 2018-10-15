@@ -18,15 +18,15 @@ function lsinfo2directoryTable( $lsinfo, $server, $sort, $addperm, $color )
 	$count = count( $lsinfo );
 	if( $count != "0" )
 	{
-		usort( $lsinfo, "strcasecmp" );
+		usort( $lsinfo, "dsort" );
 	}
 
 	$dic = 0;
 	$index=array();
 	for( $i = "0"; $i < $count; $i++ )
 	{
-       		$dirstr = basename( $lsinfo[$i] );
-		$full_dir = rawurlencode( $lsinfo[$i] );
+       		$dirstr = basename( $lsinfo[$i]["directory"] );
+		$full_dir = rawurlencode( $lsinfo[$i]["directory"] );
 		$print[$i] = "<tr bgcolor=\"{$color[ ($i%2) ]}\"><td>";
 		$fc = strtoupper( mbFirstChar( $dirstr ));
 		if ($dic == "0" || $index[ ($dic-1) ]!=$fc)
