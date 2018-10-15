@@ -1,3 +1,5 @@
+ver 0.14.0      -- by tswaehn
+        - fix: PHP7.0 adjustments
 ver 0.12.1	-- by tswaehn
 	-fix: changed all "split" to "explode" due to deprecated "split"
 	-fix: info2html.php 
