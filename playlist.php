@@ -182,7 +182,11 @@ if( isset( $status["state"] ))
 {
 	$repeat = $status["repeat"];
 	$random = $status["random"];
-	$xfade = $status["xfade"];
+	if (isset($status["xfade"])) {
+          $xfade = $status["xfade"];
+        } else {
+          $xfade= 0;
+        }
 
 	// STATUSBAR Begin: Top playlist_body
 	echo "<!-- Begin the Top of the first table, Should only display the status and refresh -->";

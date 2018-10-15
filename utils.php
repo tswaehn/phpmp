@@ -1,6 +1,6 @@
 <?php
 include "theme.php";
-$phpMpVersion="0.12.1";
+$phpMpVersion="0.14.0";
 
 function cleanSort( $sort_array, $display_fields )
 {
