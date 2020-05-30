@@ -7,13 +7,14 @@ phpMp is a web interface (written in PHP) for the Music Player Daemon (MPD).
 To install phpMp, see INSTALL.
 
 current version phpMp[0.14.4] for PHP/7.3
+
 (orig repo https://github.com/tswaehn/phpmp)
-Thanks to [Avuton Olrich][Niccolo Rigacci][Warren Dukes][Sven Ginka]
+
+Thanks to *Avuton Olrich* *Niccolo Rigacci* *Warren Dukes* *Sven Ginka*
 
 ![Test Image 1](screenshots/phpmp_screenshot_list.png)
 
-inline=
-----------------------------------------------------------------------------
+---
 
 If you want to use phpMp as a search engine in your browser of choice you
 obviously need to do a little URL constuction. This is not an issue as 
