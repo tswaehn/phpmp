@@ -739,10 +739,13 @@ function songInfo2Display( $song_info, $display, $display_separator, $filenames_
 		// Let's not regex urls
 		if( ! preg_match( "/^(http|ftp|https):\/\/.*/", $song ))
 		{
+			if (is_array($regex["remove"])){
 			for( $i= "0"; $i < sizeOf( $regex["remove"] ); $i++ )
 			{
 				$song = str_replace( $regex["remove"][$i], '', $song );
 			}
+			}	
+
 			if( $regex["space"] === true )
 			{
 				$song = str_replace( '_', ' ', $song );
