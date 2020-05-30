@@ -34,7 +34,7 @@ function outputs( $fp, $host, $color, $server, $commands )
 	for( $i = "0"; $i < sizeOf( $outputs ); $i++ )
 	{
 		echo "<tr bgcolor=\"{$color["body"][$i%2]}\"><td nowrap>";
-		if( ( ( $outputs[$i]["outputenabled"]%2 ) - 1 ) && $commands["enableoutput"] === true )
+		if( ( ( intval($outputs[$i]["outputenabled"])%2 ) - 1 ) && $commands["enableoutput"] === true )
 		{
 			echo "[<a title=\"Enable this output\"  href=index.php?body=main&amp;feature=outputs&amp;server=$server&amp;command=enableoutput&amp;arg=$i>enable</a>]";
 		}
@@ -73,6 +73,7 @@ function stats( $fp, $color, $MPDversion, $phpMpVersion, $host, $port )
 	// Used to use mktime() until it became too combersome
 	function secondsToDHMS( $seconds )
 	{
+		$seconds= intval($seconds);
 		// Floor is not 100% accurate, patch anyone?
 		$ret = "";
 		$years = floor ($seconds / 31536000);
@@ -539,3 +540,4 @@ function search( $fp, $color, $config, $dir, $search, $find, $arg, $sort, $serve
 	}
 }
 ?>
+
