@@ -1,13 +1,13 @@
 <?php
 include "theme.php";
-$phpMpVersion="0.14.2";
+$phpMpVersion="0.14.3";
 
 function cleanSort( $sort_array, $display_fields )
 {
 	$sort_count = sizeof( $sort_array );
 	//php7 throws exception on line 16
 	//$new_sort_array = "";
-	$new_sort_array = [];
+	$new_sort_array = array();
 
 	for( $i=0; $i<$sort_count; $i++ )
 	{
