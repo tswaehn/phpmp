@@ -10,6 +10,7 @@ current version phpMp[0.14.4] for PHP/7.3
 (orig repo https://github.com/tswaehn/phpmp)
 Thanks to [Avuton Olrich][Niccolo Rigacci][Warren Dukes][Sven Ginka]
 
+![Test Image 1](screenshots/phpmp_screenshot_list.png)
 
 inline=
 ----------------------------------------------------------------------------
@@ -63,5 +64,6 @@ For the full license, see COPYING.
 Screenshots
 ----
 
-![Test Image 1](screenshots/phpmp_screenshot_list.png)
+![Test Image 1](screenshots/phpmp_screenshot_stats.png)
+![Test Image 1](screenshots/phpmp_screenshot_add_stream.png)
 
