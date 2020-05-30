@@ -1,5 +1,7 @@
+ver 0.14.2	-- by tswaehn
+	-fix: issue #5
 ver 0.14.1	-- by pcwalden
-	- fix: issue #2 
+	-fix: issue #2 
 ver 0.14.0      -- by tswaehn
         - fix: PHP7.0 adjustments
 ver 0.12.1	-- by tswaehn
